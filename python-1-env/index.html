@@ -1,0 +1,466 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="代码视界">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="theme-version" content="1.2.3">
+    <meta name="root" content="/">
+    <link rel="dns-prefetch" href="http://www.chenhanpeng.com">
+    <script data-ad-client="ca-pub-1437849089810081" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <!--SEO-->
+
+<meta name="keywords" content="python教程,python环境搭建">
+
+
+<meta name="description" content="Python介绍
+Python是Guido van Rossum在1989年圣诞节期间，为了打发无聊的圣诞节而编写的一个编程语言，1991年发布第一版。
+Python 是一个高层次的结合了解释性...">
+
+
+<meta name="robots" content="all">
+<meta name="google" content="all">
+<meta name="googlebot" content="all">
+<meta name="verify" content="all">
+    <!--Title-->
+
+<title>
+    
+    Python从小白到攻城狮(1)——python环境搭建 |
+    
+    代码视界
+</title>
+
+<link rel="alternate" href="/atom.xml" title="代码视界" type="application/atom+xml">
+
+
+<link rel="icon" href="/img/site_logo.jpg">
+
+    
+
+<link rel="stylesheet" href="/css/bootstrap.min.css?rev=3.3.7">
+<link rel="stylesheet" href="/css/font-awesome.min.css?rev=4.7.0">
+<link rel="stylesheet" href="/css/style.css?rev=@@hash">
+    
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?494af80fa01e8939bec179cfddf660d5";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+<script>
+(function(i, s, o, g, r, a, m) {
+    i['GoogleAnalyticsObject'] = r;
+    i[r] = i[r] || function() {
+        (i[r].q = i[r].q || []).push(arguments)
+    }, i[r].l = 1 * new Date();
+    a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0];
+    a.async = 1;
+    a.src = g;
+    m.parentNode.insertBefore(a, m)
+})(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+ga('create', 'UA-142577364-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+
+    
+<meta name="baidu-site-verification" content="rGeweWgWoh">
+
+
+<script>
+(function() {
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    } else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+</head></html>
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+<body>
+    <header class="main-header"  style="background-image:url(
+    https://image.chenhanpeng.com/static/images/web_static_image/banner.jpg)"
+     >
+    <div class="main-header-box">
+        <!-- <a class="header-avatar" href="/" title='Hanpeng Chen'>
+            <img src="/img/avatar.jpg" alt="logo头像" class="img-responsive center-block">
+        </a> -->
+        <a href="/" class="header-title">
+            <h1> 代码视界 </h1>
+        </a>
+        <div class="branding">
+            <!--<h2 class="text-hide">Snippet主题,从未如此简单有趣</h2>-->
+            
+            <h2>
+                Hanpeng Chen的个人博客
+            </h2>
+            
+        </div>
+    </div>
+</header>
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="navbar-header"><span class="nav-toggle-button collapsed pull-right" data-toggle="collapse" data-target="#main-menu" id="mnav">
+                        <span class="sr-only"></span>
+                        <i class="fa fa-bars"></i>
+                    </span>
+                    <a class="navbar-brand" href="http://www.chenhanpeng.com">
+                        代码视界</a>
+                </div>
+                <div class="collapse navbar-collapse" id="main-menu">
+                    <ul class="menu">
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/"><i class="fa "></i>
+                                首页</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/archives/"><i class="fa "></i>
+                                文章列表</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/"><i class="fa "></i>
+                                文章分类</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/tags/"><i class="fa "></i>
+                                文章标签</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/links/"><i class="fa "></i>
+                                友链</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/about/"><i class="fa "></i>
+                                关于作者</a>
+                        </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+                    <p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="Python从小白到攻城狮(1)——python环境搭建">
+            
+            Python从小白到攻城狮(1)——python环境搭建
+            
+        </h1>
+        <div class="post-meta">
+    
+    <span class="categories-meta fa-wrap">
+        <i class="fa fa-folder-open-o"></i>
+        <a class="category-link" href="/categories/Python/">Python</a>
+    </span>
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-tags"></i>
+        <span class="tags-meta">
+            
+            <a class="tag-link" href="/tags/python教程/">python教程</a> <a class="tag-link" href="/tags/python环境搭建/">python环境搭建</a>
+            
+        </span>
+    </span>
+    
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-clock-o"></i>
+        <span class="date-meta">
+            2019/08/06</span>
+    </span>
+    
+    <span class="fa-wrap">
+        <i class="fa fa-eye"></i>
+        <span id="busuanzi_value_page_pv"></span>
+    </span>
+    
+    
+</div>
+        
+        
+        <p class="fa fa-exclamation-triangle warning">
+            本文于<strong>
+                653</strong>
+            天之前发表，文中内容可能已经过时。
+        </p>
+        
+    </div>
+    
+    
+    <div class="post-body post-content">
+        <h1 id="Python介绍"><a href="#Python介绍" class="headerlink" title="Python介绍"></a>Python介绍</h1><hr>
+<p>Python是Guido van Rossum在1989年圣诞节期间，为了打发无聊的圣诞节而编写的一个编程语言，1991年发布第一版。</p>
+<p>Python 是一个高层次的结合了解释性、编译性、互动性和面向对象的脚本语言。</p>
+<p>Python 的设计具有很强的可读性，相比其他语言经常使用英文关键字，其他语言的一些标点符号，它具有比其他语言更有特色语法结构。</p>
+<ul>
+<li><p>Python 是一种解释型语言： 这意味着开发过程中没有了编译这个环节。类似于PHP和Perl语言。</p>
+</li>
+<li><p>Python 是交互式语言： 这意味着，您可以在一个 Python 提示符 &gt;&gt;&gt; 后直接执行代码。</p>
+</li>
+<li><p>Python 是面向对象语言: 这意味着Python支持面向对象的风格或代码封装在对象的编程技术。</p>
+</li>
+<li><p>Python 是初学者的语言：Python 对初级程序员而言，是一种伟大的语言，它支持广泛的应用程序开发，从简单的文字处理到 WWW 浏览器再到游戏。</p>
+</li>
+</ul>
+<h2 id="Python的应用领域"><a href="#Python的应用领域" class="headerlink" title="Python的应用领域"></a>Python的应用领域</h2><p>目前Python在Web应用开发、云基础设施、DevOps、网络爬虫开发、数据分析挖掘、机器学习等领域都有着广泛的应用，因此也产生了Web后端开发、数据接口开发、自动化运维、自动化测试、科学计算和可视化、数据分析、量化交易、机器人开发、图像识别和处理等一系列的职位。</p>
+<h1 id="Python环境搭建"><a href="#Python环境搭建" class="headerlink" title="Python环境搭建"></a>Python环境搭建</h1><hr>
+<p>对于刚开始学习Python的新手，建议安装Anaconda。win 下安装包的时候用 anaconda 比 pip 安装要好一些，pip 有时候会因为一些依赖导致安装失败，这时候anaconda就体现出它对新手的友好。</p>
+<p>搜索Anaconda进入官网或点击下方官网链接进入</p>
+<p><a href="https://www.anaconda.com/distribution/" target="_blank" rel="noopener">https://www.anaconda.com/distribution/</a></p>
+<p>在页面我们可以看到windows、macOS、linux对应的安装包。</p>
+<!-- ![](/images/articles/2019/python_series/install_python_1.png) -->
+<img src="http://image.chenhanpeng.com/static/images/python_series/install_python_1.png">
+<p>如果是初学者，建议下载Python3.X版本，而不是Python2.X。因为python的2和3版本的语法是有差异的，Python2.X将在2020年4月后不再进行任何维护。</p>
+<p>下载安装包，双击安装。</p>
+<p>划重点：安装过程中最好将下图所示的<code>添加到环境变量</code>的选项勾上。</p>
+<!-- ![](/images/articles/2019/python_series/install_python_2.png) -->
+<img src="http://image.chenhanpeng.com/static/images/python_series/install_python_2.png">
+<p>安装之后可能程序没有自动配置anaconda环境变量，你需要手动配置！！！</p>
+<p>找到刚才安装的anaconda的目录，找到Scripts，打开，复制路径：</p>
+<p>路径示例：D:\ProgramData\Anaconda3\Scripts。</p>
+<p>配置环境变量：</p>
+<p>在Path后面添加刚才复制的路径，注意与前一个要用英文分号隔开。点击多个确定完成配置。</p>
+<p>打开cmd</p>
+<p>输入python，看到下面的画面，说明安装成功。</p>
+<!-- ![](/images/articles/2019/python_series/install_python_3.png) -->
+<img src="http://image.chenhanpeng.com/static/images/python_series/install_python_3.png">
+<p>看到提示符&gt;&gt;&gt;就表示我们已经在Python交互式环境中了，可以输入任何Python代码，回车后会立即得到执行结果。输入<code>exit()</code>并回车，就退出Python交互模式。</p>
+<h1 id="第一个Python程序"><a href="#第一个Python程序" class="headerlink" title="第一个Python程序"></a>第一个Python程序</h1><hr>
+<h2 id="Python交互模式"><a href="#Python交互模式" class="headerlink" title="Python交互模式"></a>Python交互模式</h2><p>在Python交互式环境中输入以下代码<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">print(<span class="string">'Hello world!'</span>)</span><br></pre></td></tr></table></figure></p>
+<!-- ![](/images/articles/2019/python_series/install_python_4.png) -->
+<img src="http://image.chenhanpeng.com/static/images/python_series/install_python_4.png">
+<h2 id="命令行模式"><a href="#命令行模式" class="headerlink" title="命令行模式"></a>命令行模式</h2><p>通过<code>python  xxx.py</code>运行一个<code>.py</code>文件</p>
+<p>创建一个hello.py文件，文件中输入如下代码：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">print(<span class="string">'Hello World!!!'</span>)</span><br></pre></td></tr></table></figure></p>
+<p>cmd的当前目录切换到<code>hello.py</code>所在的目录下，我的目录在 <code>E:\workspace\python-learning\1-环境搭建</code> ，执行下面命令可以进入到相应目录中。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">C:\Users\chenhp&gt;E:</span><br><span class="line"></span><br><span class="line">E:\&gt;cd workspace</span><br><span class="line"></span><br><span class="line">E:\workspace&gt;cd python-learning</span><br><span class="line"></span><br><span class="line">E:\workspace\python-learning&gt;cd 1-环境搭建</span><br></pre></td></tr></table></figure>
+<p>在命令行中执行<code>python hello.py</code>，可以得到下面的执行结果：</p>
+<!-- ![](/images/articles/2019/python_series/install_python_5.png) -->
+<img src="http://image.chenhanpeng.com/static/images/python_series/install_python_5.png">
+<p>以上内容主要介绍了windows上的环境搭建。关于macOS的环境搭建，可以百度一下安装教程，作为一个没用过mac的人就不在这里就瞎掰了。</p>
+<p><strong>文中示例代码</strong>： <a href="https://github.com/Hanpeng-Chen/python-learning" target="_blank" rel="noopener">python-learning</a></p>
+<p>未完待续，持续更新中……</p>
+
+    </div>
+    <div class="wechat">
+        
+            <strong> 欢迎关注微信公众号： 『前端极客技术』『代码视界』 </strong>
+            <img class="wechat-image" src="https://image.chenhanpeng.com/static/images/web_static_image/article-gzh-qrcode.png" />
+        
+    </div>
+    
+    <div class="reward" ontouchstart>
+    <div class="reward-wrap">赏
+        <div class="reward-box">
+            
+            <span class="reward-type">
+                <img class="alipay" src="https://image.chenhanpeng.com/static/images/web_static_image/donate/alipay_qrcode.png"><b>支付宝打赏</b>
+            </span>
+            
+            
+            <span class="reward-type">
+                <img class="wechat" src="https://image.chenhanpeng.com/static/images/web_static_image/donate/weixin_pay_qrcode.png"><b>微信打赏</b>
+            </span>
+            
+        </div>
+    </div>
+    <p class="reward-tip">
+        赞赏是不耍流氓的鼓励
+    </p>
+</div>
+    
+    <div class="post-footer">
+        <div>
+            
+            转载声明：
+            商业转载请联系作者获得授权,非商业转载请注明出处 © <a href="" target="_blank">代码视界</a>
+            
+            
+        </div>
+        <div>
+            
+        </div>
+    </div>
+</article>
+<div class="article-nav prev-next-wrap clearfix">
+    
+    <a href="/python-2-data-type-variable/" class="pre-post btn btn-default" title='Python从小白到攻城狮(2)——数据类型和变量'>
+        <i class="fa fa-angle-left fa-fw"></i><span class="hidden-lg">上一篇</span>
+        <span class="hidden-xs">
+            Python从小白到攻城狮(2)——数据类型和变量</span>
+    </a>
+    
+    
+    <a href="/face-recognition-Andrew-Ng/" class="next-post btn btn-default" title='带你一起用人脸识别技术判断参加美国大选的是不是吴恩达'>
+        <span class="hidden-lg">下一篇</span>
+        <span class="hidden-xs">
+            带你一起用人脸识别技术判断参加美国大选的是不是吴恩达</span><i class="fa fa-angle-right fa-fw"></i>
+    </a>
+    
+</div>
+
+<!-- google广告 -->
+<!-- <ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-1437849089810081"
+     data-ad-slot="9946365914"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script> -->
+
+
+    <div id="comments">
+        
+<link rel="stylesheet" href="https://cdn.bootcss.com/gitalk/1.7.2/gitalk.min.css">
+<script src="//cdn.bootcss.com/gitalk/1.7.2/gitalk.min.js"></script>
+<script src="//cdn.bootcss.com/blueimp-md5/2.9.0/js/md5.min.js"></script>
+<div id="gitalk-container"></div>
+<script type="text/javascript">
+var gitalk = new Gitalk({
+    // Gitalk配置
+    language: "zh-CN",
+    clientID: "fb80658382dee5240195",
+    clientSecret: "66663a08264192222ba993f20dd7c0a27c1e6fa5",
+    repo: "blog-comments",
+    owner: "Hanpeng-Chen",
+    admin: ["Hanpeng-Chen"],
+    id: md5(location.pathname),
+    distractionFreeMode: true,
+    proxy: "https://cloudflare-cors-anywhere.hanpengchen.workers.dev/?https://github.com/login/oauth/access_token"
+});
+gitalk.render('gitalk-container');
+</script>
+
+    </div>
+
+                </main>
+                
+                    <div class="col-md-4">
+<!-- 方形 -->
+<!-- <ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-1437849089810081"
+     data-ad-slot="2426112279"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script> -->
+</div>
+<aside id="article-toc" role="navigation" class="col-md-4">
+    <div class="widget">
+        <h3 class="title">
+            文章目录
+        </h3>
+        
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Python介绍"><span class="toc-text">Python介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Python的应用领域"><span class="toc-text">Python的应用领域</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Python环境搭建"><span class="toc-text">Python环境搭建</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#第一个Python程序"><span class="toc-text">第一个Python程序</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Python交互模式"><span class="toc-text">Python交互模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#命令行模式"><span class="toc-text">命令行模式</span></a></li></ol></li></ol>
+        
+    </div>
+</aside>
+                
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+<a id="back-to-top" class="icon-btn hide">
+    <i class="fa fa-chevron-up"></i>
+</a>
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="busuanzi">
+    
+</div>
+            </div>
+            <div class="col-sm-12">
+                <span>Copyright &copy;
+                    2019
+                    
+                </span> |
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> |
+                <span>
+                    Theme by <a href="//github.com/shenliyang/hexo-theme-snippet.git" class="copyright-links" target="_blank" rel="nofollow">Snippet</a>
+                </span>
+                
+                    <span> | </span>
+                    <span>
+                        <a href="//beian.miit.gov.cn/" target="_blank" rel="nofollow">
+                            闽ICP备19010134号-1
+                        </a>
+                    </span>
+                
+                
+                    <span> | </span>
+                    <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=35020302033449" rel="nofollow">
+                        <img src="https://image.chenhanpeng.com/static/images/web_static_image/beian_icon.png" width="20">
+                        <span>闽公网安备 35020302033449号</span>
+                    </a>
+                         
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<script src="/js/app.js?rev=@@hash"></script>
+</body>
+</html>

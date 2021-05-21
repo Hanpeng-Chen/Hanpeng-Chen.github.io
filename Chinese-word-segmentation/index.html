@@ -1,0 +1,446 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="代码视界">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="theme-version" content="1.2.3">
+    <meta name="root" content="/">
+    <link rel="dns-prefetch" href="http://www.chenhanpeng.com">
+    <script data-ad-client="ca-pub-1437849089810081" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <!--SEO-->
+
+<meta name="keywords" content="机器学习,中文分词">
+
+
+<meta name="description" content="中文分词(Chinese Word Segmentation)：是指将一个汉字序列切分为一个个单独的词。中文分词是中文自然语言处理的一个最基本的环节。中文分词与英文分词有很大的不同，对英文而言，...">
+
+
+<meta name="robots" content="all">
+<meta name="google" content="all">
+<meta name="googlebot" content="all">
+<meta name="verify" content="all">
+    <!--Title-->
+
+<title>
+    
+    中文分词 |
+    
+    代码视界
+</title>
+
+<link rel="alternate" href="/atom.xml" title="代码视界" type="application/atom+xml">
+
+
+<link rel="icon" href="/img/site_logo.jpg">
+
+    
+
+<link rel="stylesheet" href="/css/bootstrap.min.css?rev=3.3.7">
+<link rel="stylesheet" href="/css/font-awesome.min.css?rev=4.7.0">
+<link rel="stylesheet" href="/css/style.css?rev=@@hash">
+    
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?494af80fa01e8939bec179cfddf660d5";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+<script>
+(function(i, s, o, g, r, a, m) {
+    i['GoogleAnalyticsObject'] = r;
+    i[r] = i[r] || function() {
+        (i[r].q = i[r].q || []).push(arguments)
+    }, i[r].l = 1 * new Date();
+    a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0];
+    a.async = 1;
+    a.src = g;
+    m.parentNode.insertBefore(a, m)
+})(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+ga('create', 'UA-142577364-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+
+    
+<meta name="baidu-site-verification" content="rGeweWgWoh">
+
+
+<script>
+(function() {
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    } else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+</head></html>
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+<body>
+    <header class="main-header"  style="background-image:url(
+    https://image.chenhanpeng.com/static/images/web_static_image/banner.jpg)"
+     >
+    <div class="main-header-box">
+        <!-- <a class="header-avatar" href="/" title='Hanpeng Chen'>
+            <img src="/img/avatar.jpg" alt="logo头像" class="img-responsive center-block">
+        </a> -->
+        <a href="/" class="header-title">
+            <h1> 代码视界 </h1>
+        </a>
+        <div class="branding">
+            <!--<h2 class="text-hide">Snippet主题,从未如此简单有趣</h2>-->
+            
+            <h2>
+                Hanpeng Chen的个人博客
+            </h2>
+            
+        </div>
+    </div>
+</header>
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="navbar-header"><span class="nav-toggle-button collapsed pull-right" data-toggle="collapse" data-target="#main-menu" id="mnav">
+                        <span class="sr-only"></span>
+                        <i class="fa fa-bars"></i>
+                    </span>
+                    <a class="navbar-brand" href="http://www.chenhanpeng.com">
+                        代码视界</a>
+                </div>
+                <div class="collapse navbar-collapse" id="main-menu">
+                    <ul class="menu">
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/"><i class="fa "></i>
+                                首页</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/archives/"><i class="fa "></i>
+                                文章列表</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/"><i class="fa "></i>
+                                文章分类</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/tags/"><i class="fa "></i>
+                                文章标签</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/links/"><i class="fa "></i>
+                                友链</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/about/"><i class="fa "></i>
+                                关于作者</a>
+                        </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+                    <p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="中文分词">
+            
+            中文分词
+            
+        </h1>
+        <div class="post-meta">
+    
+    <span class="categories-meta fa-wrap">
+        <i class="fa fa-folder-open-o"></i>
+        <a class="category-link" href="/categories/机器学习/">机器学习</a>
+    </span>
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-tags"></i>
+        <span class="tags-meta">
+            
+            <a class="tag-link" href="/tags/中文分词/">中文分词</a> <a class="tag-link" href="/tags/机器学习/">机器学习</a>
+            
+        </span>
+    </span>
+    
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-clock-o"></i>
+        <span class="date-meta">
+            2019/04/09</span>
+    </span>
+    
+    <span class="fa-wrap">
+        <i class="fa fa-eye"></i>
+        <span id="busuanzi_value_page_pv"></span>
+    </span>
+    
+    
+</div>
+        
+        
+        <p class="fa fa-exclamation-triangle warning">
+            本文于<strong>
+                773</strong>
+            天之前发表，文中内容可能已经过时。
+        </p>
+        
+    </div>
+    
+    
+    <div class="post-body post-content">
+        <p>中文分词(Chinese Word Segmentation)：是指将一个汉字序列切分为一个个单独的词。中文分词是中文自然语言处理的一个最基本的环节。中文分词与英文分词有很大的不同，对英文而言，一个单词就是一个词，而汉语是以字为基本的书写单位，词语之间没有明显的区分标记，需要人为切分。</p>
+<p>根据中文分词的特点，可以把中文分词算法分为四大类：</p>
+<ul>
+<li>基于规则的分词方法</li>
+<li>基于统计的分词方法</li>
+<li>基于语义的分词方法</li>
+<li>基于理解的分词方法</li>
+</ul>
+<hr>
+<h2 id="基于规则的分词方法"><a href="#基于规则的分词方法" class="headerlink" title="基于规则的分词方法"></a>基于规则的分词方法</h2><p>该分词方法又称为机械分词方法、基于字典的分词方法。它是按照一定的策略将待分析的汉字串与一个“充分大的”机器词典中的词条进行匹配。若在词典中找到某个字符串，则匹配成功。</p>
+<p>该方法有三个要素：分词词典、文本扫描顺序和匹配原则。文本的扫描顺序有正向扫描、逆向扫描和双向扫描。匹配原则主要有最大匹配、最小匹配、逐词匹配和最佳匹配。</p>
+<p><strong>最大匹配法（MM）</strong>：基本思想是：假设自动分词词典中的最长词条所含汉字的个数为 i，则取被处理材料当前字符串序列中的前 i 个字符作为匹配字段，查找分词词典，若词典中有这样一个 i 字词，则匹配成功，匹配字段作为一个词被切分出来；若词典中找不到这样的一个 i 字词，则匹配失败，匹配字段去掉最后一个汉字，剩下的字符作为新的匹配字段，再进行匹配，如此进行下去，直到匹配成功为止。</p>
+<p><strong>逆向最大匹配法（RMM）</strong>：该方法的分词过程与 MM 法相同，不同的是从句子（或文章）末尾开始处理，每次匹配不成功时去掉的是前面的一个汉字。</p>
+<p><strong>逐词遍历法</strong>：把词典中的词按照由长到短递减的顺序逐字搜索整个待处理的材料，一直到把全部的词切分出来为止。不论分词词典多大，被处理的材料多么小，都得把这个分词词典匹配一遍。</p>
+<p><strong>设立切分标志法</strong>：切分标志有自然和非自然之分。自然切分标志是指文章中出现的非文字符号，如标点符号等；非自然标志是利用词缀和不构成词的词（包 括单音词、复音节词以及象声词等）。设立切分标志法首先收集众多的切分标志，分词时先找出切分标志，把句子切分为一些较短的字段，再用 MM、RMM 或其它的方法进行细加工。这种方法并非真正意义上的分词方法，只是自动分词的一种前处理方式而已，它要额外消耗时间扫描切分标志，增加存储空间存放那些非 自然切分标志。</p>
+<p><strong>最佳匹配法（OM）</strong>：此法分为正向的最佳匹配法和逆向的最佳匹配法，其出发点是：在词典中按词频的大小顺序排列词条，以求缩短对分词词典的检索时 间，达到最佳效果，从而降低分词的时间复杂度，加快分词速度。实质上，这种方法也不是一种纯粹意义上的分词方法，它只是一种对分词词典的组织方式。OM 法的分词词典每条词的前面必须有指明长度的数据项，所以其空间复杂度有所增加，对提高分词精度没有影响，分词处理的时间复杂度有所降低。</p>
+<p>基于规则的分词方法的优点是简单，易于实现。但缺点有很多：匹配速度慢；存在交集型和组合型歧义切分问题；词本身没有一个标准的定义，没有统一标准的词集；不同词典产生的歧义也不同；缺乏自学习的智能性。</p>
+<hr>
+<h2 id="基于统计的分词方法"><a href="#基于统计的分词方法" class="headerlink" title="基于统计的分词方法"></a>基于统计的分词方法</h2><p>基于统计的分词方法是在给定大量已经分词的文本情况下，利用统计机器学习模型学习词语切分的规律，从而实现对未知文本的切分。</p>
+<p>该方法的主要思想：词是稳定的组合，在上下文中，相邻的字同时出现的次数越多，越有可能构成一个词。因此字与字相邻出现的概率能较好反映词的可信度。可以对训练文本中相邻出现的各个字的组合的频度进行统计，计算它们之间的互现信息。互现信息体现了汉字之间结合关系的紧密程度。当紧密程 度高于某一个阈值时，便可以认为此字组可能构成了一个词。该方法又称为无字典分词。</p>
+<p>该方法应用的主要统计模型有：N元文法模型(N-gram)、隐马尔科夫模型(Hiden Markov Model, HMM)、最大熵模型(ME)、条件随机场模型(Conditional Random Fields, CRF)等。</p>
+<p>在实际的应用中，这种分词方法都需要使用分词词典来进行字符串匹配分词，同时使用统计方法识别一些新词，即将字符串频率统计和字符串匹配结合起来，既发挥匹配分词切分速度快、效率高的特点，又利用了无词典分词结合上下文识别生词、自动消除歧义的优点。</p>
+<hr>
+<h2 id="基于语义的分词方法"><a href="#基于语义的分词方法" class="headerlink" title="基于语义的分词方法"></a>基于语义的分词方法</h2><p>语义分词法引入了语义分析，对自然语言自身的语言信息进行更多的处理，如扩充转移网络法、知识分词语义分析法、邻接约束法、综合匹配法、后缀分词法、特征词库法、矩阵约束法、语法分析法等。</p>
+<p><strong>扩充转移网络法</strong>：该方法以有限状态机概念为基础。有限状态机只能识别正则语言，对有限状态机作的第一次扩充使其具有递归能力，形成递归转移网络 （RTN）。在RTN 中，弧线上的标志不仅可以是终极符（语言中的单词）或非终极符（词类），还可以调用另外的子网络名字分非终极符（如字或字串的成词条件）。这样，计算机在 运行某个子网络时，就可以调用另外的子网络，还可以递归调用。词法扩充转移网络的使用， 使分词处理和语言理解的句法处理阶段交互成为可能，并且有效地解决了汉语分词的歧义。</p>
+<p><strong>矩阵约束法</strong>：其基本思想是：先建立一个语法约束矩阵和一个语义约束矩阵， 其中元素分别表明具有某词性的词和具有另一词性的词相邻是否符合语法规则， 属于某语义类的词和属于另一词义类的词相邻是否符合逻辑，机器在切分时以之约束分词结果。</p>
+<hr>
+<h2 id="基于理解的分词方法"><a href="#基于理解的分词方法" class="headerlink" title="基于理解的分词方法"></a>基于理解的分词方法</h2><p>基于理解的分词方法是通过让计算机模拟人对句子的理解，达到识别词的效果。其基本思想就是在分词的同时进行句法、语义分析，利用句法信息和语义信息来处理歧义现象。它通常包括三个部分：分词子系统、句法语义子系统、总控部分。在总控部分的协调下，分词子系统可以获得有关词、句子等的句法和语义信息来对分词歧义进行判断，即它模拟了人对句子的理解过程。这种分词方法需要使用大量的语言知识和信息。目前基于理解的分词方法主要有专家系统分词法和神经网络分词法等。</p>
+<p><strong>专家系统分词法</strong>：从专家系统角度把分词的知识（包括常识性分词知识与消除歧义切分的启发性知识即歧义切分规则）从实现分词过程的推理机中独立出来，使知识库的维护与推理机的实现互不干扰，从而使知识库易于维护和管理。它还具有发现交集歧义字段和多义组合歧义字段的能力和一定的自学习功能。</p>
+<p><strong>神经网络分词法</strong>：该方法是模拟人脑并行，分布处理和建立数值计算模型工作的。它将分词知识所分散隐式的方法存入神经网络内部，通过自学习和训练修改内部权值，以达到正确的分词结果，最后给出神经网络自动分词结果，如使用 LSTM、GRU 等神经网络模型等。</p>
+<p><strong>神经网络专家系统集成式分词法</strong>：该方法首先启动神经网络进行分词，当神经网络对新出现的词不能给出准确切分时，激活专家系统进行分析判断，依据知识库进行推理，得出初步分析，并启动学习机制对神经网络进行训练。该方法可以较充分发挥神经网络与专家系统二者优势，进一步提高分词效率。</p>
+<hr>
+<p><strong>参考来源：</strong><br><a href="https://cuiqingcai.com/5844.html" target="_blank" rel="noopener">https://cuiqingcai.com/5844.html</a></p>
+
+    </div>
+    <div class="wechat">
+        
+            <strong> 欢迎关注微信公众号： 『前端极客技术』『代码视界』 </strong>
+            <img class="wechat-image" src="https://image.chenhanpeng.com/static/images/web_static_image/article-gzh-qrcode.png" />
+        
+    </div>
+    
+    <div class="reward" ontouchstart>
+    <div class="reward-wrap">赏
+        <div class="reward-box">
+            
+            <span class="reward-type">
+                <img class="alipay" src="https://image.chenhanpeng.com/static/images/web_static_image/donate/alipay_qrcode.png"><b>支付宝打赏</b>
+            </span>
+            
+            
+            <span class="reward-type">
+                <img class="wechat" src="https://image.chenhanpeng.com/static/images/web_static_image/donate/weixin_pay_qrcode.png"><b>微信打赏</b>
+            </span>
+            
+        </div>
+    </div>
+    <p class="reward-tip">
+        赞赏是不耍流氓的鼓励
+    </p>
+</div>
+    
+    <div class="post-footer">
+        <div>
+            
+            转载声明：
+            商业转载请联系作者获得授权,非商业转载请注明出处 © <a href="" target="_blank">代码视界</a>
+            
+            
+        </div>
+        <div>
+            
+        </div>
+    </div>
+</article>
+<div class="article-nav prev-next-wrap clearfix">
+    
+    <a href="/recommendation-system-introduce/" class="pre-post btn btn-default" title='推荐系统介绍'>
+        <i class="fa fa-angle-left fa-fw"></i><span class="hidden-lg">上一篇</span>
+        <span class="hidden-xs">
+            推荐系统介绍</span>
+    </a>
+    
+    
+    <a href="/TF-IDF-1/" class="next-post btn btn-default" title='文本挖掘预处理之TF-IDF'>
+        <span class="hidden-lg">下一篇</span>
+        <span class="hidden-xs">
+            文本挖掘预处理之TF-IDF</span><i class="fa fa-angle-right fa-fw"></i>
+    </a>
+    
+</div>
+
+<!-- google广告 -->
+<!-- <ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-1437849089810081"
+     data-ad-slot="9946365914"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script> -->
+
+
+    <div id="comments">
+        
+<link rel="stylesheet" href="https://cdn.bootcss.com/gitalk/1.7.2/gitalk.min.css">
+<script src="//cdn.bootcss.com/gitalk/1.7.2/gitalk.min.js"></script>
+<script src="//cdn.bootcss.com/blueimp-md5/2.9.0/js/md5.min.js"></script>
+<div id="gitalk-container"></div>
+<script type="text/javascript">
+var gitalk = new Gitalk({
+    // Gitalk配置
+    language: "zh-CN",
+    clientID: "fb80658382dee5240195",
+    clientSecret: "66663a08264192222ba993f20dd7c0a27c1e6fa5",
+    repo: "blog-comments",
+    owner: "Hanpeng-Chen",
+    admin: ["Hanpeng-Chen"],
+    id: md5(location.pathname),
+    distractionFreeMode: true,
+    proxy: "https://cloudflare-cors-anywhere.hanpengchen.workers.dev/?https://github.com/login/oauth/access_token"
+});
+gitalk.render('gitalk-container');
+</script>
+
+    </div>
+
+                </main>
+                
+                    <div class="col-md-4">
+<!-- 方形 -->
+<!-- <ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-1437849089810081"
+     data-ad-slot="2426112279"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script> -->
+</div>
+<aside id="article-toc" role="navigation" class="col-md-4">
+    <div class="widget">
+        <h3 class="title">
+            文章目录
+        </h3>
+        
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#基于规则的分词方法"><span class="toc-text">基于规则的分词方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#基于统计的分词方法"><span class="toc-text">基于统计的分词方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#基于语义的分词方法"><span class="toc-text">基于语义的分词方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#基于理解的分词方法"><span class="toc-text">基于理解的分词方法</span></a></li></ol>
+        
+    </div>
+</aside>
+                
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+<a id="back-to-top" class="icon-btn hide">
+    <i class="fa fa-chevron-up"></i>
+</a>
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="busuanzi">
+    
+</div>
+            </div>
+            <div class="col-sm-12">
+                <span>Copyright &copy;
+                    2019
+                    
+                </span> |
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> |
+                <span>
+                    Theme by <a href="//github.com/shenliyang/hexo-theme-snippet.git" class="copyright-links" target="_blank" rel="nofollow">Snippet</a>
+                </span>
+                
+                    <span> | </span>
+                    <span>
+                        <a href="//beian.miit.gov.cn/" target="_blank" rel="nofollow">
+                            闽ICP备19010134号-1
+                        </a>
+                    </span>
+                
+                
+                    <span> | </span>
+                    <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=35020302033449" rel="nofollow">
+                        <img src="https://image.chenhanpeng.com/static/images/web_static_image/beian_icon.png" width="20">
+                        <span>闽公网安备 35020302033449号</span>
+                    </a>
+                         
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<script src="/js/app.js?rev=@@hash"></script>
+</body>
+</html>

@@ -1,0 +1,431 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="代码视界">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="theme-version" content="1.2.3">
+    <meta name="root" content="/">
+    <link rel="dns-prefetch" href="http://www.chenhanpeng.com">
+    <script data-ad-client="ca-pub-1437849089810081" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <!--SEO-->
+
+<meta name="keywords" content="面试,LeetCode题解,排序">
+
+
+<meta name="description" content="前言前面我们一起学过十种常见的排序算法，我们一起来看一道和排序有关的LeetCode题目：215.数组中的第K个最大元素，题目链接：https://leetcode-cn.com/problem...">
+
+
+<meta name="robots" content="all">
+<meta name="google" content="all">
+<meta name="googlebot" content="all">
+<meta name="verify" content="all">
+    <!--Title-->
+
+<title>
+    
+    LeetCode题解|215.数组中的第K个最大元素 |
+    
+    代码视界
+</title>
+
+<link rel="alternate" href="/atom.xml" title="代码视界" type="application/atom+xml">
+
+
+<link rel="icon" href="/img/site_logo.jpg">
+
+    
+
+<link rel="stylesheet" href="/css/bootstrap.min.css?rev=3.3.7">
+<link rel="stylesheet" href="/css/font-awesome.min.css?rev=4.7.0">
+<link rel="stylesheet" href="/css/style.css?rev=@@hash">
+    
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?494af80fa01e8939bec179cfddf660d5";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+<script>
+(function(i, s, o, g, r, a, m) {
+    i['GoogleAnalyticsObject'] = r;
+    i[r] = i[r] || function() {
+        (i[r].q = i[r].q || []).push(arguments)
+    }, i[r].l = 1 * new Date();
+    a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0];
+    a.async = 1;
+    a.src = g;
+    m.parentNode.insertBefore(a, m)
+})(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+ga('create', 'UA-142577364-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+
+    
+<meta name="baidu-site-verification" content="rGeweWgWoh">
+
+
+<script>
+(function() {
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    } else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+</head></html>
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+<body>
+    <header class="main-header"  style="background-image:url(
+    https://image.chenhanpeng.com/static/images/web_static_image/banner.jpg)"
+     >
+    <div class="main-header-box">
+        <!-- <a class="header-avatar" href="/" title='Hanpeng Chen'>
+            <img src="/img/avatar.jpg" alt="logo头像" class="img-responsive center-block">
+        </a> -->
+        <a href="/" class="header-title">
+            <h1> 代码视界 </h1>
+        </a>
+        <div class="branding">
+            <!--<h2 class="text-hide">Snippet主题,从未如此简单有趣</h2>-->
+            
+            <h2>
+                Hanpeng Chen的个人博客
+            </h2>
+            
+        </div>
+    </div>
+</header>
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="navbar-header"><span class="nav-toggle-button collapsed pull-right" data-toggle="collapse" data-target="#main-menu" id="mnav">
+                        <span class="sr-only"></span>
+                        <i class="fa fa-bars"></i>
+                    </span>
+                    <a class="navbar-brand" href="http://www.chenhanpeng.com">
+                        代码视界</a>
+                </div>
+                <div class="collapse navbar-collapse" id="main-menu">
+                    <ul class="menu">
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/"><i class="fa "></i>
+                                首页</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/archives/"><i class="fa "></i>
+                                文章列表</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/"><i class="fa "></i>
+                                文章分类</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/tags/"><i class="fa "></i>
+                                文章标签</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/links/"><i class="fa "></i>
+                                友链</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/about/"><i class="fa "></i>
+                                关于作者</a>
+                        </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+                    <p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="LeetCode题解|215.数组中的第K个最大元素">
+            
+            LeetCode题解|215.数组中的第K个最大元素
+            
+        </h1>
+        <div class="post-meta">
+    
+    <span class="categories-meta fa-wrap">
+        <i class="fa fa-folder-open-o"></i>
+        <a class="category-link" href="/categories/算法/">算法</a> <a class="category-link" href="/categories/算法/LeetCode/">LeetCode</a>
+    </span>
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-tags"></i>
+        <span class="tags-meta">
+            
+            <a class="tag-link" href="/tags/LeetCode题解/">LeetCode题解</a> <a class="tag-link" href="/tags/排序/">排序</a> <a class="tag-link" href="/tags/面试/">面试</a>
+            
+        </span>
+    </span>
+    
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-clock-o"></i>
+        <span class="date-meta">
+            2020/09/01</span>
+    </span>
+    
+    <span class="fa-wrap">
+        <i class="fa fa-eye"></i>
+        <span id="busuanzi_value_page_pv"></span>
+    </span>
+    
+    
+</div>
+        
+        
+    </div>
+    
+    
+    <div class="post-body post-content">
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>前面我们一起学过十种常见的排序算法，我们一起来看一道和排序有关的LeetCode题目：215.数组中的第K个最大元素，题目链接：<a href="https://leetcode-cn.com/problems/kth-largest-element-in-an-array/。" target="_blank" rel="noopener">https://leetcode-cn.com/problems/kth-largest-element-in-an-array/。</a></p>
+<h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>在未排序的数组中找到第 k 个最大的元素。请注意，你需要找的是数组排序后的第 k 个最大的元素，而不是第 k 个不同的元素。</p>
+<p><strong>示例 1:</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入: [3,2,1,5,6,4] 和 k = 2</span><br><span class="line">输出: 5</span><br></pre></td></tr></table></figure></p>
+<h2 id="解法1：Array-sort"><a href="#解法1：Array-sort" class="headerlink" title="解法1：Array.sort()"></a>解法1：Array.sort()</h2><p>求解Kth Element问题，我们可以利用Array.sort()方法对数组进行升序排序，然后返回倒数第k个元素即可。</p>
+<p>实现代码如下：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @param &#123;number[]&#125; nums</span></span><br><span class="line"><span class="comment"> * @param &#123;number&#125; k</span></span><br><span class="line"><span class="comment"> * @return &#123;number&#125;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">var</span> findKthLargest = <span class="function"><span class="keyword">function</span>(<span class="params">nums, k</span>) </span>&#123;</span><br><span class="line">    nums = nums.sort(<span class="function">(<span class="params">a, b</span>) =&gt;</span> a - b);</span><br><span class="line">    <span class="keyword">return</span> nums[nums.length - k];</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>注意：sort方法如果没有指定排序函数的话，元素按照转换为的字符串的各个字符的Unicode位点进行排序。</p>
+</blockquote>
+<h2 id="解法2：堆排序"><a href="#解法2：堆排序" class="headerlink" title="解法2：堆排序"></a>解法2：堆排序</h2><p>堆排序可以用于求解TopK Element问题，也就是K个最小元素的问题。可以维护一个大小为K的最小堆，最小堆中的元素就是最小元素。最小堆需要使用大顶堆来实现，大顶堆表示堆顶元素是堆中最大元素。这是因为我们要得到 k 个最小的元素，因此当遍历到一个新的元素时，需要知道这个新元素是否比堆中最大的元素更小，更小的话就把堆中最大元素去除，并将新元素添加到堆中。所以我们需要很容易得到最大元素并移除最大元素，大顶堆就能很好满足这个要求。</p>
+<p>堆也可以用于求解 Kth Element 问题，得到了大小为 k 的最小堆之后，因为使用了大顶堆来实现，因此堆顶元素就是第 k 大的元素。</p>
+<p>我们来看下这道题用堆排序的实现：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> findKthLargest = <span class="function"><span class="keyword">function</span>(<span class="params">nums, k</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 从nums中取出前k个数，构建一个小顶堆</span></span><br><span class="line">    <span class="keyword">let</span> heap = [,], i = <span class="number">0</span></span><br><span class="line">    <span class="keyword">while</span> (i &lt; k) &#123;</span><br><span class="line">        heap.push(nums[i++])</span><br><span class="line">    &#125;</span><br><span class="line">    buildHeap(heap, k)</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 从k位开始遍历数组</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = k; i &lt; nums.length; i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (heap[<span class="number">1</span>] &lt; nums[i]) &#123;</span><br><span class="line">            <span class="comment">// 替换并堆化</span></span><br><span class="line">            heap[<span class="number">1</span>] = nums[i]</span><br><span class="line">            heapify(heap, k, <span class="number">1</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> heap[<span class="number">1</span>]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 原地建堆，从后往前，自上而下式建小顶堆</span></span><br><span class="line"><span class="keyword">let</span> buildHeap = <span class="function"><span class="keyword">function</span> (<span class="params">arr, k</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (k === <span class="number">1</span>) <span class="keyword">return</span></span><br><span class="line">    <span class="comment">// 从最后一个非叶子节点开始，自上而下式堆化</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="built_in">Math</span>.floor(k / <span class="number">2</span>); i &gt;= <span class="number">1</span>; i--) &#123;</span><br><span class="line">        heapify(arr, k, i)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 堆化</span></span><br><span class="line"><span class="keyword">let</span> heapify = <span class="function"><span class="keyword">function</span> (<span class="params">arr, k, i</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">        <span class="keyword">let</span> minIndex = i</span><br><span class="line">        <span class="keyword">if</span> (<span class="number">2</span> * i &lt;= k &amp;&amp; arr[<span class="number">2</span> * i] &lt; arr[i]) &#123;</span><br><span class="line">            minIndex = <span class="number">2</span> * i</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (<span class="number">2</span> * i + <span class="number">1</span> &lt;= k &amp;&amp; arr[<span class="number">2</span> * i +<span class="number">1</span>] &lt; arr[minIndex]) &#123;</span><br><span class="line">            minIndex = <span class="number">2</span> * i + <span class="number">1</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (minIndex !== i) &#123;</span><br><span class="line">            swap(arr, i, minIndex)</span><br><span class="line">            i = minIndex</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 交换</span></span><br><span class="line"><span class="keyword">let</span> swap = <span class="function">(<span class="params">arr, i , j</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> temp = arr[i]</span><br><span class="line">    arr[i] = arr[j]</span><br><span class="line">    arr[j] = temp</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>复杂度分析：</p>
+<ul>
+<li>时间复杂度：O(NlogK)</li>
+<li>空间复杂度：O(K)</li>
+</ul>
+<h2 id="解法3：快速排序"><a href="#解法3：快速排序" class="headerlink" title="解法3：快速排序"></a>解法3：快速排序</h2><p>快速排序可以用于求解Kth Element问题，也就是第K个元素的问题。</p>
+<p>快速排序也可以求解TopK Element问题，因为找到Kth Element之后，再遍历一次数组，所有小于等于Kth Element的元素都是TopK Elements。</p>
+<p>我们来看下使用快速排序解决这道题的实现代码：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> findKthLargest = <span class="function"><span class="keyword">function</span>(<span class="params">nums, k</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> quickSelect(nums, nums.length - k)</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> quickSelect = <span class="function">(<span class="params">arr, k</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> quick(arr, <span class="number">0</span> , arr.length - <span class="number">1</span>, k)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> quick = <span class="function">(<span class="params">arr, left, right, k</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">let</span> index</span><br><span class="line">  <span class="keyword">if</span>(left &lt; right) &#123;</span><br><span class="line">    <span class="comment">// 划分数组</span></span><br><span class="line">    index = partition(arr, left, right)</span><br><span class="line">    <span class="comment">// Top k</span></span><br><span class="line">    <span class="keyword">if</span>(k === index) &#123;</span><br><span class="line">        <span class="keyword">return</span> arr[index]</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span>(k &lt; index) &#123;</span><br><span class="line">        <span class="comment">// Top k 在左边</span></span><br><span class="line">        <span class="keyword">return</span> quick(arr, left, index<span class="number">-1</span>, k)</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// Top k 在右边</span></span><br><span class="line">        <span class="keyword">return</span> quick(arr, index+<span class="number">1</span>, right, k)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> arr[left]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> partition = <span class="function">(<span class="params">arr, left, right</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// 取中间项为基准</span></span><br><span class="line">  <span class="keyword">var</span> datum = arr[<span class="built_in">Math</span>.floor(<span class="built_in">Math</span>.random() * (right - left + <span class="number">1</span>)) + left],</span><br><span class="line">      i = left,</span><br><span class="line">      j = right</span><br><span class="line">  <span class="comment">// 开始调整</span></span><br><span class="line">  <span class="keyword">while</span>(i &lt; j) &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 左指针右移</span></span><br><span class="line">    <span class="keyword">while</span>(arr[i] &lt; datum) &#123;</span><br><span class="line">      i++</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 右指针左移</span></span><br><span class="line">    <span class="keyword">while</span>(arr[j] &gt; datum) &#123;</span><br><span class="line">      j--</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 交换</span></span><br><span class="line">    <span class="keyword">if</span>(i &lt; j) swap(arr, i, j)</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 当数组中存在重复数据时，即都为datum，但位置不同</span></span><br><span class="line">    <span class="comment">// 继续递增i，防止死循环</span></span><br><span class="line">    <span class="keyword">if</span>(arr[i] === arr[j] &amp;&amp; i !== j) &#123;</span><br><span class="line">        i++</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> i</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 交换</span></span><br><span class="line"><span class="keyword">let</span> swap = <span class="function">(<span class="params">arr, i , j</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> temp = arr[i]</span><br><span class="line">    arr[i] = arr[j]</span><br><span class="line">    arr[j] = temp</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>复杂度分析：</p>
+<ul>
+<li>时间复杂度：O(N)</li>
+<li>空间复杂度：O(1)</li>
+</ul>
+
+    </div>
+    <div class="wechat">
+        
+            <strong> 欢迎关注微信公众号： 『前端极客技术』『代码视界』 </strong>
+            <img class="wechat-image" src="https://image.chenhanpeng.com/static/images/web_static_image/article-gzh-qrcode.png" />
+        
+    </div>
+    
+    <div class="reward" ontouchstart>
+    <div class="reward-wrap">赏
+        <div class="reward-box">
+            
+            <span class="reward-type">
+                <img class="alipay" src="https://image.chenhanpeng.com/static/images/web_static_image/donate/alipay_qrcode.png"><b>支付宝打赏</b>
+            </span>
+            
+            
+            <span class="reward-type">
+                <img class="wechat" src="https://image.chenhanpeng.com/static/images/web_static_image/donate/weixin_pay_qrcode.png"><b>微信打赏</b>
+            </span>
+            
+        </div>
+    </div>
+    <p class="reward-tip">
+        赞赏是不耍流氓的鼓励
+    </p>
+</div>
+    
+    <div class="post-footer">
+        <div>
+            
+            转载声明：
+            商业转载请联系作者获得授权,非商业转载请注明出处 © <a href="" target="_blank">代码视界</a>
+            
+            
+        </div>
+        <div>
+            
+        </div>
+    </div>
+</article>
+<div class="article-nav prev-next-wrap clearfix">
+    
+    <a href="/css-bfc/" class="pre-post btn btn-default" title='CSS面试题：什么是BFC？BFC有什么用？'>
+        <i class="fa fa-angle-left fa-fw"></i><span class="hidden-lg">上一篇</span>
+        <span class="hidden-xs">
+            CSS面试题：什么是BFC？BFC有什么用？</span>
+    </a>
+    
+    
+    <a href="/ten-classic-sort-algorithms/" class="next-post btn btn-default" title='十大经典排序算法'>
+        <span class="hidden-lg">下一篇</span>
+        <span class="hidden-xs">
+            十大经典排序算法</span><i class="fa fa-angle-right fa-fw"></i>
+    </a>
+    
+</div>
+
+<!-- google广告 -->
+<!-- <ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-1437849089810081"
+     data-ad-slot="9946365914"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script> -->
+
+
+    <div id="comments">
+        
+<link rel="stylesheet" href="https://cdn.bootcss.com/gitalk/1.7.2/gitalk.min.css">
+<script src="//cdn.bootcss.com/gitalk/1.7.2/gitalk.min.js"></script>
+<script src="//cdn.bootcss.com/blueimp-md5/2.9.0/js/md5.min.js"></script>
+<div id="gitalk-container"></div>
+<script type="text/javascript">
+var gitalk = new Gitalk({
+    // Gitalk配置
+    language: "zh-CN",
+    clientID: "fb80658382dee5240195",
+    clientSecret: "66663a08264192222ba993f20dd7c0a27c1e6fa5",
+    repo: "blog-comments",
+    owner: "Hanpeng-Chen",
+    admin: ["Hanpeng-Chen"],
+    id: md5(location.pathname),
+    distractionFreeMode: true,
+    proxy: "https://cloudflare-cors-anywhere.hanpengchen.workers.dev/?https://github.com/login/oauth/access_token"
+});
+gitalk.render('gitalk-container');
+</script>
+
+    </div>
+
+                </main>
+                
+                    <div class="col-md-4">
+<!-- 方形 -->
+<!-- <ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-1437849089810081"
+     data-ad-slot="2426112279"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script> -->
+</div>
+<aside id="article-toc" role="navigation" class="col-md-4">
+    <div class="widget">
+        <h3 class="title">
+            文章目录
+        </h3>
+        
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#题目描述"><span class="toc-text">题目描述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#解法1：Array-sort"><span class="toc-text">解法1：Array.sort()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#解法2：堆排序"><span class="toc-text">解法2：堆排序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#解法3：快速排序"><span class="toc-text">解法3：快速排序</span></a></li></ol>
+        
+    </div>
+</aside>
+                
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+<a id="back-to-top" class="icon-btn hide">
+    <i class="fa fa-chevron-up"></i>
+</a>
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="busuanzi">
+    
+</div>
+            </div>
+            <div class="col-sm-12">
+                <span>Copyright &copy;
+                    2019
+                    
+                </span> |
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> |
+                <span>
+                    Theme by <a href="//github.com/shenliyang/hexo-theme-snippet.git" class="copyright-links" target="_blank" rel="nofollow">Snippet</a>
+                </span>
+                
+                    <span> | </span>
+                    <span>
+                        <a href="//beian.miit.gov.cn/" target="_blank" rel="nofollow">
+                            闽ICP备19010134号-1
+                        </a>
+                    </span>
+                
+                
+                    <span> | </span>
+                    <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=35020302033449" rel="nofollow">
+                        <img src="https://image.chenhanpeng.com/static/images/web_static_image/beian_icon.png" width="20">
+                        <span>闽公网安备 35020302033449号</span>
+                    </a>
+                         
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<script src="/js/app.js?rev=@@hash"></script>
+</body>
+</html>

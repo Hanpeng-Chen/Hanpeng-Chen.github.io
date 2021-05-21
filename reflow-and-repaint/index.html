@@ -1,0 +1,566 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="代码视界">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="theme-version" content="1.2.3">
+    <meta name="root" content="/">
+    <link rel="dns-prefetch" href="http://www.chenhanpeng.com">
+    <script data-ad-client="ca-pub-1437849089810081" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <!--SEO-->
+
+<meta name="keywords" content="浏览器,重排和重绘">
+
+
+<meta name="description" content="上一篇文章 「浏览器渲染流程」你知道HTML、CSS、JS文件在浏览器中是如何转化成页面的吗？ 学习了浏览器的页面渲染流程，在文章的最后我们提到了两个和渲染流程有关的概念：重排和重绘。理解这两个...">
+
+
+<meta name="robots" content="all">
+<meta name="google" content="all">
+<meta name="googlebot" content="all">
+<meta name="verify" content="all">
+    <!--Title-->
+
+<title>
+    
+    面试经常提到的重排和重绘，你真的了解吗？ |
+    
+    代码视界
+</title>
+
+<link rel="alternate" href="/atom.xml" title="代码视界" type="application/atom+xml">
+
+
+<link rel="icon" href="/img/site_logo.jpg">
+
+    
+
+<link rel="stylesheet" href="/css/bootstrap.min.css?rev=3.3.7">
+<link rel="stylesheet" href="/css/font-awesome.min.css?rev=4.7.0">
+<link rel="stylesheet" href="/css/style.css?rev=@@hash">
+    
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?494af80fa01e8939bec179cfddf660d5";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+<script>
+(function(i, s, o, g, r, a, m) {
+    i['GoogleAnalyticsObject'] = r;
+    i[r] = i[r] || function() {
+        (i[r].q = i[r].q || []).push(arguments)
+    }, i[r].l = 1 * new Date();
+    a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0];
+    a.async = 1;
+    a.src = g;
+    m.parentNode.insertBefore(a, m)
+})(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+ga('create', 'UA-142577364-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+
+    
+<meta name="baidu-site-verification" content="rGeweWgWoh">
+
+
+<script>
+(function() {
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    } else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+</head></html>
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+<body>
+    <header class="main-header"  style="background-image:url(
+    https://image.chenhanpeng.com/static/images/web_static_image/banner.jpg)"
+     >
+    <div class="main-header-box">
+        <!-- <a class="header-avatar" href="/" title='Hanpeng Chen'>
+            <img src="/img/avatar.jpg" alt="logo头像" class="img-responsive center-block">
+        </a> -->
+        <a href="/" class="header-title">
+            <h1> 代码视界 </h1>
+        </a>
+        <div class="branding">
+            <!--<h2 class="text-hide">Snippet主题,从未如此简单有趣</h2>-->
+            
+            <h2>
+                Hanpeng Chen的个人博客
+            </h2>
+            
+        </div>
+    </div>
+</header>
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="navbar-header"><span class="nav-toggle-button collapsed pull-right" data-toggle="collapse" data-target="#main-menu" id="mnav">
+                        <span class="sr-only"></span>
+                        <i class="fa fa-bars"></i>
+                    </span>
+                    <a class="navbar-brand" href="http://www.chenhanpeng.com">
+                        代码视界</a>
+                </div>
+                <div class="collapse navbar-collapse" id="main-menu">
+                    <ul class="menu">
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/"><i class="fa "></i>
+                                首页</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/archives/"><i class="fa "></i>
+                                文章列表</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/"><i class="fa "></i>
+                                文章分类</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/tags/"><i class="fa "></i>
+                                文章标签</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/links/"><i class="fa "></i>
+                                友链</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/about/"><i class="fa "></i>
+                                关于作者</a>
+                        </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+                    <p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="面试经常提到的重排和重绘，你真的了解吗？">
+            
+            面试经常提到的重排和重绘，你真的了解吗？
+            
+        </h1>
+        <div class="post-meta">
+    
+    <span class="categories-meta fa-wrap">
+        <i class="fa fa-folder-open-o"></i>
+        <a class="category-link" href="/categories/前端/">前端</a> <a class="category-link" href="/categories/前端/浏览器/">浏览器</a>
+    </span>
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-tags"></i>
+        <span class="tags-meta">
+            
+            <a class="tag-link" href="/tags/浏览器/">浏览器</a> <a class="tag-link" href="/tags/重排和重绘/">重排和重绘</a>
+            
+        </span>
+    </span>
+    
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-clock-o"></i>
+        <span class="date-meta">
+            2021/05/17</span>
+    </span>
+    
+    <span class="fa-wrap">
+        <i class="fa fa-eye"></i>
+        <span id="busuanzi_value_page_pv"></span>
+    </span>
+    
+    
+</div>
+        
+        
+    </div>
+    
+    
+    <div class="post-body post-content">
+        <p>上一篇文章 <a href>「浏览器渲染流程」你知道HTML、CSS、JS文件在浏览器中是如何转化成页面的吗？</a> 学习了浏览器的页面渲染流程，在文章的最后我们提到了两个和渲染流程有关的概念：重排和重绘。理解这两个概念对我们做Web性能优化会有很大的帮助。</p>
+<h2 id="重排-reflow"><a href="#重排-reflow" class="headerlink" title="重排(reflow)"></a>重排(reflow)</h2><h3 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h3><p>当更新了元素的几何属性，那么浏览器需要重新计算元素的几何属性，将其安放在界面中的正确位置，这个过程叫做重排，也称为“回流”。</p>
+<p>例如我们通过JS或CSS修改了元素的宽度和高度，那么浏览器会触发重新布局，解析之后的一系列子阶段，这个过程就叫重排。</p>
+<p>渲染树的节点发生改变，影响了该节点的几何属性，导致该节点位置发生变化，此时就会触发浏览器重排并重新生成渲染树。重排意味着节点的几何属性改变，需重新计算并生成渲染树，导致渲染树的全部或部分发生变化。</p>
+<p>重排需要更新完整的渲染流水线，所以开销也是最大的。</p>
+<h3 id="常见的引起重排属性和方法"><a href="#常见的引起重排属性和方法" class="headerlink" title="常见的引起重排属性和方法"></a>常见的引起重排属性和方法</h3><p>任何会改变元素的位置和尺寸大小的操作，都会触发重排。常见的例子如下：</p>
+<ul>
+<li>添加或删除可见的DOM元素</li>
+<li>元素尺寸改变</li>
+<li>内容变化，比如在input框中输入文字</li>
+<li>浏览器窗口尺寸改变</li>
+<li>计算offsetTop、offsetLeft等布局信息</li>
+<li>设置style属性的值</li>
+<li>激活CSS伪类，例如 :hover</li>
+<li>查询某些属性或调用某些方法</li>
+</ul>
+<h4 id="几何属性"><a href="#几何属性" class="headerlink" title="几何属性"></a>几何属性</h4><p>几何属性：包括布局、尺寸等可用数学几何衡量的属性。</p>
+<ul>
+<li>布局：display、float、position、list、table、flex、columns、grid</li>
+<li>尺寸：margin、padding、border、width、height</li>
+</ul>
+<h4 id="获取布局信息的属性或方法"><a href="#获取布局信息的属性或方法" class="headerlink" title="获取布局信息的属性或方法"></a>获取布局信息的属性或方法</h4><p>获取布局信息的属性如下：</p>
+<ul>
+<li>offsetTop、offsetLeft、offsetWidth、offsetHeight</li>
+<li>scrollTop、scrollLeft、scrollWidth、scrollHeight</li>
+<li>clientTop、clientLeft、clientWidth、clientHeight</li>
+<li>getComputedStyle()</li>
+<li>getBoundingClientRect()</li>
+</ul>
+<p>看到这里有的人可能会疑惑，我们只是获取这些属性值，并没有改变它，为什么会触发重排？</p>
+<p>现代的浏览器都是很聪明的，由于每次重排都会造成额外的计算消耗，因此大多数浏览器都会通过队列化修改并批量执行来优化重排过程。浏览器会将修改操作放入到队列里，直到过了一段时间或者操作达到了一个阈值，才清空队列。但是！当你获取布局信息的操作的时候，会<strong>强制清空队列</strong>，因为队列中，可能会有影响到这些值的操作，为了给我们最精确的值，浏览器会立即重排+重绘。</p>
+<p>所以我们应避免频繁使用上述的属性。</p>
+<h3 id="重排的影响范围"><a href="#重排的影响范围" class="headerlink" title="重排的影响范围"></a>重排的影响范围</h3><p>浏览器渲染界面是基于流式布局模型的，所以触发重排时会对周围的DOM重新排列，影响的范围分两种：</p>
+<h4 id="全局范围"><a href="#全局范围" class="headerlink" title="全局范围"></a>全局范围</h4><p>从根节点html开始对整个渲染树重新布局。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"hello"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span><span class="tag">&lt;<span class="name">strong</span>&gt;</span>Name:<span class="tag">&lt;/<span class="name">strong</span>&gt;</span>BDing<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">h5</span>&gt;</span>male<span class="tag">&lt;/<span class="name">h5</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">ol</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">li</span>&gt;</span>loving<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">ol</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>上面代码中的p节点发生重排时，它的父节点div和body也会发生重排，甚至h5和ol节点也会受到影响。</p>
+<h4 id="局部范围"><a href="#局部范围" class="headerlink" title="局部范围"></a>局部范围</h4><p>对渲染树的某部分或某一渲染对象进行重新布局。</p>
+<p>例如：讲一个DOM元素的宽高等几何信息写死，然后在DOM元素内部触发重排，就只会重新渲染该DOM元素内部的元素，而不会影响到外界。</p>
+<h2 id="重绘-repaint"><a href="#重绘-repaint" class="headerlink" title="重绘(repaint)"></a>重绘(repaint)</h2><h3 id="概念-1"><a href="#概念-1" class="headerlink" title="概念"></a>概念</h3><p>更新了元素的绘制属性，但没有改变布局，重新把元素外观绘制出来的过程叫做重绘。例如更改某些元素的背景颜色。</p>
+<p>重绘并没有引起元素几何属性的改变，所以就直接进入绘制阶段，然后执行之后的一系列子阶段。</p>
+<p>和重排相比，重绘省去了布局和分层阶段，所以执行效率会比重排操作要高一些。</p>
+<p>重排一定会伴随重绘，重绘却不一定伴随重排。</p>
+<h3 id="外观属性"><a href="#外观属性" class="headerlink" title="外观属性"></a>外观属性</h3><p>包括界面、文字等可用状态向量描述的属性</p>
+<ul>
+<li>界面：appearance、outline、background、mask、box-shadow、box-reflect、filter、opacity、clip、border-radius、background-size、visibility</li>
+<li>文字：text、font、word</li>
+</ul>
+<h2 id="性能优化"><a href="#性能优化" class="headerlink" title="性能优化"></a>性能优化</h2><p>重排和重绘在操作节点样式时频繁出现，同时也存在很大程度上的性能问题。重排成本比重绘成本高得多，因为一个节点的重排可能导致子节点、兄弟节点或祖先节点的重排，所以我们要尽可能减少重排次数、重排范围。</p>
+<h3 id="使用visibility-hidden替换display-none"><a href="#使用visibility-hidden替换display-none" class="headerlink" title="使用visibility:hidden替换display:none"></a>使用visibility:hidden替换display:none</h3><p>通过下面四个方面来看看两者有什么区别：</p>
+<ul>
+<li><p>占位表现</p>
+<ul>
+<li>display:none：不占据空间</li>
+<li>visibility:hidden：占据空间</li>
+</ul>
+</li>
+<li><p>触发影响</p>
+<ul>
+<li>display:none：触发重排重绘</li>
+<li>visibility:hidden：触发重绘</li>
+</ul>
+</li>
+<li><p>过渡影响</p>
+<ul>
+<li>display:none：影响过渡不影响动画</li>
+<li>visibility:hidden：过渡和动画都不影响</li>
+</ul>
+</li>
+<li><p>株连效果</p>
+<ul>
+<li>display:none：自身及其子节点全都不可见</li>
+<li>visibility:hidden：自身及其子节点都不可见，但可声明子节点visibility:visible单独显示</li>
+</ul>
+</li>
+</ul>
+<h3 id="避免使用Table布局"><a href="#避免使用Table布局" class="headerlink" title="避免使用Table布局"></a>避免使用Table布局</h3><p>Table布局可能很小的一个改动就会造成整个table重排。</p>
+<p>通常可用 ul、li、span等标签取代 table 系列标签生成表格</p>
+<h3 id="避免设置多层内联样式"><a href="#避免设置多层内联样式" class="headerlink" title="避免设置多层内联样式"></a>避免设置多层内联样式</h3><p>浏览器的CSS解析器解析css文件时，对CSS规则是从右到左匹配查找，样式层级过多会影响重排重绘效率。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined">  span &#123;</span></span><br><span class="line"><span class="undefined">    color: red;</span></span><br><span class="line"><span class="undefined">  &#125;</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="undefined">  div &gt; a &gt; span &#123;</span></span><br><span class="line"><span class="undefined">    color: red;</span></span><br><span class="line"><span class="undefined">  &#125;</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"https://www.baidu.com"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">span</span>&gt;</span>百度搜索<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>对于第一种设置样式的方式来说，浏览器只需要找到页面中所有的 span 标签然后设置颜色，但是对于第二种设置样式的方式来说，浏览器首先需要找到所有的 span 标签，然后找到 span 标签上的 a 标签，最后再去找到 div 标签，然后给符合这种条件的 span 标签设置颜色，这样的递归过程就很复杂。所以我们应该尽可能的避免写过于具体的 CSS 选择器，然后对于 HTML 来说也尽量少的添加无意义标签，保证层级扁平。</p>
+<h3 id="将频繁重绘或重排的节点设置为图层"><a href="#将频繁重绘或重排的节点设置为图层" class="headerlink" title="将频繁重绘或重排的节点设置为图层"></a>将频繁重绘或重排的节点设置为图层</h3><p>上一篇文章中我们构建完布局树之后，我们会进行分层，将页面分为很多个图层，如果不对图层添加关联，图层之间是不会相互影响的。</p>
+<p>因此，在浏览器中将频繁重排或重绘的节点设置为一张新图层，那么新图层就能够阻止节点的渲染行为影响别的节点。</p>
+<p>设置新图层的方法：</p>
+<ul>
+<li>将节点设置为video或iframe</li>
+<li>为节点添加 will-change 属性</li>
+</ul>
+<h3 id="使用requestAnimationFrame作为动画帧"><a href="#使用requestAnimationFrame作为动画帧" class="headerlink" title="使用requestAnimationFrame作为动画帧"></a>使用requestAnimationFrame作为动画帧</h3><p>动画速度越快，重排次数越多，浏览器刷新频率为60Hz，即每16.6ms更新一次，而requestAnimationFrame()正是以16.6ms的速度更新一次。所以可用requestAnimationFrame()代替setInterval()。</p>
+<h3 id="对于复杂动画效果-使用绝对定位让其脱离文档流"><a href="#对于复杂动画效果-使用绝对定位让其脱离文档流" class="headerlink" title="对于复杂动画效果,使用绝对定位让其脱离文档流"></a>对于复杂动画效果,使用绝对定位让其脱离文档流</h3><p>对于复杂动画效果，由于会经常的引起重排重绘，因此，我们可以使用绝对定位，让它脱离文档流。否则会引起父元素以及后续元素频繁的重排。</p>
+<h3 id="动态改变类而不改变样式"><a href="#动态改变类而不改变样式" class="headerlink" title="动态改变类而不改变样式"></a>动态改变类而不改变样式</h3><p>不要尝试每次操作DOM去改变节点样式，这样会频繁触发重排。</p>
+<p>更好的方式是使用新的类名预定义节点样式，在执行逻辑操作时收集并确认最终更换的类名集合，在适合时机一次性动态替换原来的类名集合。</p>
+<p>具体的实现可以看下HTML DOM元素属性 <code>classList</code>。</p>
+<h3 id="避免触发同步布局事件"><a href="#避免触发同步布局事件" class="headerlink" title="避免触发同步布局事件"></a>避免触发同步布局事件</h3><p>先来看下面的代码：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt;<span class="number">100</span>; i++) &#123;</span><br><span class="line">  <span class="keyword">const</span> top = <span class="built_in">document</span>.getElementById(<span class="string">'list'</span>).style.top;</span><br><span class="line">  <span class="built_in">console</span>.log(top)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>上文我们说过，当我们访问元素的一些属性的时候，会导致浏览器强制清空队列，进行强制同步布局。</p>
+<p>上面代码中每次循环操作DOM都会发生重排，应该在循环外使用变量保存一些不会变化的DOM映射值。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> top = <span class="built_in">document</span>.getElementById(<span class="string">'list'</span>).style.top;</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt;<span class="number">100</span>; i++) &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(top)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="批量修改DOM"><a href="#批量修改DOM" class="headerlink" title="批量修改DOM"></a>批量修改DOM</h3><p>当我们需要对DOM对一系列修改的时候，可以通过以下步骤减少重排重绘次数：</p>
+<ul>
+<li><ol>
+<li>使元素脱离文档流</li>
+</ol>
+</li>
+<li><ol start="2">
+<li>对其进行多次修改</li>
+</ol>
+</li>
+<li><ol start="3">
+<li>将元素带回到文档中。</li>
+</ol>
+</li>
+</ul>
+<p>该过程的第一步和第三步可能会引起重排，但是经过第一步之后，对DOM的所有修改都不会引起重排，因为它已经不在渲染树了。</p>
+<p>有三种方式可以让DOM脱离文档流：</p>
+<ul>
+<li><p>隐藏要操作的dom<br>在要操作dom之前，通过display隐藏dom，当操作完成之后，再将dom的display属性置为可见，因为不可见的元素不会触发重排和重绘。</p>
+</li>
+<li><p>通过使用<code>DocumentFragment</code>创建一个dom碎片，在它上面批量操作dom，操作完成之后，再添加到文档中，这样只会触发一次重排。</p>
+</li>
+<li><p>复制节点，在副本上工作，然后替换它。</p>
+</li>
+</ul>
+<blockquote>
+<p>当然我们也可以使用框架来实现批量修改DOM，比如Vue、React。</p>
+</blockquote>
+<h3 id="CSS3硬件加速（GPU加速）"><a href="#CSS3硬件加速（GPU加速）" class="headerlink" title="CSS3硬件加速（GPU加速）"></a>CSS3硬件加速（GPU加速）</h3><p>使用CSS3硬件加速，可以让 <code>transform</code>、<code>opacity</code>、<code>filters</code>这些动画不会引起重拍重绘，但对于动画的其它属性，比如background-color这些，还是会引起重排重绘的，不过它还是可以提升这些动画的性能。</p>
+<p>常见的触发CSS3硬件加速的CSS属性有：</p>
+<ul>
+<li>transform</li>
+<li>opacity</li>
+<li>filters</li>
+<li>will-change</li>
+</ul>
+<p><strong>启动硬件加速注意点：</strong></p>
+<ul>
+<li>如果为太多元素使用CSS3硬件加速，会导致内存占用较大，也会从另一方面导致性能问题</li>
+<li>在GPU渲染字体会导致抗锯齿无效。这是因为GPU和CPU的算法不同。因此如果你不在动画结束的时候关闭硬件加速，会产生字体模糊。</li>
+</ul>
+<p>我们通过下面这个例子来看验证一下CSS3硬件加速这个优化方法：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined">    #container &#123;</span></span><br><span class="line"><span class="undefined">      width: 300px;</span></span><br><span class="line"><span class="undefined">      height: 300px;</span></span><br><span class="line"><span class="undefined">      position: absolute;</span></span><br><span class="line"><span class="undefined">      border: 1px solid burlywood;</span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="undefined">    .rect &#123;</span></span><br><span class="line"><span class="undefined">      width: 100px;</span></span><br><span class="line"><span class="undefined">      height: 100px;</span></span><br><span class="line"><span class="undefined">      left: 0;</span></span><br><span class="line"><span class="undefined">      top: 0;</span></span><br><span class="line"><span class="undefined">      background-color: gray;</span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="undefined">    .animate .rect &#123;</span></span><br><span class="line"><span class="undefined">      animation: run-around 4s ease-in-out infinite;</span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="undefined">    @keyframes run-around &#123;</span></span><br><span class="line"><span class="undefined">      0% &#123;</span></span><br><span class="line"><span class="undefined">        transform: translate3d(0, 0, 0);</span></span><br><span class="line"><span class="undefined">      &#125;</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="undefined">      25% &#123;</span></span><br><span class="line"><span class="undefined">        transform: translate3d(200px, 0, 0);</span></span><br><span class="line"><span class="undefined">      &#125;</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="undefined">      50% &#123;</span></span><br><span class="line"><span class="undefined">        transform: translate3d(200px, 200px, 0);</span></span><br><span class="line"><span class="undefined">      &#125;</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="undefined">      75% &#123;</span></span><br><span class="line"><span class="undefined">        transform: translate3d(0, 200px, 0);</span></span><br><span class="line"><span class="undefined">      &#125;</span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="undefined">  </span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="javascript">    <span class="function"><span class="keyword">function</span> <span class="title">start</span>(<span class="params"></span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">      <span class="keyword">const</span> el = <span class="built_in">document</span>.getElementById(<span class="string">"container"</span>)</span></span><br><span class="line"><span class="javascript">      el.classList.contains(<span class="string">'animate'</span>) ? el.classList.remove(<span class="string">'animate'</span>) : el.classList.add(<span class="string">'animate'</span>)</span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="undefined">  </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">button</span> <span class="attr">onclick</span>=<span class="string">"start()"</span>&gt;</span>开启/停止动画<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"container"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"rect"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>通过Chrome浏览器的Performance捕获了一段时间的重排重绘情况，结果如下：</p>
+<p><img src="https://gitee.com/HanpengChen/blog-images/raw/master/blogImages/2021/20210517202335.png" alt></p>
+<p>当动画进行的时候，没有发生任何的重排或重绘。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>通过上面的学习，我们可以总结出以下几点：</p>
+<ul>
+<li>重排是因为元素的几何属性更改触发的</li>
+<li>重绘是由于元素的绘制属性更改触发的</li>
+<li>触发重排也一定会触发重绘，触发重绘不一定会触发重排</li>
+<li>重排的成本高于重绘</li>
+<li>减少重排次数、重排范围是Web性能优化的基本思路</li>
+</ul>
+<p>文章到这里正文内容就结束了，你是否已经清楚什么是重排和重绘？为什么减少重排重绘能够优化Web性能？欢迎留言讨论。</p>
+<blockquote>
+<p>如果你觉得这篇内容对你有帮助的话：</p>
+<ol>
+<li><p><strong>点赞</strong>支持下吧，让更多的人也能看到这篇内容</p>
+</li>
+<li><p>关注公众号：<strong>前端极客技术</strong>，我们一起学习一起进步。</p>
+</li>
+</ol>
+</blockquote>
+
+    </div>
+    <div class="wechat">
+        
+            <strong> 欢迎关注微信公众号： 『前端极客技术』『代码视界』 </strong>
+            <img class="wechat-image" src="https://image.chenhanpeng.com/static/images/web_static_image/article-gzh-qrcode.png" />
+        
+    </div>
+    
+    <div class="reward" ontouchstart>
+    <div class="reward-wrap">赏
+        <div class="reward-box">
+            
+            <span class="reward-type">
+                <img class="alipay" src="https://image.chenhanpeng.com/static/images/web_static_image/donate/alipay_qrcode.png"><b>支付宝打赏</b>
+            </span>
+            
+            
+            <span class="reward-type">
+                <img class="wechat" src="https://image.chenhanpeng.com/static/images/web_static_image/donate/weixin_pay_qrcode.png"><b>微信打赏</b>
+            </span>
+            
+        </div>
+    </div>
+    <p class="reward-tip">
+        赞赏是不耍流氓的鼓励
+    </p>
+</div>
+    
+    <div class="post-footer">
+        <div>
+            
+            转载声明：
+            商业转载请联系作者获得授权,非商业转载请注明出处 © <a href="" target="_blank">代码视界</a>
+            
+            
+        </div>
+        <div>
+            
+        </div>
+    </div>
+</article>
+<div class="article-nav prev-next-wrap clearfix">
+    
+    <a href="/use-gzip-in-vue-project/" class="pre-post btn btn-default" title='vue项目配合nginx开启gzip提升页面打开速度'>
+        <i class="fa fa-angle-left fa-fw"></i><span class="hidden-lg">上一篇</span>
+        <span class="hidden-xs">
+            vue项目配合nginx开启gzip提升页面打开速度</span>
+    </a>
+    
+    
+    <a href="/fe-books-recommendation-and-share/" class="next-post btn btn-default" title='前端必读书籍推荐和海量前端学习资源分享'>
+        <span class="hidden-lg">下一篇</span>
+        <span class="hidden-xs">
+            前端必读书籍推荐和海量前端学习资源分享</span><i class="fa fa-angle-right fa-fw"></i>
+    </a>
+    
+</div>
+
+<!-- google广告 -->
+<!-- <ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-1437849089810081"
+     data-ad-slot="9946365914"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script> -->
+
+
+    <div id="comments">
+        
+<link rel="stylesheet" href="https://cdn.bootcss.com/gitalk/1.7.2/gitalk.min.css">
+<script src="//cdn.bootcss.com/gitalk/1.7.2/gitalk.min.js"></script>
+<script src="//cdn.bootcss.com/blueimp-md5/2.9.0/js/md5.min.js"></script>
+<div id="gitalk-container"></div>
+<script type="text/javascript">
+var gitalk = new Gitalk({
+    // Gitalk配置
+    language: "zh-CN",
+    clientID: "fb80658382dee5240195",
+    clientSecret: "66663a08264192222ba993f20dd7c0a27c1e6fa5",
+    repo: "blog-comments",
+    owner: "Hanpeng-Chen",
+    admin: ["Hanpeng-Chen"],
+    id: md5(location.pathname),
+    distractionFreeMode: true,
+    proxy: "https://cloudflare-cors-anywhere.hanpengchen.workers.dev/?https://github.com/login/oauth/access_token"
+});
+gitalk.render('gitalk-container');
+</script>
+
+    </div>
+
+                </main>
+                
+                    <div class="col-md-4">
+<!-- 方形 -->
+<!-- <ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-1437849089810081"
+     data-ad-slot="2426112279"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script> -->
+</div>
+<aside id="article-toc" role="navigation" class="col-md-4">
+    <div class="widget">
+        <h3 class="title">
+            文章目录
+        </h3>
+        
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#重排-reflow"><span class="toc-text">重排(reflow)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#概念"><span class="toc-text">概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#常见的引起重排属性和方法"><span class="toc-text">常见的引起重排属性和方法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#几何属性"><span class="toc-text">几何属性</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#获取布局信息的属性或方法"><span class="toc-text">获取布局信息的属性或方法</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#重排的影响范围"><span class="toc-text">重排的影响范围</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#全局范围"><span class="toc-text">全局范围</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#局部范围"><span class="toc-text">局部范围</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#重绘-repaint"><span class="toc-text">重绘(repaint)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#概念-1"><span class="toc-text">概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#外观属性"><span class="toc-text">外观属性</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#性能优化"><span class="toc-text">性能优化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#使用visibility-hidden替换display-none"><span class="toc-text">使用visibility:hidden替换display:none</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#避免使用Table布局"><span class="toc-text">避免使用Table布局</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#避免设置多层内联样式"><span class="toc-text">避免设置多层内联样式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#将频繁重绘或重排的节点设置为图层"><span class="toc-text">将频繁重绘或重排的节点设置为图层</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用requestAnimationFrame作为动画帧"><span class="toc-text">使用requestAnimationFrame作为动画帧</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#对于复杂动画效果-使用绝对定位让其脱离文档流"><span class="toc-text">对于复杂动画效果,使用绝对定位让其脱离文档流</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#动态改变类而不改变样式"><span class="toc-text">动态改变类而不改变样式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#避免触发同步布局事件"><span class="toc-text">避免触发同步布局事件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#批量修改DOM"><span class="toc-text">批量修改DOM</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CSS3硬件加速（GPU加速）"><span class="toc-text">CSS3硬件加速（GPU加速）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li></ol>
+        
+    </div>
+</aside>
+                
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+<a id="back-to-top" class="icon-btn hide">
+    <i class="fa fa-chevron-up"></i>
+</a>
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="busuanzi">
+    
+</div>
+            </div>
+            <div class="col-sm-12">
+                <span>Copyright &copy;
+                    2019
+                    
+                </span> |
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> |
+                <span>
+                    Theme by <a href="//github.com/shenliyang/hexo-theme-snippet.git" class="copyright-links" target="_blank" rel="nofollow">Snippet</a>
+                </span>
+                
+                    <span> | </span>
+                    <span>
+                        <a href="//beian.miit.gov.cn/" target="_blank" rel="nofollow">
+                            闽ICP备19010134号-1
+                        </a>
+                    </span>
+                
+                
+                    <span> | </span>
+                    <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=35020302033449" rel="nofollow">
+                        <img src="https://image.chenhanpeng.com/static/images/web_static_image/beian_icon.png" width="20">
+                        <span>闽公网安备 35020302033449号</span>
+                    </a>
+                         
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<script src="/js/app.js?rev=@@hash"></script>
+</body>
+</html>

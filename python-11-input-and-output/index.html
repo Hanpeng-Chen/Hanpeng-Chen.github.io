@@ -1,0 +1,463 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="代码视界">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="theme-version" content="1.2.3">
+    <meta name="root" content="/">
+    <link rel="dns-prefetch" href="http://www.chenhanpeng.com">
+    <script data-ad-client="ca-pub-1437849089810081" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <!--SEO-->
+
+<meta name="keywords" content="python教程">
+
+
+<meta name="description" content="在前面章节中，我们已经用过Python的输入和输出功能，本节将具体介绍Python的输入和输出。
+输入输出
+Python中最简单直接的输入来自键盘操作，我们先来看下面的例子：123456789n...">
+
+
+<meta name="robots" content="all">
+<meta name="google" content="all">
+<meta name="googlebot" content="all">
+<meta name="verify" content="all">
+    <!--Title-->
+
+<title>
+    
+    Python从小白到攻城狮(11)——输入与输出 |
+    
+    代码视界
+</title>
+
+<link rel="alternate" href="/atom.xml" title="代码视界" type="application/atom+xml">
+
+
+<link rel="icon" href="/img/site_logo.jpg">
+
+    
+
+<link rel="stylesheet" href="/css/bootstrap.min.css?rev=3.3.7">
+<link rel="stylesheet" href="/css/font-awesome.min.css?rev=4.7.0">
+<link rel="stylesheet" href="/css/style.css?rev=@@hash">
+    
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?494af80fa01e8939bec179cfddf660d5";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+<script>
+(function(i, s, o, g, r, a, m) {
+    i['GoogleAnalyticsObject'] = r;
+    i[r] = i[r] || function() {
+        (i[r].q = i[r].q || []).push(arguments)
+    }, i[r].l = 1 * new Date();
+    a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0];
+    a.async = 1;
+    a.src = g;
+    m.parentNode.insertBefore(a, m)
+})(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+ga('create', 'UA-142577364-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+
+    
+<meta name="baidu-site-verification" content="rGeweWgWoh">
+
+
+<script>
+(function() {
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    } else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+</head></html>
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+<body>
+    <header class="main-header"  style="background-image:url(
+    https://image.chenhanpeng.com/static/images/web_static_image/banner.jpg)"
+     >
+    <div class="main-header-box">
+        <!-- <a class="header-avatar" href="/" title='Hanpeng Chen'>
+            <img src="/img/avatar.jpg" alt="logo头像" class="img-responsive center-block">
+        </a> -->
+        <a href="/" class="header-title">
+            <h1> 代码视界 </h1>
+        </a>
+        <div class="branding">
+            <!--<h2 class="text-hide">Snippet主题,从未如此简单有趣</h2>-->
+            
+            <h2>
+                Hanpeng Chen的个人博客
+            </h2>
+            
+        </div>
+    </div>
+</header>
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="navbar-header"><span class="nav-toggle-button collapsed pull-right" data-toggle="collapse" data-target="#main-menu" id="mnav">
+                        <span class="sr-only"></span>
+                        <i class="fa fa-bars"></i>
+                    </span>
+                    <a class="navbar-brand" href="http://www.chenhanpeng.com">
+                        代码视界</a>
+                </div>
+                <div class="collapse navbar-collapse" id="main-menu">
+                    <ul class="menu">
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/"><i class="fa "></i>
+                                首页</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/archives/"><i class="fa "></i>
+                                文章列表</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/"><i class="fa "></i>
+                                文章分类</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/tags/"><i class="fa "></i>
+                                文章标签</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/links/"><i class="fa "></i>
+                                友链</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/about/"><i class="fa "></i>
+                                关于作者</a>
+                        </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+                    <p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="Python从小白到攻城狮(11)——输入与输出">
+            
+            Python从小白到攻城狮(11)——输入与输出
+            
+        </h1>
+        <div class="post-meta">
+    
+    <span class="categories-meta fa-wrap">
+        <i class="fa fa-folder-open-o"></i>
+        <a class="category-link" href="/categories/Python/">Python</a>
+    </span>
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-tags"></i>
+        <span class="tags-meta">
+            
+            <a class="tag-link" href="/tags/python教程/">python教程</a>
+            
+        </span>
+    </span>
+    
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-clock-o"></i>
+        <span class="date-meta">
+            2019/09/23</span>
+    </span>
+    
+    <span class="fa-wrap">
+        <i class="fa fa-eye"></i>
+        <span id="busuanzi_value_page_pv"></span>
+    </span>
+    
+    
+</div>
+        
+        
+        <p class="fa fa-exclamation-triangle warning">
+            本文于<strong>
+                605</strong>
+            天之前发表，文中内容可能已经过时。
+        </p>
+        
+    </div>
+    
+    
+    <div class="post-body post-content">
+        <p>在前面章节中，我们已经用过Python的输入和输出功能，本节将具体介绍Python的输入和输出。</p>
+<h1 id="输入输出"><a href="#输入输出" class="headerlink" title="输入输出"></a>输入输出</h1><hr>
+<p>Python中最简单直接的输入来自键盘操作，我们先来看下面的例子：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">name = input(<span class="string">'your name is:'</span>)</span><br><span class="line">age = input(<span class="string">'your age:'</span>)</span><br><span class="line">print(<span class="string">'name: '</span> + name)</span><br><span class="line">print(<span class="string">'age: '</span> + age)</span><br><span class="line"><span class="comment">##########控制台输入与输出内容###########</span></span><br><span class="line">your name <span class="keyword">is</span>:Jack</span><br><span class="line">your age:<span class="number">20</span></span><br><span class="line">name: Jack</span><br><span class="line">age: <span class="number">2</span></span><br></pre></td></tr></table></figure></p>
+<p>input()函数：暂停程序运行，同时等待键盘输入，知道回车键被按下，函数的参数即为提示语，<strong>输入的类型永远都是字符串类型</strong>。</p>
+<p>print()函数：接受字符串、数字、字典、列表甚至一些自定义类的输出。</p>
+<p>我们来看下面的例子：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">a = input() <span class="comment"># 输入1</span></span><br><span class="line">b = input() <span class="comment"># 输入2</span></span><br><span class="line"></span><br><span class="line">print(<span class="string">'a + b = &#123;&#125;'</span>.format(a + b))</span><br><span class="line">print(<span class="string">'type of a is &#123;&#125;, type of b is &#123;&#125;'</span>.format(type(a), type(b)))</span><br><span class="line">print(<span class="string">'a + b = &#123;&#125;'</span>.format(int(a) + int(b)))</span><br><span class="line"><span class="comment">#######输出########</span></span><br><span class="line">a + b = <span class="number">12</span></span><br><span class="line">type of a is &lt;class 'str'&gt;, type of b is &lt;class 'str'&gt;</span><br><span class="line">a + b = <span class="number">3</span></span><br></pre></td></tr></table></figure>
+<p>str强制转换为int用int()，转为浮点数用float()。在生产环境中使用强制转换，记得加上try  except对错误或异常进行处理。</p>
+<p>在Python中，int类型没有最大限制，float类型有精度限制。</p>
+<h1 id="文件输入输出"><a href="#文件输入输出" class="headerlink" title="文件输入输出"></a>文件输入输出</h1><h2 id="open"><a href="#open" class="headerlink" title="open()"></a>open()</h2><p>open()将会返回一个file对象，基本语法格式如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">open(filename, mode)</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>filename：包含你要访问的文件名称的字符串值。<br>mode：决定了打开文件的模式：只读，写入，追加等。这个参数非强制的，默认文件访问模式为只读(r)。所有可取值见下表：</p>
+</blockquote>
+<!-- ![](/images/articles/2019/python_series/11-1.png) -->
+<img src="http://image.chenhanpeng.com/static/images/python_series/11-1.png">
+<p>以下示例将字符串写入到文件demo.txt中：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 打开一个文件</span></span><br><span class="line">f = open(<span class="string">'./file_1.txt'</span>, <span class="string">'w'</span>)</span><br><span class="line">f.write(<span class="string">'Python是一门有用的编程语言。\nHello world！'</span>)</span><br><span class="line"><span class="comment"># 关闭打开的文件</span></span><br><span class="line">f.close()</span><br></pre></td></tr></table></figure></p>
+<p>查看file_1.txt文件，内容如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Python是一门有用的编程语言。</span><br><span class="line">Hello world！</span><br></pre></td></tr></table></figure></p>
+<h2 id="文件对象的方法"><a href="#文件对象的方法" class="headerlink" title="文件对象的方法"></a>文件对象的方法</h2><p>假设已经创建了一个文件对象f</p>
+<h3 id="f-read"><a href="#f-read" class="headerlink" title="f.read()"></a>f.read()</h3><p>调用f.read(size)方法，将读取文件的一定数目的数据，然后作为字符串或字节对象返回。</p>
+<p>size是一个可选的数字类型的参数。当size被忽略或为负时，那么该文件的所有内容都将被读取并返回。</p>
+<p>读取上一个例子创建的file_1.txt的内容：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">f = open(<span class="string">'./file_1.txt'</span>, <span class="string">'r'</span>)</span><br><span class="line">str = f.read()</span><br><span class="line">print(str)</span><br><span class="line">f.close()</span><br></pre></td></tr></table></figure></p>
+<h3 id="f-readline"><a href="#f-readline" class="headerlink" title="f.readline()"></a>f.readline()</h3><p>f.readline()会从文件中读取单独的一行。换行符为”\n”。f.readline()如果返回一个空字符串，说明已经读取到最后一行。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">f = open(<span class="string">'./file_1.txt'</span>, <span class="string">'r'</span>)</span><br><span class="line">str = f.readline()</span><br><span class="line">print(str)</span><br><span class="line">str1 = f.readline()</span><br><span class="line">print(str1)</span><br><span class="line">str2 = f.readline()</span><br><span class="line">print(str2)</span><br><span class="line">f.close()</span><br></pre></td></tr></table></figure>
+<h3 id="f-readlines"><a href="#f-readlines" class="headerlink" title="f.readlines()"></a>f.readlines()</h3><p>f.readlines()将返回该文件中包含的所有行。</p>
+<p>如果设置可选参数sizehint，则读取指定长度的字节，并且这些字节按行分割。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">f = open(<span class="string">'./file_1.txt'</span>, <span class="string">'r'</span>)</span><br><span class="line">str = f.readlines()</span><br><span class="line">print(str)  <span class="comment"># ['Python是一门有用的编程语言。\n', 'Hello world！']</span></span><br><span class="line">f.close()</span><br></pre></td></tr></table></figure></p>
+<h3 id="f-write"><a href="#f-write" class="headerlink" title="f.write()"></a>f.write()</h3><p>f.write(string)将string写入到文件中，然后返回写入的字符数。</p>
+<p>如果要写入一些不是字符串的东西，那么需要先进行转换：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">f = open(<span class="string">'./file_2.txt'</span>, <span class="string">'w'</span>)</span><br><span class="line">value = (<span class="string">'Python从小白到攻城狮'</span>, <span class="number">666</span>)</span><br><span class="line">s = str(value)</span><br><span class="line">f.write(s)</span><br><span class="line">f.close()</span><br></pre></td></tr></table></figure></p>
+<h3 id="f-tell"><a href="#f-tell" class="headerlink" title="f.tell()"></a>f.tell()</h3><p>f.tell()返回文件对象当前所处的位置，它是从文件开头开始算起的字节数。</p>
+<h3 id="f-seek"><a href="#f-seek" class="headerlink" title="f.seek()"></a>f.seek()</h3><p>如果要改变文件当前的位置，可以使用f.seek(offset, from_what)函数。</p>
+<p>from_what的值默认为0，如果是0表示开头，如果是1表示当前位置，2表示文件的结尾，例如：</p>
+<ul>
+<li>seek(x, 0)：从起始位置即文件首行首字符开始移动x个字符</li>
+<li>seek(x, 1)：表示从当前位置往后移动x个字符</li>
+<li>seek(-x, 2)：表示从文件的结尾往前移动x个字符<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>f = open(<span class="string">'./file_2.txt'</span>, <span class="string">'rb+'</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>f.write(<span class="string">b'0123456789abcdef'</span>)</span><br><span class="line"><span class="number">16</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>f.seek(<span class="number">5</span>)</span><br><span class="line"><span class="number">5</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>f.read(<span class="number">1</span>)</span><br><span class="line"><span class="string">b'5'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>f.seek(<span class="number">-3</span>, <span class="number">2</span>)</span><br><span class="line"><span class="number">26</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>f.read(<span class="number">1</span>)</span><br><span class="line"><span class="string">b'6'</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="f-close"><a href="#f-close" class="headerlink" title="f.close()"></a>f.close()</h3><p>在文本文件中 (那些打开文件的模式下没有 b 的), 只会相对于文件起始位置进行定位。</p>
+<p>当你处理完一个文件后, 调用 f.close() 来关闭文件并释放系统的资源，如果尝试再调用该文件，则会抛出异常。</p>
+<p>当处理一个文件对象时, 使用 with 关键字是非常好的方式。在结束后, 它会帮你正确的关闭文件。 而且写起来也比 try - finally 语句块要简短。</p>
+<h1 id="JSON序列化"><a href="#JSON序列化" class="headerlink" title="JSON序列化"></a>JSON序列化</h1><hr>
+<p>JSON(JavaScript Object Notation)是一种轻量级的数据交换格式。其设计意图是把所有事情都用设计的字符串来表示，既方便在互联网上传递信息，也方便人阅读。在当今互联网中，JSON的应用非常广泛。</p>
+<ul>
+<li>json.dumps()函数：接受Python的基本数据类型，然后将其序列化为string。</li>
+<li>json.loads()函数：接受一个合法字符串，然后将其反序列化为Python的基本数据类型。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> json</span><br><span class="line"></span><br><span class="line">data = &#123;</span><br><span class="line">  <span class="string">'name'</span>: <span class="string">'Jack'</span>,</span><br><span class="line">  <span class="string">'age'</span>: <span class="number">20</span>,</span><br><span class="line">  <span class="string">'address'</span>: <span class="string">'Fujian, China'</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">data_str = json.dumps(data)</span><br><span class="line">print(<span class="string">'after json dumps'</span>)</span><br><span class="line">print(<span class="string">'type of data_str is &#123;&#125;, data_str = &#123;&#125;'</span>.format(type(data_str), data_str))</span><br><span class="line"></span><br><span class="line">origin_data = json.loads(data_str)</span><br><span class="line">print(<span class="string">'after json loads'</span>)</span><br><span class="line">print(<span class="string">'type of origin_data is &#123;&#125;, origin_data = &#123;&#125;'</span>.format(type(origin_data), origin_data))</span><br></pre></td></tr></table></figure>
+<p><strong>文中示例代码</strong>： <a href="https://github.com/Hanpeng-Chen/python-learning" target="_blank" rel="noopener">python-learning</a></p>
+<p>未完待续，持续更新中……</p>
+
+    </div>
+    <div class="wechat">
+        
+            <strong> 欢迎关注微信公众号： 『前端极客技术』『代码视界』 </strong>
+            <img class="wechat-image" src="https://image.chenhanpeng.com/static/images/web_static_image/article-gzh-qrcode.png" />
+        
+    </div>
+    
+    <div class="reward" ontouchstart>
+    <div class="reward-wrap">赏
+        <div class="reward-box">
+            
+            <span class="reward-type">
+                <img class="alipay" src="https://image.chenhanpeng.com/static/images/web_static_image/donate/alipay_qrcode.png"><b>支付宝打赏</b>
+            </span>
+            
+            
+            <span class="reward-type">
+                <img class="wechat" src="https://image.chenhanpeng.com/static/images/web_static_image/donate/weixin_pay_qrcode.png"><b>微信打赏</b>
+            </span>
+            
+        </div>
+    </div>
+    <p class="reward-tip">
+        赞赏是不耍流氓的鼓励
+    </p>
+</div>
+    
+    <div class="post-footer">
+        <div>
+            
+            转载声明：
+            商业转载请联系作者获得授权,非商业转载请注明出处 © <a href="" target="_blank">代码视界</a>
+            
+            
+        </div>
+        <div>
+            
+        </div>
+    </div>
+</article>
+<div class="article-nav prev-next-wrap clearfix">
+    
+    <a href="/python-12-error-and-exception/" class="pre-post btn btn-default" title='Python从小白到攻城狮(12)——错误和异常'>
+        <i class="fa fa-angle-left fa-fw"></i><span class="hidden-lg">上一篇</span>
+        <span class="hidden-xs">
+            Python从小白到攻城狮(12)——错误和异常</span>
+    </a>
+    
+    
+    <a href="/python-10-higher-order-function/" class="next-post btn btn-default" title='Python从小白到攻城狮(10)——高阶函数'>
+        <span class="hidden-lg">下一篇</span>
+        <span class="hidden-xs">
+            Python从小白到攻城狮(10)——高阶函数</span><i class="fa fa-angle-right fa-fw"></i>
+    </a>
+    
+</div>
+
+<!-- google广告 -->
+<!-- <ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-1437849089810081"
+     data-ad-slot="9946365914"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script> -->
+
+
+    <div id="comments">
+        
+<link rel="stylesheet" href="https://cdn.bootcss.com/gitalk/1.7.2/gitalk.min.css">
+<script src="//cdn.bootcss.com/gitalk/1.7.2/gitalk.min.js"></script>
+<script src="//cdn.bootcss.com/blueimp-md5/2.9.0/js/md5.min.js"></script>
+<div id="gitalk-container"></div>
+<script type="text/javascript">
+var gitalk = new Gitalk({
+    // Gitalk配置
+    language: "zh-CN",
+    clientID: "fb80658382dee5240195",
+    clientSecret: "66663a08264192222ba993f20dd7c0a27c1e6fa5",
+    repo: "blog-comments",
+    owner: "Hanpeng-Chen",
+    admin: ["Hanpeng-Chen"],
+    id: md5(location.pathname),
+    distractionFreeMode: true,
+    proxy: "https://cloudflare-cors-anywhere.hanpengchen.workers.dev/?https://github.com/login/oauth/access_token"
+});
+gitalk.render('gitalk-container');
+</script>
+
+    </div>
+
+                </main>
+                
+                    <div class="col-md-4">
+<!-- 方形 -->
+<!-- <ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-1437849089810081"
+     data-ad-slot="2426112279"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script> -->
+</div>
+<aside id="article-toc" role="navigation" class="col-md-4">
+    <div class="widget">
+        <h3 class="title">
+            文章目录
+        </h3>
+        
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#输入输出"><span class="toc-text">输入输出</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#文件输入输出"><span class="toc-text">文件输入输出</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#open"><span class="toc-text">open()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#文件对象的方法"><span class="toc-text">文件对象的方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#f-read"><span class="toc-text">f.read()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#f-readline"><span class="toc-text">f.readline()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#f-readlines"><span class="toc-text">f.readlines()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#f-write"><span class="toc-text">f.write()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#f-tell"><span class="toc-text">f.tell()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#f-seek"><span class="toc-text">f.seek()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#f-close"><span class="toc-text">f.close()</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#JSON序列化"><span class="toc-text">JSON序列化</span></a></li></ol>
+        
+    </div>
+</aside>
+                
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+<a id="back-to-top" class="icon-btn hide">
+    <i class="fa fa-chevron-up"></i>
+</a>
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="busuanzi">
+    
+</div>
+            </div>
+            <div class="col-sm-12">
+                <span>Copyright &copy;
+                    2019
+                    
+                </span> |
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> |
+                <span>
+                    Theme by <a href="//github.com/shenliyang/hexo-theme-snippet.git" class="copyright-links" target="_blank" rel="nofollow">Snippet</a>
+                </span>
+                
+                    <span> | </span>
+                    <span>
+                        <a href="//beian.miit.gov.cn/" target="_blank" rel="nofollow">
+                            闽ICP备19010134号-1
+                        </a>
+                    </span>
+                
+                
+                    <span> | </span>
+                    <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=35020302033449" rel="nofollow">
+                        <img src="https://image.chenhanpeng.com/static/images/web_static_image/beian_icon.png" width="20">
+                        <span>闽公网安备 35020302033449号</span>
+                    </a>
+                         
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<script src="/js/app.js?rev=@@hash"></script>
+</body>
+</html>

@@ -1,0 +1,498 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="代码视界">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="theme-version" content="1.2.3">
+    <meta name="root" content="/">
+    <link rel="dns-prefetch" href="http://www.chenhanpeng.com">
+    <script data-ad-client="ca-pub-1437849089810081" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <!--SEO-->
+
+<meta name="keywords" content="python教程,字典/集合">
+
+
+<meta name="description" content="在前面的一篇文章 《Python从小白到攻城狮（3）：列表和元组》中，我们学习了列表和元组，了解了其基本操作和性能比较。今天这篇文章，我们来学习两个同样很常见并且很有用的数据结构：字典（dict...">
+
+
+<meta name="robots" content="all">
+<meta name="google" content="all">
+<meta name="googlebot" content="all">
+<meta name="verify" content="all">
+    <!--Title-->
+
+<title>
+    
+    Python从小白到攻城狮(4)——字典和集合 |
+    
+    代码视界
+</title>
+
+<link rel="alternate" href="/atom.xml" title="代码视界" type="application/atom+xml">
+
+
+<link rel="icon" href="/img/site_logo.jpg">
+
+    
+
+<link rel="stylesheet" href="/css/bootstrap.min.css?rev=3.3.7">
+<link rel="stylesheet" href="/css/font-awesome.min.css?rev=4.7.0">
+<link rel="stylesheet" href="/css/style.css?rev=@@hash">
+    
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?494af80fa01e8939bec179cfddf660d5";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+<script>
+(function(i, s, o, g, r, a, m) {
+    i['GoogleAnalyticsObject'] = r;
+    i[r] = i[r] || function() {
+        (i[r].q = i[r].q || []).push(arguments)
+    }, i[r].l = 1 * new Date();
+    a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0];
+    a.async = 1;
+    a.src = g;
+    m.parentNode.insertBefore(a, m)
+})(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+ga('create', 'UA-142577364-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+
+    
+<meta name="baidu-site-verification" content="rGeweWgWoh">
+
+
+<script>
+(function() {
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    } else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+</head></html>
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+<body>
+    <header class="main-header"  style="background-image:url(
+    https://image.chenhanpeng.com/static/images/web_static_image/banner.jpg)"
+     >
+    <div class="main-header-box">
+        <!-- <a class="header-avatar" href="/" title='Hanpeng Chen'>
+            <img src="/img/avatar.jpg" alt="logo头像" class="img-responsive center-block">
+        </a> -->
+        <a href="/" class="header-title">
+            <h1> 代码视界 </h1>
+        </a>
+        <div class="branding">
+            <!--<h2 class="text-hide">Snippet主题,从未如此简单有趣</h2>-->
+            
+            <h2>
+                Hanpeng Chen的个人博客
+            </h2>
+            
+        </div>
+    </div>
+</header>
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="navbar-header"><span class="nav-toggle-button collapsed pull-right" data-toggle="collapse" data-target="#main-menu" id="mnav">
+                        <span class="sr-only"></span>
+                        <i class="fa fa-bars"></i>
+                    </span>
+                    <a class="navbar-brand" href="http://www.chenhanpeng.com">
+                        代码视界</a>
+                </div>
+                <div class="collapse navbar-collapse" id="main-menu">
+                    <ul class="menu">
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/"><i class="fa "></i>
+                                首页</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/archives/"><i class="fa "></i>
+                                文章列表</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/"><i class="fa "></i>
+                                文章分类</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/tags/"><i class="fa "></i>
+                                文章标签</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/links/"><i class="fa "></i>
+                                友链</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/about/"><i class="fa "></i>
+                                关于作者</a>
+                        </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+                    <p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="Python从小白到攻城狮(4)——字典和集合">
+            
+            Python从小白到攻城狮(4)——字典和集合
+            
+        </h1>
+        <div class="post-meta">
+    
+    <span class="categories-meta fa-wrap">
+        <i class="fa fa-folder-open-o"></i>
+        <a class="category-link" href="/categories/Python/">Python</a>
+    </span>
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-tags"></i>
+        <span class="tags-meta">
+            
+            <a class="tag-link" href="/tags/python教程/">python教程</a> <a class="tag-link" href="/tags/字典-集合/">字典/集合</a>
+            
+        </span>
+    </span>
+    
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-clock-o"></i>
+        <span class="date-meta">
+            2019/08/21</span>
+    </span>
+    
+    <span class="fa-wrap">
+        <i class="fa fa-eye"></i>
+        <span id="busuanzi_value_page_pv"></span>
+    </span>
+    
+    
+</div>
+        
+        
+        <p class="fa fa-exclamation-triangle warning">
+            本文于<strong>
+                638</strong>
+            天之前发表，文中内容可能已经过时。
+        </p>
+        
+    </div>
+    
+    
+    <div class="post-body post-content">
+        <p>在前面的一篇文章 <a href="http://www.chenhanpeng.com/2019/08/08/python_series/Python从小白到攻城狮（3）：列表和元组/">《Python从小白到攻城狮（3）：列表和元组》</a>中，我们学习了列表和元组，了解了其基本操作和性能比较。今天这篇文章，我们来学习两个同样很常见并且很有用的数据结构：字典（dict）和集合（set）。字典和集合在 Python 被广泛使用，并且性能进行了高度优化，其重要性不言而喻。</p>
+<h1 id="字典-dict"><a href="#字典-dict" class="headerlink" title="字典(dict)"></a>字典(dict)</h1><hr>
+<h2 id="什么是字典"><a href="#什么是字典" class="headerlink" title="什么是字典"></a>什么是字典</h2><p>字典，dict全称dictionary，在其他语言中也称为map，是一系列无序元素的组合，其长度大小可变，元素可以任意地删减和改变。</p>
+<p>字典的元素是一对键(key)和值(value)的配对，和列表/元组相比，字典的性能更优，尤其是对于查找、添加和删除操作，字典都能在常数时间复杂度内完成。</p>
+<h2 id="字典的创建"><a href="#字典的创建" class="headerlink" title="字典的创建"></a>字典的创建</h2><p>字典的创建，通常有下面几种方式：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">d1 = &#123;<span class="string">'name'</span>: <span class="string">'jack'</span>, <span class="string">'age'</span>: <span class="number">20</span>, <span class="string">'gender'</span>: <span class="string">'male'</span>&#125;</span><br><span class="line">d2 = dict(&#123;<span class="string">'name'</span>: <span class="string">'jack'</span>, <span class="string">'age'</span>: <span class="number">20</span>, <span class="string">'gender'</span>: <span class="string">'male'</span>&#125;)</span><br><span class="line">d3 = dict([(<span class="string">'name'</span>, <span class="string">'jack'</span>), (<span class="string">'age'</span>, <span class="number">20</span>), (<span class="string">'gender'</span>, <span class="string">'male'</span>)])</span><br><span class="line">d4 = dict(name=<span class="string">'jack'</span>, age=<span class="number">20</span>, gender=<span class="string">'male'</span>)</span><br><span class="line"></span><br><span class="line">d1 == d2 == d3 == d4</span><br><span class="line"><span class="literal">True</span> <span class="comment"># 返回True，说明创建的4个字典是一样的</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="元素访问"><a href="#元素访问" class="headerlink" title="元素访问"></a>元素访问</h2><p>刚才我们学习了如何创建字典，我们再来看元素访问的问题。字典访问可以直接索引键，如果不存在，就会抛出异常：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">d = &#123;<span class="string">'name'</span>: <span class="string">'jack'</span>, <span class="string">'age'</span>: <span class="number">20</span>, <span class="string">'gender'</span>: <span class="string">'male'</span>&#125;</span><br><span class="line">d[<span class="string">'name'</span>]</span><br><span class="line"><span class="string">'jack'</span></span><br><span class="line">d[<span class="string">'location'</span>]</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File <span class="string">"&lt;stdin&gt;"</span>, line <span class="number">1</span>, <span class="keyword">in</span> &lt;module&gt;</span><br><span class="line">KeyError: <span class="string">'location'</span></span><br></pre></td></tr></table></figure>
+<p>要避免出现key不存在的错误，我们可以通过<code>in</code>来判断key是否存在<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">d = &#123;<span class="string">'name'</span>: <span class="string">'jack'</span>, <span class="string">'age'</span>: <span class="number">20</span>&#125;</span><br><span class="line"><span class="string">'name'</span> <span class="keyword">in</span> d</span><br><span class="line"><span class="literal">True</span></span><br><span class="line"></span><br><span class="line"><span class="string">'location'</span> <span class="keyword">in</span> d</span><br><span class="line"><span class="literal">False</span></span><br></pre></td></tr></table></figure></p>
+<p>也可以使用dict提供的<code>get(key, default)</code>函数来进行索引。如果键不存在，调用<code>get()</code>函数可以返回<code>None</code>, 或者返回自己指定的一个默认值。比如下面这个示例，返回了</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">d = &#123;<span class="string">'name'</span>: <span class="string">'jack'</span>, <span class="string">'age'</span>: <span class="number">20</span>, <span class="string">'gender'</span>: <span class="string">'male'</span>&#125;</span><br><span class="line">d.get(<span class="string">'name'</span>)</span><br><span class="line"><span class="string">'jack'</span></span><br><span class="line">d.get(<span class="string">'location'</span>, <span class="string">'null'</span>)</span><br><span class="line"><span class="string">'null'</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注意：返回None的时候Python的交互环境不显示结果。</p>
+</blockquote>
+<h2 id="增、删、更新操作"><a href="#增、删、更新操作" class="headerlink" title="增、删、更新操作"></a>增、删、更新操作</h2><p>字典支持增加、删除、更新等操作。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 增加</span></span><br><span class="line">d = &#123;<span class="string">'name'</span>: <span class="string">'jason'</span>, <span class="string">'age'</span>: <span class="number">20</span>&#125;</span><br><span class="line">d[<span class="string">'gender'</span>] = <span class="string">'male'</span> <span class="comment"># 增加元素对'gender': 'male'</span></span><br><span class="line">d[<span class="string">'dob'</span>] = <span class="string">'1999-02-01'</span> <span class="comment"># 增加元素对'dob': '1999-02-01'</span></span><br><span class="line">d</span><br><span class="line">&#123;<span class="string">'name'</span>: <span class="string">'jason'</span>, <span class="string">'age'</span>: <span class="number">20</span>, <span class="string">'gender'</span>: <span class="string">'male'</span>, <span class="string">'dob'</span>: <span class="string">'1999-02-01'</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 更新</span></span><br><span class="line">d[<span class="string">'dob'</span>] = <span class="string">'1998-01-01'</span> <span class="comment"># 更新键'dob'对应的值 </span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除</span></span><br><span class="line">d.pop(<span class="string">'dob'</span>) <span class="comment"># 删除键为'dob'的元素对</span></span><br><span class="line"><span class="string">'1998-01-01'</span></span><br><span class="line">d</span><br><span class="line">&#123;<span class="string">'name'</span>: <span class="string">'jason'</span>, <span class="string">'age'</span>: <span class="number">20</span>, <span class="string">'gender'</span>: <span class="string">'male'</span>&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="排序"><a href="#排序" class="headerlink" title="排序"></a>排序</h2><p>对于字典，我们通常会根据键或值，进行升序或降序排序：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">d = &#123;<span class="string">'b'</span>: <span class="number">1</span>, <span class="string">'a'</span>: <span class="number">2</span>, <span class="string">'c'</span>: <span class="number">10</span>&#125;</span><br><span class="line">d_sorted_by_key = sorted(d.items(), key=<span class="keyword">lambda</span> x: x[<span class="number">0</span>]) <span class="comment"># 根据字典键的升序排序</span></span><br><span class="line">d_sorted_by_value = sorted(d.items(), key=<span class="keyword">lambda</span> x: x[<span class="number">1</span>]) <span class="comment"># 根据字典值的升序排序</span></span><br><span class="line">d_sorted_by_key</span><br><span class="line">[(<span class="string">'a'</span>, <span class="number">2</span>), (<span class="string">'b'</span>, <span class="number">1</span>), (<span class="string">'c'</span>, <span class="number">10</span>)]</span><br><span class="line">d_sorted_by_value</span><br><span class="line">[(<span class="string">'b'</span>, <span class="number">1</span>), (<span class="string">'a'</span>, <span class="number">2</span>), (<span class="string">'c'</span>, <span class="number">10</span>)]</span><br></pre></td></tr></table></figure>
+<p>当然，因为字典本身是无序的，所以这里返回了一个列表。列表中的每个元素，是由原字典的键和值组成的元组。</p>
+<h1 id="集合-set"><a href="#集合-set" class="headerlink" title="集合(set)"></a>集合(set)</h1><hr>
+<h2 id="什么是集合"><a href="#什么是集合" class="headerlink" title="什么是集合"></a>什么是集合</h2><p>集合和字典类似，也是一组key的集合，但是不存储value。由于key不能重复，所以集合是一系列无序的、唯一的元素组合。</p>
+<h2 id="集合的创建"><a href="#集合的创建" class="headerlink" title="集合的创建"></a>集合的创建</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">s1 = &#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>&#125;</span><br><span class="line">s2 = set([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>])</span><br><span class="line">s1 == s2</span><br><span class="line"><span class="literal">True</span></span><br></pre></td></tr></table></figure>
+<h2 id="操作"><a href="#操作" class="headerlink" title="操作"></a>操作</h2><p><strong>集合并不支持索引操作，因为集合本质上是一个哈希表，和列表不一样</strong>。所以，下面这样的操作是错误的，Python 会抛出异常：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">s = &#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>&#125;</span><br><span class="line">s[<span class="number">0</span>]</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File <span class="string">"&lt;stdin&gt;"</span>, line <span class="number">1</span>, <span class="keyword">in</span> &lt;module&gt;</span><br><span class="line">TypeError: <span class="string">'set'</span> object does <span class="keyword">not</span> support indexing</span><br></pre></td></tr></table></figure>
+<p>和字典一样，我们可以通过<code>in</code>来判断一个元素是否在集合中。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">s = &#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>&#125;</span><br><span class="line"><span class="number">1</span> <span class="keyword">in</span> s</span><br><span class="line"><span class="literal">True</span></span><br><span class="line"><span class="number">10</span> <span class="keyword">in</span> s</span><br><span class="line"><span class="literal">False</span></span><br></pre></td></tr></table></figure>
+<p><strong>集合也同样支持增加、删除、更新等操作。</strong><br><strong>s.add(x)</strong>：将元素 x 添加到集合 s 中，如果元素已存在，则不进行任何操作。</p>
+<p><strong>update()</strong>： 方法用于修改当前集合，可以添加新的元素或集合到当前集合中，如果添加的元素在集合中已存在，则该元素只会出现一次，重复的会忽略。</p>
+<p><strong>s.remove( x )</strong>：将元素 x 从集合 s 中移除，如果元素不存在，则会发生错误。</p>
+<p><strong>s.discard(x)</strong>：移除集合中的元素，且如果元素不存在，不会发生错误。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">s = &#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>&#125;</span><br><span class="line">s.add(<span class="number">4</span>) <span class="comment"># 增加元素 4 到集合</span></span><br><span class="line">s</span><br><span class="line">&#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># update()方法</span></span><br><span class="line">s = &#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>&#125;</span><br><span class="line">s1 = &#123;<span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>&#125;</span><br><span class="line">s.update(s1)</span><br><span class="line">print(s)</span><br><span class="line">&#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>&#125;</span><br><span class="line"></span><br><span class="line">s.remove(<span class="number">4</span>) <span class="comment"># 从集合中删除元素 4</span></span><br><span class="line">s</span><br><span class="line">&#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>&#125;</span><br><span class="line">s.remove(<span class="number">6</span>)</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File <span class="string">"&lt;stdin&gt;"</span>, line <span class="number">1</span>, <span class="keyword">in</span> &lt;module&gt;</span><br><span class="line">KeyError: <span class="number">6</span></span><br><span class="line"></span><br><span class="line">s.discard(<span class="number">6</span>)</span><br></pre></td></tr></table></figure>
+<p>不过要注意，集合的 pop() 操作是删除集合中最后一个元素，可是集合本身是无序的，你无法知道会删除哪个元素，因此这个操作得谨慎使用。</p>
+<h2 id="排序-1"><a href="#排序-1" class="headerlink" title="排序"></a>排序</h2><p>而对于集合，其排序和前面讲过的列表、元组很类似，直接调用 sorted(set) 即可，结果会返回一个排好序的列表。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">s = &#123;<span class="number">3</span>, <span class="number">4</span>, <span class="number">2</span>, <span class="number">1</span>&#125;</span><br><span class="line">sorted(s) <span class="comment"># 对集合的元素进行升序排序</span></span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>]</span><br></pre></td></tr></table></figure>
+<h1 id="字典和集合性能"><a href="#字典和集合性能" class="headerlink" title="字典和集合性能"></a>字典和集合性能</h1><hr>
+<p>字典和集合是进行过性能高度优化的数据结构，特别是对于查找、添加和删除操作。那接下来，就来看看，它们在具体场景下的性能表现，以及与列表等其他数据结构的对比。</p>
+<p>比如电商企业的后台，存储了每件产品的ID、名称和价格。现在的需求是，给定某件商品的ID，我们要找出其价格。</p>
+<p>如果我们用列表来存储这些数据结构，并进行查找，相应的代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">find_product_price</span><span class="params">(products, product_id)</span>:</span></span><br><span class="line">    <span class="keyword">for</span> id, price <span class="keyword">in</span> products:</span><br><span class="line">        <span class="keyword">if</span> id == product_id:</span><br><span class="line">            <span class="keyword">return</span> price</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">None</span> </span><br><span class="line">     </span><br><span class="line">products = [</span><br><span class="line">    (<span class="number">143121312</span>, <span class="number">100</span>), </span><br><span class="line">    (<span class="number">432314553</span>, <span class="number">30</span>),</span><br><span class="line">    (<span class="number">32421912367</span>, <span class="number">150</span>) </span><br><span class="line">]</span><br><span class="line"> </span><br><span class="line">print(<span class="string">'The price of product 432314553 is &#123;&#125;'</span>.format(find_product_price(products, <span class="number">432314553</span>)))</span><br><span class="line"> </span><br><span class="line"><span class="comment"># 输出</span></span><br><span class="line">The price of product <span class="number">432314553</span> <span class="keyword">is</span> <span class="number">30</span></span><br></pre></td></tr></table></figure>
+<p>假设列表有 n 个元素，而查找的过程要遍历列表，那么时间复杂度就为 O(n)。即使我们先对列表进行排序，然后使用二分查找，也会需要 O(logn) 的时间复杂度，更何况，列表的排序还需要 O(nlogn) 的时间。</p>
+<p>但如果我们用字典来存储这些数据，那么查找就会非常便捷高效，只需 O(1) 的时间复杂度就可以完成。原因也很简单，刚刚提到过的，字典的内部组成是一张哈希表，你可以直接通过键的哈希值，找到其对应的值。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">products = &#123;</span><br><span class="line">  <span class="number">143121312</span>: <span class="number">100</span>,</span><br><span class="line">  <span class="number">432314553</span>: <span class="number">30</span>,</span><br><span class="line">  <span class="number">32421912367</span>: <span class="number">150</span></span><br><span class="line">&#125;</span><br><span class="line">print(<span class="string">'The price of product 432314553 is &#123;&#125;'</span>.format(products[<span class="number">432314553</span>])) </span><br><span class="line"> </span><br><span class="line"><span class="comment"># 输出</span></span><br><span class="line">The price of product <span class="number">432314553</span> <span class="keyword">is</span> <span class="number">30</span></span><br></pre></td></tr></table></figure>
+<p>类似的，现在需求变成，要找出这些商品有多少种不同的价格。我们还用同样的方法来比较一下。</p>
+<p>如果还是选择使用列表，对应的代码如下，其中，A 和 B 是两层循环。同样假设原始列表有 n 个元素，那么，在最差情况下，需要 O(n^2) 的时间复杂度。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># list version</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">find_unique_price_using_list</span><span class="params">(products)</span>:</span></span><br><span class="line">    unique_price_list = []</span><br><span class="line">    <span class="keyword">for</span> _, price <span class="keyword">in</span> products: <span class="comment"># A</span></span><br><span class="line">        <span class="keyword">if</span> price <span class="keyword">not</span> <span class="keyword">in</span> unique_price_list: <span class="comment">#B</span></span><br><span class="line">            unique_price_list.append(price)</span><br><span class="line">    <span class="keyword">return</span> len(unique_price_list)</span><br><span class="line"> </span><br><span class="line">products = [</span><br><span class="line">    (<span class="number">143121312</span>, <span class="number">100</span>), </span><br><span class="line">    (<span class="number">432314553</span>, <span class="number">30</span>),</span><br><span class="line">    (<span class="number">32421912367</span>, <span class="number">150</span>),</span><br><span class="line">    (<span class="number">937153201</span>, <span class="number">30</span>)</span><br><span class="line">]</span><br><span class="line">print(<span class="string">'number of unique price is: &#123;&#125;'</span>.format(find_unique_price_using_list(products)))</span><br><span class="line"> </span><br><span class="line"><span class="comment"># 输出</span></span><br><span class="line">number of unique price <span class="keyword">is</span>: <span class="number">3</span></span><br></pre></td></tr></table></figure>
+<p>但如果我们选择使用集合这个数据结构，由于集合是高度优化的哈希表，里面元素不能重复，并且其添加和查找操作只需 O(1) 的复杂度，那么，总的时间复杂度就只有 O(n)。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># set version</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">find_unique_price_using_set</span><span class="params">(products)</span>:</span></span><br><span class="line">    unique_price_set = set()</span><br><span class="line">    <span class="keyword">for</span> _, price <span class="keyword">in</span> products:</span><br><span class="line">        unique_price_set.add(price)</span><br><span class="line">    <span class="keyword">return</span> len(unique_price_set)        </span><br><span class="line"> </span><br><span class="line">products = [</span><br><span class="line">    (<span class="number">143121312</span>, <span class="number">100</span>), </span><br><span class="line">    (<span class="number">432314553</span>, <span class="number">30</span>),</span><br><span class="line">    (<span class="number">32421912367</span>, <span class="number">150</span>),</span><br><span class="line">    (<span class="number">937153201</span>, <span class="number">30</span>)</span><br><span class="line">]</span><br><span class="line">print(<span class="string">'number of unique price is: &#123;&#125;'</span>.format(find_unique_price_using_set(products)))</span><br><span class="line"> </span><br><span class="line"><span class="comment"># 输出</span></span><br><span class="line">number of unique price <span class="keyword">is</span>: <span class="number">3</span></span><br></pre></td></tr></table></figure>
+<p>可能你对这些时间复杂度没有直观的认识，我可以举一个实际工作场景中的例子，让你来感受一下。</p>
+<p>下面的代码，初始化了含有 100,000 个元素的产品，并分别计算了使用列表和集合来统计产品价格数量的运行时间：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line">id = [x <span class="keyword">for</span> x <span class="keyword">in</span> range(<span class="number">0</span>, <span class="number">100000</span>)]</span><br><span class="line">price = [x <span class="keyword">for</span> x <span class="keyword">in</span> range(<span class="number">200000</span>, <span class="number">300000</span>)]</span><br><span class="line">products = list(zip(id, price))</span><br><span class="line"> </span><br><span class="line"><span class="comment"># 计算列表版本的时间</span></span><br><span class="line">start_using_list = time.perf_counter()</span><br><span class="line">find_unique_price_using_list(products)</span><br><span class="line">end_using_list = time.perf_counter()</span><br><span class="line">print(<span class="string">"time elapse using list: &#123;&#125;"</span>.format(end_using_list - start_using_list))</span><br><span class="line"><span class="comment">## 输出</span></span><br><span class="line">time elapse using list: <span class="number">70.1450754</span></span><br><span class="line"> </span><br><span class="line"><span class="comment"># 计算集合版本的时间</span></span><br><span class="line">start_using_set = time.perf_counter()</span><br><span class="line">find_unique_price_using_set(products)</span><br><span class="line">end_using_set = time.perf_counter()</span><br><span class="line">print(<span class="string">"time elapse using set: &#123;&#125;"</span>.format(end_using_set - start_using_set))</span><br><span class="line"><span class="comment"># 输出</span></span><br><span class="line">time elapse using set: <span class="number">0.019779799999994907</span></span><br></pre></td></tr></table></figure>
+<p>你可以看到，仅仅十万的数据量，两者的速度差异就如此之大。事实上，大型企业的后台数据往往有上亿乃至十亿数量级，如果使用了不合适的数据结构，就很容易造成服务器的崩溃，不但影响用户体验，并且会给公司带来巨大的财产损失。</p>
+<h1 id="字典和集合的工作原理"><a href="#字典和集合的工作原理" class="headerlink" title="字典和集合的工作原理"></a>字典和集合的工作原理</h1><hr>
+<p>我们通过举例以及与列表的对比，看到了字典和集合操作的高效性。不过，字典和集合为什么能够如此高效，特别是查找、插入和删除操作？</p>
+<p>这当然和字典、集合内部的数据结构密不可分。不同于其他数据结构，字典和集合的内部结构都是一张哈希表。</p>
+<ul>
+<li>对于字典而言，这张表存储了哈希值（hash）、键和值这 3 个元素。</li>
+<li>而对集合来说，区别就是哈希表内没有键和值的配对，只有单一的元素了。</li>
+</ul>
+<p>我们来看，老版本 Python 的哈希表结构如下所示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">--+-------------------------------+</span><br><span class="line">  | 哈希值 (hash)  键 (key)  值 (value)</span><br><span class="line">--+-------------------------------+</span><br><span class="line">0 |    hash0      key0    value0</span><br><span class="line">--+-------------------------------+</span><br><span class="line">1 |    hash1      key1    value1</span><br><span class="line">--+-------------------------------+</span><br><span class="line">2 |    hash2      key2    value2</span><br><span class="line">--+-------------------------------+</span><br><span class="line">. |           ...</span><br><span class="line">__+_______________________________+</span><br></pre></td></tr></table></figure>
+<p>不难想象，随着哈希表的扩张，它会变得越来越稀疏。举个例子，比如我有这样一个字典：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;<span class="string">'name'</span>: <span class="string">'mike'</span>, <span class="string">'dob'</span>: <span class="string">'1999-01-01'</span>, <span class="string">'gender'</span>: <span class="string">'male'</span>&#125;</span><br></pre></td></tr></table></figure>
+<p>那么它会存储为类似下面的形式：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">entries = [</span><br><span class="line">[<span class="string">'--'</span>, <span class="string">'--'</span>, <span class="string">'--'</span>]</span><br><span class="line">[<span class="number">-230273521</span>, <span class="string">'dob'</span>, <span class="string">'1999-01-01'</span>],</span><br><span class="line">[<span class="string">'--'</span>, <span class="string">'--'</span>, <span class="string">'--'</span>],</span><br><span class="line">[<span class="string">'--'</span>, <span class="string">'--'</span>, <span class="string">'--'</span>],</span><br><span class="line">[<span class="number">1231236123</span>, <span class="string">'name'</span>, <span class="string">'mike'</span>],</span><br><span class="line">[<span class="string">'--'</span>, <span class="string">'--'</span>, <span class="string">'--'</span>],</span><br><span class="line">[<span class="number">9371539127</span>, <span class="string">'gender'</span>, <span class="string">'male'</span>]</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<p>这样的设计结构显然非常浪费存储空间。为了提高存储空间的利用率，现在的哈希表除了字典本身的结构，会把索引和哈希值、键、值单独分开，也就是下面这样新的结构：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">Indices</span><br><span class="line">----------------------------------------------------</span><br><span class="line"><span class="literal">None</span> | index | <span class="literal">None</span> | <span class="literal">None</span> | index | <span class="literal">None</span> | index ...</span><br><span class="line">----------------------------------------------------</span><br><span class="line"> </span><br><span class="line">Entries</span><br><span class="line">--------------------</span><br><span class="line">hash0   key0  value0</span><br><span class="line">---------------------</span><br><span class="line">hash1   key1  value1</span><br><span class="line">---------------------</span><br><span class="line">hash2   key2  value2</span><br><span class="line">---------------------</span><br><span class="line">        ...</span><br><span class="line">---------------------</span><br></pre></td></tr></table></figure>
+<p>那么，刚刚的这个例子，在新的哈希表结构下的存储形式，就会变成下面这样：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">indices = [<span class="literal">None</span>, <span class="number">1</span>, <span class="literal">None</span>, <span class="literal">None</span>, <span class="number">0</span>, <span class="literal">None</span>, <span class="number">2</span>]</span><br><span class="line">entries = [</span><br><span class="line">[<span class="number">1231236123</span>, <span class="string">'name'</span>, <span class="string">'mike'</span>],</span><br><span class="line">[<span class="number">-230273521</span>, <span class="string">'dob'</span>, <span class="string">'1999-01-01'</span>],</span><br><span class="line">[<span class="number">9371539127</span>, <span class="string">'gender'</span>, <span class="string">'male'</span>]</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<p>我们可以很清晰地看到，空间利用率得到很大的提高。</p>
+<p>清楚了具体的设计结构，我们接着来看这几个操作的工作原理。</p>
+<h2 id="插入操作"><a href="#插入操作" class="headerlink" title="插入操作"></a>插入操作</h2><p>每次向字典或集合插入一个元素时，Python 会首先计算键的哈希值（hash(key)），再和 mask = PyDicMinSize - 1 做与操作，计算这个元素应该插入哈希表的位置 index = hash(key) &amp; mask。如果哈希表中此位置是空的，那么这个元素就会被插入其中。</p>
+<p>而如果此位置已被占用，Python 便会比较两个元素的哈希值和键是否相等。</p>
+<ul>
+<li>若两者都相等，则表明这个元素已经存在，如果值不同，则更新值。</li>
+<li>若两者中有一个不相等，这种情况我们通常称为哈希冲突（hash collision），意思是两个元素的键不相等，但是哈希值相等。这种情况下，Python 便会继续寻找表中空余的位置，直到找到位置为止。</li>
+</ul>
+<p>值得一提的是，通常来说，遇到这种情况，最简单的方式是线性寻找，即从这个位置开始，挨个往后寻找空位。当然，Python 内部对此进行了优化（这一点无需深入了解，你有兴趣可以查看源码，我就不再赘述），让这个步骤更加高效。</p>
+<h2 id="查找操作"><a href="#查找操作" class="headerlink" title="查找操作"></a>查找操作</h2><p>和前面的插入操作类似，Python 会根据哈希值，找到其应该处于的位置；然后，比较哈希表这个位置中元素的哈希值和键，与需要查找的元素是否相等。如果相等，则直接返回；如果不等，则继续查找，直到找到空位或者抛出异常为止。</p>
+<h2 id="删除操作"><a href="#删除操作" class="headerlink" title="删除操作"></a>删除操作</h2><p>对于删除操作，Python 会暂时对这个位置的元素，赋于一个特殊的值，等到重新调整哈希表的大小时，再将其删除。</p>
+<p>不难理解，哈希冲突的发生，往往会降低字典和集合操作的速度。因此，为了保证其高效性，字典和集合内的哈希表，通常会保证其至少留有 1/3 的剩余空间。随着元素的不停插入，当剩余空间小于 1/3 时，Python 会重新获取更大的内存空间，扩充哈希表。不过，这种情况下，表内所有的元素位置都会被重新排放。</p>
+<p>虽然哈希冲突和哈希表大小的调整，都会导致速度减缓，但是这种情况发生的次数极少。所以，平均情况下，这仍能保证插入、查找和删除的时间复杂度为 O(1)。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><hr>
+<p>字典和集合都是无序的数据结构，其内部的哈希表存储结构，保证了其查找、插入、删除操作的高效性。</p>
+<p>所以，字典和集合通常运用在对元素的高效查找、去重等场景。</p>
+<p><strong>文中示例代码</strong>： <a href="https://github.com/Hanpeng-Chen/python-learning" target="_blank" rel="noopener">python-learning</a></p>
+<p>未完待续，持续更新中……</p>
+
+    </div>
+    <div class="wechat">
+        
+            <strong> 欢迎关注微信公众号： 『前端极客技术』『代码视界』 </strong>
+            <img class="wechat-image" src="https://image.chenhanpeng.com/static/images/web_static_image/article-gzh-qrcode.png" />
+        
+    </div>
+    
+    <div class="reward" ontouchstart>
+    <div class="reward-wrap">赏
+        <div class="reward-box">
+            
+            <span class="reward-type">
+                <img class="alipay" src="https://image.chenhanpeng.com/static/images/web_static_image/donate/alipay_qrcode.png"><b>支付宝打赏</b>
+            </span>
+            
+            
+            <span class="reward-type">
+                <img class="wechat" src="https://image.chenhanpeng.com/static/images/web_static_image/donate/weixin_pay_qrcode.png"><b>微信打赏</b>
+            </span>
+            
+        </div>
+    </div>
+    <p class="reward-tip">
+        赞赏是不耍流氓的鼓励
+    </p>
+</div>
+    
+    <div class="post-footer">
+        <div>
+            
+            转载声明：
+            商业转载请联系作者获得授权,非商业转载请注明出处 © <a href="" target="_blank">代码视界</a>
+            
+            
+        </div>
+        <div>
+            
+        </div>
+    </div>
+</article>
+<div class="article-nav prev-next-wrap clearfix">
+    
+    <a href="/python-5-string/" class="pre-post btn btn-default" title='Python从小白到攻城狮(5)——深入浅出字符串'>
+        <i class="fa fa-angle-left fa-fw"></i><span class="hidden-lg">上一篇</span>
+        <span class="hidden-xs">
+            Python从小白到攻城狮(5)——深入浅出字符串</span>
+    </a>
+    
+    
+    <a href="/python-3-list-and-tuple/" class="next-post btn btn-default" title='Python从小白到攻城狮(3)——列表和元组'>
+        <span class="hidden-lg">下一篇</span>
+        <span class="hidden-xs">
+            Python从小白到攻城狮(3)——列表和元组</span><i class="fa fa-angle-right fa-fw"></i>
+    </a>
+    
+</div>
+
+<!-- google广告 -->
+<!-- <ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-1437849089810081"
+     data-ad-slot="9946365914"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script> -->
+
+
+    <div id="comments">
+        
+<link rel="stylesheet" href="https://cdn.bootcss.com/gitalk/1.7.2/gitalk.min.css">
+<script src="//cdn.bootcss.com/gitalk/1.7.2/gitalk.min.js"></script>
+<script src="//cdn.bootcss.com/blueimp-md5/2.9.0/js/md5.min.js"></script>
+<div id="gitalk-container"></div>
+<script type="text/javascript">
+var gitalk = new Gitalk({
+    // Gitalk配置
+    language: "zh-CN",
+    clientID: "fb80658382dee5240195",
+    clientSecret: "66663a08264192222ba993f20dd7c0a27c1e6fa5",
+    repo: "blog-comments",
+    owner: "Hanpeng-Chen",
+    admin: ["Hanpeng-Chen"],
+    id: md5(location.pathname),
+    distractionFreeMode: true,
+    proxy: "https://cloudflare-cors-anywhere.hanpengchen.workers.dev/?https://github.com/login/oauth/access_token"
+});
+gitalk.render('gitalk-container');
+</script>
+
+    </div>
+
+                </main>
+                
+                    <div class="col-md-4">
+<!-- 方形 -->
+<!-- <ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-1437849089810081"
+     data-ad-slot="2426112279"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script> -->
+</div>
+<aside id="article-toc" role="navigation" class="col-md-4">
+    <div class="widget">
+        <h3 class="title">
+            文章目录
+        </h3>
+        
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#字典-dict"><span class="toc-text">字典(dict)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是字典"><span class="toc-text">什么是字典</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#字典的创建"><span class="toc-text">字典的创建</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#元素访问"><span class="toc-text">元素访问</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#增、删、更新操作"><span class="toc-text">增、删、更新操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#排序"><span class="toc-text">排序</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#集合-set"><span class="toc-text">集合(set)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是集合"><span class="toc-text">什么是集合</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#集合的创建"><span class="toc-text">集合的创建</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#操作"><span class="toc-text">操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#排序-1"><span class="toc-text">排序</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#字典和集合性能"><span class="toc-text">字典和集合性能</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#字典和集合的工作原理"><span class="toc-text">字典和集合的工作原理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#插入操作"><span class="toc-text">插入操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#查找操作"><span class="toc-text">查找操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#删除操作"><span class="toc-text">删除操作</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li></ol>
+        
+    </div>
+</aside>
+                
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+<a id="back-to-top" class="icon-btn hide">
+    <i class="fa fa-chevron-up"></i>
+</a>
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="busuanzi">
+    
+</div>
+            </div>
+            <div class="col-sm-12">
+                <span>Copyright &copy;
+                    2019
+                    
+                </span> |
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> |
+                <span>
+                    Theme by <a href="//github.com/shenliyang/hexo-theme-snippet.git" class="copyright-links" target="_blank" rel="nofollow">Snippet</a>
+                </span>
+                
+                    <span> | </span>
+                    <span>
+                        <a href="//beian.miit.gov.cn/" target="_blank" rel="nofollow">
+                            闽ICP备19010134号-1
+                        </a>
+                    </span>
+                
+                
+                    <span> | </span>
+                    <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=35020302033449" rel="nofollow">
+                        <img src="https://image.chenhanpeng.com/static/images/web_static_image/beian_icon.png" width="20">
+                        <span>闽公网安备 35020302033449号</span>
+                    </a>
+                         
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<script src="/js/app.js?rev=@@hash"></script>
+</body>
+</html>

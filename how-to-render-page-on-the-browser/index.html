@@ -1,0 +1,498 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="代码视界">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="theme-version" content="1.2.3">
+    <meta name="root" content="/">
+    <link rel="dns-prefetch" href="http://www.chenhanpeng.com">
+    <script data-ad-client="ca-pub-1437849089810081" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <!--SEO-->
+
+<meta name="keywords" content="浏览器,渲染流程">
+
+
+<meta name="description" content="在前面一篇文章：「高频面试题」浏览器从输入url到页面展示中间发生了什么 中，我们有对浏览器的渲染流程做了一个概括性的介绍，今天这篇文章我们将深入学习这部分内容。
+对于很多前端开发来说，平常做工...">
+
+
+<meta name="robots" content="all">
+<meta name="google" content="all">
+<meta name="googlebot" content="all">
+<meta name="verify" content="all">
+    <!--Title-->
+
+<title>
+    
+    「浏览器渲染流程」你知道HTML、CSS、JS文件在浏览器中是如何转化成页面的吗？ |
+    
+    代码视界
+</title>
+
+<link rel="alternate" href="/atom.xml" title="代码视界" type="application/atom+xml">
+
+
+<link rel="icon" href="/img/site_logo.jpg">
+
+    
+
+<link rel="stylesheet" href="/css/bootstrap.min.css?rev=3.3.7">
+<link rel="stylesheet" href="/css/font-awesome.min.css?rev=4.7.0">
+<link rel="stylesheet" href="/css/style.css?rev=@@hash">
+    
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?494af80fa01e8939bec179cfddf660d5";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+<script>
+(function(i, s, o, g, r, a, m) {
+    i['GoogleAnalyticsObject'] = r;
+    i[r] = i[r] || function() {
+        (i[r].q = i[r].q || []).push(arguments)
+    }, i[r].l = 1 * new Date();
+    a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0];
+    a.async = 1;
+    a.src = g;
+    m.parentNode.insertBefore(a, m)
+})(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+ga('create', 'UA-142577364-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+
+    
+<meta name="baidu-site-verification" content="rGeweWgWoh">
+
+
+<script>
+(function() {
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    } else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+</head></html>
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+<body>
+    <header class="main-header"  style="background-image:url(
+    https://image.chenhanpeng.com/static/images/web_static_image/banner.jpg)"
+     >
+    <div class="main-header-box">
+        <!-- <a class="header-avatar" href="/" title='Hanpeng Chen'>
+            <img src="/img/avatar.jpg" alt="logo头像" class="img-responsive center-block">
+        </a> -->
+        <a href="/" class="header-title">
+            <h1> 代码视界 </h1>
+        </a>
+        <div class="branding">
+            <!--<h2 class="text-hide">Snippet主题,从未如此简单有趣</h2>-->
+            
+            <h2>
+                Hanpeng Chen的个人博客
+            </h2>
+            
+        </div>
+    </div>
+</header>
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="navbar-header"><span class="nav-toggle-button collapsed pull-right" data-toggle="collapse" data-target="#main-menu" id="mnav">
+                        <span class="sr-only"></span>
+                        <i class="fa fa-bars"></i>
+                    </span>
+                    <a class="navbar-brand" href="http://www.chenhanpeng.com">
+                        代码视界</a>
+                </div>
+                <div class="collapse navbar-collapse" id="main-menu">
+                    <ul class="menu">
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/"><i class="fa "></i>
+                                首页</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/archives/"><i class="fa "></i>
+                                文章列表</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/"><i class="fa "></i>
+                                文章分类</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/tags/"><i class="fa "></i>
+                                文章标签</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/links/"><i class="fa "></i>
+                                友链</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/about/"><i class="fa "></i>
+                                关于作者</a>
+                        </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+                    <p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="「浏览器渲染流程」你知道HTML、CSS、JS文件在浏览器中是如何转化成页面的吗？">
+            
+            「浏览器渲染流程」你知道HTML、CSS、JS文件在浏览器中是如何转化成页面的吗？
+            
+        </h1>
+        <div class="post-meta">
+    
+    <span class="categories-meta fa-wrap">
+        <i class="fa fa-folder-open-o"></i>
+        <a class="category-link" href="/categories/前端/">前端</a> <a class="category-link" href="/categories/前端/浏览器/">浏览器</a>
+    </span>
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-tags"></i>
+        <span class="tags-meta">
+            
+            <a class="tag-link" href="/tags/浏览器/">浏览器</a> <a class="tag-link" href="/tags/渲染流程/">渲染流程</a>
+            
+        </span>
+    </span>
+    
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-clock-o"></i>
+        <span class="date-meta">
+            2021/05/13</span>
+    </span>
+    
+    <span class="fa-wrap">
+        <i class="fa fa-eye"></i>
+        <span id="busuanzi_value_page_pv"></span>
+    </span>
+    
+    
+</div>
+        
+        
+    </div>
+    
+    
+    <div class="post-body post-content">
+        <p>在前面一篇文章：<a href>「高频面试题」浏览器从输入url到页面展示中间发生了什么</a> 中，我们有对浏览器的渲染流程做了一个概括性的介绍，今天这篇文章我们将深入学习这部分内容。</p>
+<p>对于很多前端开发来说，平常做工主要专注于业务开发，对浏览器的渲染阶段可能不是很了解。实际上这个阶段很重要，了解浏览器的渲染过程，能让我们知道我们写的HTML、CSS、JS代码是如何被解析，并最终渲染成一个页面的，在页面性能优化的时候有相应的解决思路。</p>
+<p>我们先来看一个问题：</p>
+<blockquote>
+<p>HTML、CSS、JS文件在浏览器中是如何转化成页面的？</p>
+</blockquote>
+<p>如果你回答不上来，那就往下看吧。</p>
+<p>按照渲染的时间顺序，渲染过程可以分为下面几个子阶段：构建DOM树、样式计算、布局阶段、分层、栅格化和合成显示。</p>
+<p>下面详细看下每个子阶段都做了哪些事情。</p>
+<h2 id="1-构建DOM树"><a href="#1-构建DOM树" class="headerlink" title="1. 构建DOM树"></a>1. 构建DOM树</h2><p>HTML文档描述一个页面的结构，但是浏览器无法直接理解和使用HTML，所以需要通过<code>HTML解析器</code>将HTML转换成浏览器能够理解的结构——DOM树。</p>
+<p>HTML文档中所有内容皆为节点，各节点之间有层级关系，彼此相连，构成DOM树。</p>
+<p>构建过程：读取HTML文档的字节(Bytes)，将字节转换成字符(Chars)，依据字符确定标签(Tokens)，将标签转换成节点(Nodes)，以节点为基准构建DOM树。参考下图：</p>
+<p><img src="https://gitee.com/HanpengChen/blog-images/raw/master/blogImages/2021/20210512074020.png" alt></p>
+<p>打开Chrome的开发者工具，在控制台输入 <code>document</code> 后回车，就能看到一个完整的DOM树结构，如下图所示：</p>
+<p><img src="https://gitee.com/HanpengChen/blog-images/raw/master/blogImages/2021/summer/20210512112935.png" alt></p>
+<p>在控制台打印出来的DOM结构和HTML内容几乎一样，但和HTML不同的是，<strong>DOM是保存在内存中的树状结构</strong>，可以通过JavaScript来查询或修改其内容。</p>
+<h2 id="2-样式计算"><a href="#2-样式计算" class="headerlink" title="2. 样式计算"></a>2. 样式计算</h2><p>样式计算这个阶段，是为了计算出DOM节点中每个元素的表现样式。</p>
+<h3 id="2-1-解析CSS"><a href="#2-1-解析CSS" class="headerlink" title="2.1 解析CSS"></a>2.1 解析CSS</h3><p>CSS样式可以通过下面三种方式引入：</p>
+<ul>
+<li>通过link引用外部的CSS文件</li>
+<li>style 标签内的CSS</li>
+<li>元素的style属性内嵌的CSS</li>
+</ul>
+<p>和HTML一样，浏览器无法直接理解纯文本的CSS样式，需要通过<code>CSS解析器</code>将CSS解析成 <code>styleSheets</code> 结构，也就是我们常说的 <code>CSSOM树</code>。</p>
+<p>styleSheets结构同样具备查询和修改功能：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">document</span>.styleSheets</span><br></pre></td></tr></table></figure></p>
+<p><img src="https://gitee.com/HanpengChen/blog-images/raw/master/blogImages/2021/summer/20210512115223.png" alt></p>
+<h3 id="2-2-属性值标准化"><a href="#2-2-属性值标准化" class="headerlink" title="2.2 属性值标准化"></a>2.2 属性值标准化</h3><p>属性值标准化看字面意思有点不好理解，我们通过下面一个例子来看看什么是属性值标准化：</p>
+<p>在写CSS样式的时候，我们在设置color属性值的时候，经常会用white、red等，但是这种值浏览器的渲染引擎不容易理解，所以需要将所有值转换成渲染引擎容易理解的、标准化的计算值，这个过程就是属性值标准化。</p>
+<blockquote>
+<p>white标准化后的值为 rgb(255, 255, 255)</p>
+</blockquote>
+<h3 id="2-3-计算DOM树中每个节点的样式"><a href="#2-3-计算DOM树中每个节点的样式" class="headerlink" title="2.3 计算DOM树中每个节点的样式"></a>2.3 计算DOM树中每个节点的样式</h3><p>完成样式的属性值标准化后，就需要计算每个节点的样式属性，这个阶段CSS有两个规则我们需要清楚：</p>
+<ul>
+<li>继承规则：每个DOM节点都包含有父节点的样式</li>
+<li>层叠规则：层叠是CSS的一个基本特征，是一个定义了如何合并来自多个源的属性值的算法。</li>
+</ul>
+<p>样式计算阶段是为了计算出DOM节点中每个元素的具体样式，在计算过程中需要遵守CSS的继承和层叠两个规则。</p>
+<p>该阶段最终输出的内容是每个DOM节点的样式，并被保存在 ComputedStyle 的结构中。</p>
+<h2 id="3-布局阶段"><a href="#3-布局阶段" class="headerlink" title="3. 布局阶段"></a>3. 布局阶段</h2><p>经过上面的两个步骤，我们已经拿到了DOM树和DOM树中元素的样式，接下来需要计算DOM树中可见元素的几何位置，这个计算过程就是布局。</p>
+<h3 id="3-1-创建布局树"><a href="#3-1-创建布局树" class="headerlink" title="3.1 创建布局树"></a>3.1 创建布局树</h3><p>在DOM树中包含了一些不可见的元素，例如 head 标签，设置了 display:none 属性的元素，所以我们需要额外构建一棵只包含可见元素的布局树。</p>
+<p>构建过程：从DOM树的根节点开始遍历，将所有可见的节点加到布局树中，忽略不可见的节点。</p>
+<p><img src="https://gitee.com/HanpengChen/blog-images/raw/master/blogImages/2021/20210513075023.png" alt></p>
+<h3 id="3-2-布局计算"><a href="#3-2-布局计算" class="headerlink" title="3.2 布局计算"></a>3.2 布局计算</h3><p>到这里我们就有了一棵构建好的布局树，就可以开始计算布局树节点的坐标位置了。从根节点开始遍历，结合上面计算得到的样式，确定每个节点对象在页面上的具体大小和位置，将这些信息保存在布局树中。</p>
+<p>布局阶段的输出是一个盒子模型，它会精确地捕获每个元素在屏幕内的确切位置与大小。</p>
+<h2 id="4-分层"><a href="#4-分层" class="headerlink" title="4. 分层"></a>4. 分层</h2><p>现在我们已经有了布局树，也知道了每个元素的具体位置信息，但是还不能开始绘制页面，因为页面中会有像3D变换、页面滚动、或者用 z-index 进行z轴排序等复杂效果，为了更方便实现这些效果，渲染引擎还需要为特定的节点生成专用的图层，并生成一棵对应的图层树(LayerTree)。</p>
+<p>在Chrome浏览器中，我们可以打开开发者工具，选择 Elements-Layers 标签，就可以看到页面的分层情况，如下图所示：<br><img src="https://gitee.com/HanpengChen/blog-images/raw/master/blogImages/2021/20210513062531.png" alt></p>
+<p>浏览器的页面实际上被分成了很多图层，这些图层叠加后合成了最终的页面。</p>
+<p>到这里，我们构建了两棵树：布局树和图层树。下面我们来看下这两颗树之间的关系：</p>
+<p><img src="https://gitee.com/HanpengChen/blog-images/raw/master/blogImages/2021/20210513062934.png" alt></p>
+<p>正常情况下，并不是布局树的每个节点都包含一个图层，如果一个节点没有对应的图层，那么这个节点就从属于父节点的图层。</p>
+<p>那节点要满足什么条件才会被提升为一个单独的图层？只要满足下面其中一个条件即可：</p>
+<ul>
+<li><ol>
+<li>拥有层叠上下文属性的元素会被提升为单独的一个图层</li>
+</ol>
+</li>
+<li><ol start="2">
+<li>需要剪裁(clip)的地方也会被创建为图层。</li>
+</ol>
+</li>
+</ul>
+<h2 id="5-图层绘制"><a href="#5-图层绘制" class="headerlink" title="5. 图层绘制"></a>5. 图层绘制</h2><p>构建好图层树之后，渲染引擎就会对图层树中的每个图层进行绘制。</p>
+<p>渲染引擎实现图层绘制，会把一个图层的绘制拆分成很多小的绘制指令，然后将这些指令按照顺序组成一个待绘制列表。</p>
+<h2 id="6-栅格化-raster-操作"><a href="#6-栅格化-raster-操作" class="headerlink" title="6. 栅格化(raster)操作"></a>6. 栅格化(raster)操作</h2><p>绘制一个图层时会生成一个绘制列表，这只是用来记录绘制顺序和绘制指令的列表，实际上绘制操作是由渲染引擎中的合成线程来完成的。</p>
+<p>通过下图来看下渲染主线程和合成线程之间的关系：</p>
+<p><img src="https://gitee.com/HanpengChen/blog-images/raw/master/blogImages/2021/20210513064421.png" alt></p>
+<p>当图层的绘制列表准备好后，主线程会把该绘制列表提交给合成线程，合成线程开始工作。</p>
+<p>首先合成线程会将图层划分为图块(tile)，图块大小通常是 256<em>256 或者 512</em>512。</p>
+<p>然后合成线程会按照视口附近的图块来优先生成位图，实际生成位图的操作是由栅格化来执行的。所谓栅格化，是指将图块转换为位图。而图块是栅格化执行的最小单位。渲染进程维护了一个栅格化的线程池，所有的图块栅格化都是在线程池内执行的，运行方式如下图所示：</p>
+<p><img src="https://gitee.com/HanpengChen/blog-images/raw/master/blogImages/2021/20210513064851.png" alt></p>
+<h2 id="7-合成和显示"><a href="#7-合成和显示" class="headerlink" title="7. 合成和显示"></a>7. 合成和显示</h2><p>一旦所有图块都被光栅化，合成线程就会生成一个绘制图块的命令——“DrawQuad”，然后将该命令提交给浏览器进程。</p>
+<p>浏览器进程里面有一个叫 viz 的组件，用来接收合成线程发过来的 DrawQuad 命令，然后根据 DrawQuad 命令，将其页面内容绘制到内存中，最后再将内存显示在屏幕上。</p>
+<h2 id="8-总结"><a href="#8-总结" class="headerlink" title="8. 总结"></a>8. 总结</h2><p>一个完整的渲染流程可以总结如下：</p>
+<ul>
+<li><p>1、渲染进程将HTML内容转换为浏览器能够读懂的DOM树结构。</p>
+</li>
+<li><p>2、渲染引擎将CSS样式表转化为浏览器可以理解的styleSheets，计算出DOM节点的样式。</p>
+</li>
+<li><p>3、创建布局树，并计算元素的布局信息。</p>
+</li>
+<li><p>4、对布局树进行分层，并生成分层树。</p>
+</li>
+<li><p>5、为每个图层生成绘制列表，并将其提交到合成线程。</p>
+</li>
+<li><p>6、合成线程将图层分图块，并栅格化将图块转换成位图。</p>
+</li>
+<li><p>7、合成线程发送绘制图块命令给浏览器进程。浏览器进程根据指令生成页面，并显示到显示器上。</p>
+</li>
+</ul>
+<p>渲染过程中还有两个我们经常听到的概念：重排和重绘。在这篇文章中就不细说，下一篇文章再详细介绍。</p>
+
+    </div>
+    <div class="wechat">
+        
+            <strong> 欢迎关注微信公众号： 『前端极客技术』『代码视界』 </strong>
+            <img class="wechat-image" src="https://image.chenhanpeng.com/static/images/web_static_image/article-gzh-qrcode.png" />
+        
+    </div>
+    
+    <div class="reward" ontouchstart>
+    <div class="reward-wrap">赏
+        <div class="reward-box">
+            
+            <span class="reward-type">
+                <img class="alipay" src="https://image.chenhanpeng.com/static/images/web_static_image/donate/alipay_qrcode.png"><b>支付宝打赏</b>
+            </span>
+            
+            
+            <span class="reward-type">
+                <img class="wechat" src="https://image.chenhanpeng.com/static/images/web_static_image/donate/weixin_pay_qrcode.png"><b>微信打赏</b>
+            </span>
+            
+        </div>
+    </div>
+    <p class="reward-tip">
+        赞赏是不耍流氓的鼓励
+    </p>
+</div>
+    
+    <div class="post-footer">
+        <div>
+            
+            转载声明：
+            商业转载请联系作者获得授权,非商业转载请注明出处 © <a href="" target="_blank">代码视界</a>
+            
+            
+        </div>
+        <div>
+            
+        </div>
+    </div>
+</article>
+<div class="article-nav prev-next-wrap clearfix">
+    
+    <a href="/fe-books-recommendation-and-share/" class="pre-post btn btn-default" title='前端必读书籍推荐和海量前端学习资源分享'>
+        <i class="fa fa-angle-left fa-fw"></i><span class="hidden-lg">上一篇</span>
+        <span class="hidden-xs">
+            前端必读书籍推荐和海量前端学习资源分享</span>
+    </a>
+    
+    
+    <a href="/create-own-cors-anywhere-to-resolve-the-request-with-403/" class="next-post btn btn-default" title='在cloudflare上创建一个免费的在线代理来解决gitalk授权登录报403问题'>
+        <span class="hidden-lg">下一篇</span>
+        <span class="hidden-xs">
+            在cloudflare上创建一个免费的在线代理来解决gitalk授权登录报403问题</span><i class="fa fa-angle-right fa-fw"></i>
+    </a>
+    
+</div>
+
+<!-- google广告 -->
+<!-- <ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-1437849089810081"
+     data-ad-slot="9946365914"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script> -->
+
+
+    <div id="comments">
+        
+<link rel="stylesheet" href="https://cdn.bootcss.com/gitalk/1.7.2/gitalk.min.css">
+<script src="//cdn.bootcss.com/gitalk/1.7.2/gitalk.min.js"></script>
+<script src="//cdn.bootcss.com/blueimp-md5/2.9.0/js/md5.min.js"></script>
+<div id="gitalk-container"></div>
+<script type="text/javascript">
+var gitalk = new Gitalk({
+    // Gitalk配置
+    language: "zh-CN",
+    clientID: "fb80658382dee5240195",
+    clientSecret: "66663a08264192222ba993f20dd7c0a27c1e6fa5",
+    repo: "blog-comments",
+    owner: "Hanpeng-Chen",
+    admin: ["Hanpeng-Chen"],
+    id: md5(location.pathname),
+    distractionFreeMode: true,
+    proxy: "https://cloudflare-cors-anywhere.hanpengchen.workers.dev/?https://github.com/login/oauth/access_token"
+});
+gitalk.render('gitalk-container');
+</script>
+
+    </div>
+
+                </main>
+                
+                    <div class="col-md-4">
+<!-- 方形 -->
+<!-- <ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-1437849089810081"
+     data-ad-slot="2426112279"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script> -->
+</div>
+<aside id="article-toc" role="navigation" class="col-md-4">
+    <div class="widget">
+        <h3 class="title">
+            文章目录
+        </h3>
+        
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-构建DOM树"><span class="toc-text">1. 构建DOM树</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-样式计算"><span class="toc-text">2. 样式计算</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-解析CSS"><span class="toc-text">2.1 解析CSS</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-属性值标准化"><span class="toc-text">2.2 属性值标准化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-计算DOM树中每个节点的样式"><span class="toc-text">2.3 计算DOM树中每个节点的样式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-布局阶段"><span class="toc-text">3. 布局阶段</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-创建布局树"><span class="toc-text">3.1 创建布局树</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-布局计算"><span class="toc-text">3.2 布局计算</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-分层"><span class="toc-text">4. 分层</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-图层绘制"><span class="toc-text">5. 图层绘制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-栅格化-raster-操作"><span class="toc-text">6. 栅格化(raster)操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-合成和显示"><span class="toc-text">7. 合成和显示</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-总结"><span class="toc-text">8. 总结</span></a></li></ol>
+        
+    </div>
+</aside>
+                
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+<a id="back-to-top" class="icon-btn hide">
+    <i class="fa fa-chevron-up"></i>
+</a>
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="busuanzi">
+    
+</div>
+            </div>
+            <div class="col-sm-12">
+                <span>Copyright &copy;
+                    2019
+                    
+                </span> |
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> |
+                <span>
+                    Theme by <a href="//github.com/shenliyang/hexo-theme-snippet.git" class="copyright-links" target="_blank" rel="nofollow">Snippet</a>
+                </span>
+                
+                    <span> | </span>
+                    <span>
+                        <a href="//beian.miit.gov.cn/" target="_blank" rel="nofollow">
+                            闽ICP备19010134号-1
+                        </a>
+                    </span>
+                
+                
+                    <span> | </span>
+                    <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=35020302033449" rel="nofollow">
+                        <img src="https://image.chenhanpeng.com/static/images/web_static_image/beian_icon.png" width="20">
+                        <span>闽公网安备 35020302033449号</span>
+                    </a>
+                         
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<script src="/js/app.js?rev=@@hash"></script>
+</body>
+</html>

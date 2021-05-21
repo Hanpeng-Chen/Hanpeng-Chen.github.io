@@ -1,0 +1,500 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="代码视界">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="theme-version" content="1.2.3">
+    <meta name="root" content="/">
+    <link rel="dns-prefetch" href="http://www.chenhanpeng.com">
+    <script data-ad-client="ca-pub-1437849089810081" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <!--SEO-->
+
+<meta name="keywords" content="JavaScript,手写源码">
+
+
+<meta name="description" content="
+作者：Hanpeng_Chen
+公众号：前端极客技术
+
+apply、call和bind这三个方法在函数原型链中是比较重要的概念，和this关键字密切相关。如果你对这三个方法还不是很清楚的话，那...">
+
+
+<meta name="robots" content="all">
+<meta name="google" content="all">
+<meta name="googlebot" content="all">
+<meta name="verify" content="all">
+    <!--Title-->
+
+<title>
+    
+    JS中的apply、call、bind你掌握了吗？一起来手写实现这三个方法吧 |
+    
+    代码视界
+</title>
+
+<link rel="alternate" href="/atom.xml" title="代码视界" type="application/atom+xml">
+
+
+<link rel="icon" href="/img/site_logo.jpg">
+
+    
+
+<link rel="stylesheet" href="/css/bootstrap.min.css?rev=3.3.7">
+<link rel="stylesheet" href="/css/font-awesome.min.css?rev=4.7.0">
+<link rel="stylesheet" href="/css/style.css?rev=@@hash">
+    
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?494af80fa01e8939bec179cfddf660d5";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+<script>
+(function(i, s, o, g, r, a, m) {
+    i['GoogleAnalyticsObject'] = r;
+    i[r] = i[r] || function() {
+        (i[r].q = i[r].q || []).push(arguments)
+    }, i[r].l = 1 * new Date();
+    a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0];
+    a.async = 1;
+    a.src = g;
+    m.parentNode.insertBefore(a, m)
+})(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+ga('create', 'UA-142577364-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+
+    
+<meta name="baidu-site-verification" content="rGeweWgWoh">
+
+
+<script>
+(function() {
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    } else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+</head></html>
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+<body>
+    <header class="main-header"  style="background-image:url(
+    https://image.chenhanpeng.com/static/images/web_static_image/banner.jpg)"
+     >
+    <div class="main-header-box">
+        <!-- <a class="header-avatar" href="/" title='Hanpeng Chen'>
+            <img src="/img/avatar.jpg" alt="logo头像" class="img-responsive center-block">
+        </a> -->
+        <a href="/" class="header-title">
+            <h1> 代码视界 </h1>
+        </a>
+        <div class="branding">
+            <!--<h2 class="text-hide">Snippet主题,从未如此简单有趣</h2>-->
+            
+            <h2>
+                Hanpeng Chen的个人博客
+            </h2>
+            
+        </div>
+    </div>
+</header>
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="navbar-header"><span class="nav-toggle-button collapsed pull-right" data-toggle="collapse" data-target="#main-menu" id="mnav">
+                        <span class="sr-only"></span>
+                        <i class="fa fa-bars"></i>
+                    </span>
+                    <a class="navbar-brand" href="http://www.chenhanpeng.com">
+                        代码视界</a>
+                </div>
+                <div class="collapse navbar-collapse" id="main-menu">
+                    <ul class="menu">
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/"><i class="fa "></i>
+                                首页</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/archives/"><i class="fa "></i>
+                                文章列表</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/"><i class="fa "></i>
+                                文章分类</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/tags/"><i class="fa "></i>
+                                文章标签</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/links/"><i class="fa "></i>
+                                友链</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/about/"><i class="fa "></i>
+                                关于作者</a>
+                        </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+                    <p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="JS中的apply、call、bind你掌握了吗？一起来手写实现这三个方法吧">
+            
+            JS中的apply、call、bind你掌握了吗？一起来手写实现这三个方法吧
+            
+        </h1>
+        <div class="post-meta">
+    
+    <span class="categories-meta fa-wrap">
+        <i class="fa fa-folder-open-o"></i>
+        <a class="category-link" href="/categories/前端/">前端</a> <a class="category-link" href="/categories/前端/JavaScript/">JavaScript</a> <a class="category-link" href="/categories/前端/原理源码/">原理源码</a>
+    </span>
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-tags"></i>
+        <span class="tags-meta">
+            
+            <a class="tag-link" href="/tags/JavaScript/">JavaScript</a> <a class="tag-link" href="/tags/手写源码/">手写源码</a>
+            
+        </span>
+    </span>
+    
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-clock-o"></i>
+        <span class="date-meta">
+            2021/04/21</span>
+    </span>
+    
+    <span class="fa-wrap">
+        <i class="fa fa-eye"></i>
+        <span id="busuanzi_value_page_pv"></span>
+    </span>
+    
+    
+</div>
+        
+        
+    </div>
+    
+    
+    <div class="post-body post-content">
+        <blockquote>
+<p>作者：Hanpeng_Chen</p>
+<p>公众号：<strong>前端极客技术</strong></p>
+</blockquote>
+<p>apply、call和bind这三个方法在函数原型链中是比较重要的概念，和this关键字密切相关。如果你对这三个方法还不是很清楚的话，那么认真地阅读这篇文章吧，让我们一起来彻底掌握它们吧！</p>
+<p>在开始介绍apply/call/bind 这三个方法之前，我们需要先来了解一下JS中的this指向问题。</p>
+<h2 id="this指向"><a href="#this指向" class="headerlink" title="this指向"></a>this指向</h2><p>在ES5中，我们只要牢记一句话：this永远指向最后调用它的那个对象，那么对于this的指向问题就比较好理解了。</p>
+<h3 id="直接函数调用"><a href="#直接函数调用" class="headerlink" title="直接函数调用"></a>直接函数调用</h3><p>我们先来看一个例子：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> name = <span class="string">'global name'</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getName</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> name = <span class="string">'function name'</span>;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'in function'</span>, <span class="keyword">this</span>);</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="keyword">this</span>.name);</span><br><span class="line">&#125;</span><br><span class="line">getName();</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'out function'</span>, <span class="keyword">this</span>)</span><br></pre></td></tr></table></figure></p>
+<p>在浏览器控制台执行结果如下图所示：<br><img src="https://gitee.com/HanpengChen/blog-images/raw/master/blogImages/2021/20210420214029.png" alt></p>
+<p>我们可以看到在全局环境中直接调用函数getName()相当于<code>window.getName()</code>，调用它的是全局对象window，所以this对象指向全局对象，也就是window对象。</p>
+<h3 id="对象函数调用"><a href="#对象函数调用" class="headerlink" title="对象函数调用"></a>对象函数调用</h3><p>我们再看下面这个例子：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> name = <span class="string">'global name'</span>;</span><br><span class="line"><span class="keyword">var</span> obj = &#123;</span><br><span class="line">  name: <span class="string">'object name'</span>,</span><br><span class="line">  getName: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>); <span class="comment">// &#123;name: "object name", getName: ƒ&#125;</span></span><br><span class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>.name); <span class="comment">// object name</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">obj.getName();</span><br></pre></td></tr></table></figure></p>
+<p>在上面这个例子中，函数 getName 时对象 obj 调用的，所以在 getName 函数中打印的 this 是 obj 对象本身，this.name 是 <code>object name</code>。</p>
+<p>我们将上面的代码进行如下改造：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> name = <span class="string">"global name"</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getName</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="keyword">this</span>.name);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> obj = &#123;</span><br><span class="line">  name: <span class="string">"object name"</span></span><br><span class="line">&#125;;</span><br><span class="line">obj.getName = getName;</span><br><span class="line">obj.getName(); <span class="comment">// object name</span></span><br><span class="line">getName(); <span class="comment">// global name</span></span><br></pre></td></tr></table></figure></p>
+<p>在上面代码中，我们将 <code>getName</code> 函数的指针赋值给 <code>obj.getName</code>，<code>obj.getName()</code> 是对象函数调用方法，this指向obj本身，所以打印的this.name是 object name。</p>
+<p>而全局环境调用<code>getName()</code>，等同于 <code>window.getName()</code>，打印的也就是 global name。</p>
+<p>从上面两个示例我们可以总结出：对象函数调用，this指针指向调用函数的对象本身。</p>
+<h3 id="构造函数调用"><a href="#构造函数调用" class="headerlink" title="构造函数调用"></a>构造函数调用</h3><p>接下来我们来看下构造函数里面this指针的指向问题，还是先看下面的示例代码：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">NewObject</span>(<span class="params">name</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.name = name;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="keyword">this</span>.name)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> obj = <span class="keyword">new</span> NewObject(<span class="string">'obj'</span>)</span><br></pre></td></tr></table></figure></p>
+<p>从上面例子我们可以看出：构造函数中的this指向新创建的对象本身，所以上面例子打印出来的name为 obj。</p>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><ul>
+<li>直接函数调用，this指针指向全局环境；</li>
+<li>对象函数调用，this指针指向调用函数的对象本身；</li>
+<li>构造函数调用，this指针指向新创建的对象本身。</li>
+</ul>
+<h2 id="改变this的指向的几种方法"><a href="#改变this的指向的几种方法" class="headerlink" title="改变this的指向的几种方法"></a>改变this的指向的几种方法</h2><p>改变this的指向的方法主要有以下几种：</p>
+<ul>
+<li>使用ES6中的箭头函数</li>
+<li>在函数内部使用 _this = this</li>
+<li>使用apply、call、bind</li>
+<li>new实例化一个对象</li>
+</ul>
+<h3 id="箭头函数"><a href="#箭头函数" class="headerlink" title="箭头函数"></a>箭头函数</h3><p>箭头函数中的this只取决于它外面的第一个不是箭头函数的函数的this，并且箭头函数的this一旦绑定了上下文，就不会被任何代码改变。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">          	<span class="built_in">console</span>.log(<span class="keyword">this</span>.a);  </span><br><span class="line">        &#125;;  </span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> a = <span class="number">2</span>;</span><br><span class="line"><span class="built_in">console</span>.log(foo()()()); <span class="comment">// 2</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="在函数内部使用-this-this"><a href="#在函数内部使用-this-this" class="headerlink" title="在函数内部使用 _this = this"></a>在函数内部使用 _this = this</h3><p>先将调用这个函数的对象保存在变量 _this 中，然后在函数中都使用这个 _this，这样 _this 就不会改变了。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> name = <span class="string">'global name'</span></span><br><span class="line"><span class="keyword">var</span> obj = &#123;</span><br><span class="line">  name: <span class="string">'obj name'</span>,</span><br><span class="line">  fn1: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>.name);</span><br><span class="line">  &#125;,</span><br><span class="line">  fn2: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> _this = <span class="keyword">this</span></span><br><span class="line">    setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">      _this.fn1()</span><br><span class="line">    &#125;, <span class="number">1000</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">obj.fn2() <span class="comment">// obj name</span></span><br></pre></td></tr></table></figure>
+<p>在上面的例子中，如果fn2函数不通过_this变量保存上下文，而是在setTimeout延时函数中直接使用this的话，这时的this指向的是window，但是window对象上并没有定义fn1函数，程序就会报错。</p>
+<h3 id="new实例化一个对象"><a href="#new实例化一个对象" class="headerlink" title="new实例化一个对象"></a>new实例化一个对象</h3><p>这个我们在上面构造函数调用中已经介绍过了，new实例化一个对象，this指针指向新创建的对象本身。</p>
+<p>接下来我们一起来看看apply、call、bind的使用及其原理。</p>
+<h2 id="apply、call、bind-基本介绍"><a href="#apply、call、bind-基本介绍" class="headerlink" title="apply、call、bind 基本介绍"></a>apply、call、bind 基本介绍</h2><p><strong>基本语法：</strong><br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">fn.apply(thisArg, [p1, p2, ...])</span><br><span class="line">fn.call(thisArg, p1, p2, ...)</span><br><span class="line">fn.bind(thisArg, p1, p2, ...)</span><br></pre></td></tr></table></figure></p>
+<p>这三个方法是挂在Function对象上的，<strong>调用这三个方法的必须是一个函数。</strong></p>
+<p>这三个方法的共有作用：<strong>改变函数fn的this指向</strong>。</p>
+<p>call和apply的区别在于:传参的写法不同，apply的第2个参数是数组，call则是从第2个至第n个都是给fn的传参。</p>
+<p>bind和上面两个方法又有所不同，bind虽然改变了fn的this指向，但不是马上执行，而apply和call是在改变了this指向后立即执行。</p>
+<h2 id="apply-call-bind的核心理念：借用方法"><a href="#apply-call-bind的核心理念：借用方法" class="headerlink" title="apply/call/bind的核心理念：借用方法"></a>apply/call/bind的核心理念：借用方法</h2><p>我们先来看下面apply、call、bind这三个方法的简单示例：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> dog = &#123;</span><br><span class="line">  name: <span class="string">'dog'</span>,</span><br><span class="line">  getDetail: <span class="function"><span class="keyword">function</span> (<span class="params">count</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">`<span class="subst">$&#123;<span class="keyword">this</span>.name&#125;</span> has <span class="subst">$&#123;count&#125;</span> legs`</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> bird = &#123;</span><br><span class="line">  name: <span class="string">'bird'</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> frog = &#123;</span><br><span class="line">  name: <span class="string">'frog'</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(dog.getDetail(<span class="number">4</span>)); <span class="comment">// dog has 4 legs</span></span><br><span class="line"><span class="built_in">console</span>.log(dog.getDetail.apply(bird, [<span class="number">2</span>])); <span class="comment">// bird has 2 legs</span></span><br><span class="line"><span class="built_in">console</span>.log(dog.getDetail.call(frog, <span class="number">3</span>)); <span class="comment">// frog has 3 legs</span></span><br><span class="line"><span class="keyword">let</span> bird1 = dog.getDetail.bind(bird);</span><br><span class="line"><span class="built_in">console</span>.log(bird1(<span class="number">2</span>)); <span class="comment">// bird has 2 legs</span></span><br></pre></td></tr></table></figure></p>
+<p>在上面代码中，dog对象有一个 <code>getDetail</code> 的方法，对象bird和frog也需要临时使用同样的方法，那么这时候我们可以借用dog对象的getDetail方法，这样既能达到目的，也能节省重复定义，节约内存空间。</p>
+<p>这就是这三个方法的核心理念：借用方法。</p>
+<h2 id="手写实现apply、call和bind"><a href="#手写实现apply、call和bind" class="headerlink" title="手写实现apply、call和bind"></a>手写实现apply、call和bind</h2><p>在大厂面试中，手写实现一个apply/call/bind是一道高频面试题，接下来我们一起来实现这三个方法：</p>
+<h3 id="apply的实现"><a href="#apply的实现" class="headerlink" title="apply的实现"></a>apply的实现</h3><p>根据上面apply的原理和其借用方法的理念，我们来整理一下实现 apply 方法的思路：</p>
+<ol>
+<li><p>通过设置context的属性，将函数的this指向隐式绑定到 context上；</p>
+</li>
+<li><p>通过隐式绑定执行函数并传递参数；</p>
+</li>
+<li><p>删除临时属性，返回函数执行结果。</p>
+</li>
+</ol>
+<p>具体实现代码如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Function</span>.prototype.apply = <span class="function"><span class="keyword">function</span>(<span class="params">context, args</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (context === <span class="literal">null</span> || context === <span class="literal">undefined</span>) &#123;</span><br><span class="line">    context = <span class="built_in">window</span></span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    context = <span class="built_in">Object</span>(context) <span class="comment">// 值为原始值（数字，字符串，布尔值）的 this 会指向该原始值的实例对象</span></span><br><span class="line">  &#125;</span><br><span class="line">  context.fn = <span class="keyword">this</span>;</span><br><span class="line">  <span class="keyword">let</span> result = <span class="built_in">eval</span>(<span class="string">'context.fn(...args)'</span>);</span><br><span class="line">  <span class="comment">// 删除添加的函数</span></span><br><span class="line">  <span class="keyword">delete</span> context.fn;</span><br><span class="line">  <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>从上面的代码可以看出，实现apply的关键在于 <code>eval</code> 这行代码。其中显示了用context这个临时变量来指定上下文，然后还是通过执行 <code>eval</code> 来执行 <code>context.fn</code> 这个函数，最后返回result。</p>
+<p>如果不使用eval，我们还有下面的实现方式：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Function</span>.prototype.apply = <span class="function"><span class="keyword">function</span> (<span class="params">context, args</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (context === <span class="literal">null</span> || context === <span class="literal">undefined</span>) &#123;</span><br><span class="line">    context = <span class="built_in">window</span>;</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    context = <span class="built_in">Object</span>(context); <span class="comment">// 值为原始值（数字，字符串，布尔值）的 this 会指向该原始值的实例对象</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 给context新增一个独一无二的属性以免覆盖原来属性</span></span><br><span class="line">  <span class="keyword">let</span> fn = <span class="built_in">Symbol</span>();</span><br><span class="line">  context[fn] = <span class="keyword">this</span>;</span><br><span class="line">  <span class="comment">// 通过隐式绑定的方式调用函数</span></span><br><span class="line">  <span class="keyword">let</span> result = context[fn](...args);</span><br><span class="line">  <span class="comment">// 删除添加的函数</span></span><br><span class="line">  <span class="keyword">delete</span> context[fn];</span><br><span class="line">  <span class="keyword">return</span> result;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>使用Symbol临时存储函数，避免了跟上下文对象的原属性冲突的风险。</p>
+<h3 id="call的实现"><a href="#call的实现" class="headerlink" title="call的实现"></a>call的实现</h3><p>call和apply基本原理差不多，只是参数存在区别，这里我们不再细说，直接看call方法的实现代码：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Function</span>.prototype.call = <span class="function"><span class="keyword">function</span>(<span class="params">context, ...args</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (context === <span class="literal">null</span> || context === <span class="literal">undefined</span>) &#123;</span><br><span class="line">    context = <span class="built_in">window</span></span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    context = <span class="built_in">Object</span>(context)</span><br><span class="line">  &#125;</span><br><span class="line">  context.fn = <span class="keyword">this</span>;</span><br><span class="line">  <span class="keyword">let</span> result = <span class="built_in">eval</span>(<span class="string">'context.fn(...args)'</span>);</span><br><span class="line">  <span class="keyword">delete</span> context.fn;</span><br><span class="line">  <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="bind的实现"><a href="#bind的实现" class="headerlink" title="bind的实现"></a>bind的实现</h3><p>bind方法和其它两个方法的区别在于：bind方法是返回一个函数，而其它两个方法是直接返回执行结果。</p>
+<p>实现思路和call基本相同，因为bind不需要返回执行结果，所以不需要用eval，而是需要通过返回一个函数的方式将结果返回，之后再执行这个结果，得到想要的结果。</p>
+<p>具体实现思路如下：</p>
+<ol>
+<li><p>拷贝源函数：</p>
+<ul>
+<li>通过变量存储源函数</li>
+<li>使用 <code>Object.create</code> 复制源函数的prototype给fbound</li>
+</ul>
+</li>
+<li><p>返回拷贝的函数</p>
+</li>
+<li><p>调用拷贝的函数</p>
+<ul>
+<li>new调用判断：通过 <code>instanceof</code> 判断函数是否通过 new 调用，来决定绑定的 context</li>
+<li>绑定 this，传递参数</li>
+<li>返回源函数的执行结果</li>
+</ul>
+</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Function</span>.prototype.bind = <span class="function"><span class="keyword">function</span> (<span class="params">context, ...args</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (<span class="keyword">typeof</span> <span class="keyword">this</span> !== <span class="string">'function'</span>) &#123;</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">'this must be a function'</span>)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">var</span> self = <span class="keyword">this</span>;</span><br><span class="line">  <span class="keyword">var</span> fbound = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> self.call(<span class="keyword">this</span> <span class="keyword">instanceof</span> fbound ? <span class="keyword">this</span> : <span class="built_in">Object</span>(context), ...args, ...arguments);</span><br><span class="line">    <span class="comment">// return self.call(this instanceof fbound ? this : Object(context), args.concat(Array.prototype.slice.call(arguments)))</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> (<span class="keyword">this</span>.prototype) &#123;</span><br><span class="line">    fbound.prototype = <span class="built_in">Object</span>.create(<span class="keyword">this</span>.prototype);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> fbound;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>从上面的代码中可以看到，实现 bind 的核心在于返回的时候需要返回一个函数，故这里的 fbound 需要返回，但是在返回的过程中原型链对象上的属性不能丢失。因此这里需要用Object.create 方法，将 this.prototype 上面的属性挂到 fbound 的原型上面，最后再返回 fbound。这样调用 bind 方法接收到函数的对象，再通过执行接收的函数，即可得到想要的结果。</p>
+<p>看到这里，apply、call、bind这三个方法的实现你是否已经完全掌握了？如果没有的话那就自己动手多写几次吧！</p>
+<blockquote>
+<p>如果你觉得这篇内容对你有帮助的话：</p>
+<p>1、<strong>点赞</strong>支持下吧，让更多的人也能看到这篇内容</p>
+<p>2、关注公众号：<strong>前端极客技术</strong>，我们一起学习一起进步。</p>
+</blockquote>
+
+    </div>
+    <div class="wechat">
+        
+            <strong> 欢迎关注微信公众号： 『前端极客技术』『代码视界』 </strong>
+            <img class="wechat-image" src="https://image.chenhanpeng.com/static/images/web_static_image/article-gzh-qrcode.png" />
+        
+    </div>
+    
+    <div class="reward" ontouchstart>
+    <div class="reward-wrap">赏
+        <div class="reward-box">
+            
+            <span class="reward-type">
+                <img class="alipay" src="https://image.chenhanpeng.com/static/images/web_static_image/donate/alipay_qrcode.png"><b>支付宝打赏</b>
+            </span>
+            
+            
+            <span class="reward-type">
+                <img class="wechat" src="https://image.chenhanpeng.com/static/images/web_static_image/donate/weixin_pay_qrcode.png"><b>微信打赏</b>
+            </span>
+            
+        </div>
+    </div>
+    <p class="reward-tip">
+        赞赏是不耍流氓的鼓励
+    </p>
+</div>
+    
+    <div class="post-footer">
+        <div>
+            
+            转载声明：
+            商业转载请联系作者获得授权,非商业转载请注明出处 © <a href="" target="_blank">代码视界</a>
+            
+            
+        </div>
+        <div>
+            
+        </div>
+    </div>
+</article>
+<div class="article-nav prev-next-wrap clearfix">
+    
+    <a href="/create-own-cors-anywhere-to-resolve-the-request-with-403/" class="pre-post btn btn-default" title='在cloudflare上创建一个免费的在线代理来解决gitalk授权登录报403问题'>
+        <i class="fa fa-angle-left fa-fw"></i><span class="hidden-lg">上一篇</span>
+        <span class="hidden-xs">
+            在cloudflare上创建一个免费的在线代理来解决gitalk授权登录报403问题</span>
+    </a>
+    
+    
+    <a href="/js-new/" class="next-post btn btn-default" title='一起搞清楚JS中的new到底做了什么，并模拟实现一个new'>
+        <span class="hidden-lg">下一篇</span>
+        <span class="hidden-xs">
+            一起搞清楚JS中的new到底做了什么，并模拟实现一个new</span><i class="fa fa-angle-right fa-fw"></i>
+    </a>
+    
+</div>
+
+<!-- google广告 -->
+<!-- <ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-1437849089810081"
+     data-ad-slot="9946365914"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script> -->
+
+
+    <div id="comments">
+        
+<link rel="stylesheet" href="https://cdn.bootcss.com/gitalk/1.7.2/gitalk.min.css">
+<script src="//cdn.bootcss.com/gitalk/1.7.2/gitalk.min.js"></script>
+<script src="//cdn.bootcss.com/blueimp-md5/2.9.0/js/md5.min.js"></script>
+<div id="gitalk-container"></div>
+<script type="text/javascript">
+var gitalk = new Gitalk({
+    // Gitalk配置
+    language: "zh-CN",
+    clientID: "fb80658382dee5240195",
+    clientSecret: "66663a08264192222ba993f20dd7c0a27c1e6fa5",
+    repo: "blog-comments",
+    owner: "Hanpeng-Chen",
+    admin: ["Hanpeng-Chen"],
+    id: md5(location.pathname),
+    distractionFreeMode: true,
+    proxy: "https://cloudflare-cors-anywhere.hanpengchen.workers.dev/?https://github.com/login/oauth/access_token"
+});
+gitalk.render('gitalk-container');
+</script>
+
+    </div>
+
+                </main>
+                
+                    <div class="col-md-4">
+<!-- 方形 -->
+<!-- <ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-1437849089810081"
+     data-ad-slot="2426112279"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script> -->
+</div>
+<aside id="article-toc" role="navigation" class="col-md-4">
+    <div class="widget">
+        <h3 class="title">
+            文章目录
+        </h3>
+        
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#this指向"><span class="toc-text">this指向</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#直接函数调用"><span class="toc-text">直接函数调用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#对象函数调用"><span class="toc-text">对象函数调用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#构造函数调用"><span class="toc-text">构造函数调用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#小结"><span class="toc-text">小结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#改变this的指向的几种方法"><span class="toc-text">改变this的指向的几种方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#箭头函数"><span class="toc-text">箭头函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#在函数内部使用-this-this"><span class="toc-text">在函数内部使用 _this = this</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#new实例化一个对象"><span class="toc-text">new实例化一个对象</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#apply、call、bind-基本介绍"><span class="toc-text">apply、call、bind 基本介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#apply-call-bind的核心理念：借用方法"><span class="toc-text">apply/call/bind的核心理念：借用方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#手写实现apply、call和bind"><span class="toc-text">手写实现apply、call和bind</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#apply的实现"><span class="toc-text">apply的实现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#call的实现"><span class="toc-text">call的实现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#bind的实现"><span class="toc-text">bind的实现</span></a></li></ol></li></ol>
+        
+    </div>
+</aside>
+                
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+<a id="back-to-top" class="icon-btn hide">
+    <i class="fa fa-chevron-up"></i>
+</a>
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="busuanzi">
+    
+</div>
+            </div>
+            <div class="col-sm-12">
+                <span>Copyright &copy;
+                    2019
+                    
+                </span> |
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> |
+                <span>
+                    Theme by <a href="//github.com/shenliyang/hexo-theme-snippet.git" class="copyright-links" target="_blank" rel="nofollow">Snippet</a>
+                </span>
+                
+                    <span> | </span>
+                    <span>
+                        <a href="//beian.miit.gov.cn/" target="_blank" rel="nofollow">
+                            闽ICP备19010134号-1
+                        </a>
+                    </span>
+                
+                
+                    <span> | </span>
+                    <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=35020302033449" rel="nofollow">
+                        <img src="https://image.chenhanpeng.com/static/images/web_static_image/beian_icon.png" width="20">
+                        <span>闽公网安备 35020302033449号</span>
+                    </a>
+                         
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<script src="/js/app.js?rev=@@hash"></script>
+</body>
+</html>

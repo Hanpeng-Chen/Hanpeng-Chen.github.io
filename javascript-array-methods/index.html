@@ -1,0 +1,540 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="代码视界">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="theme-version" content="1.2.3">
+    <meta name="root" content="/">
+    <link rel="dns-prefetch" href="http://www.chenhanpeng.com">
+    <script data-ad-client="ca-pub-1437849089810081" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <!--SEO-->
+
+<meta name="keywords" content="JavaScript,数组方法">
+
+
+<meta name="description" content="valueOf()、toString()valueOf()和toString()是JavaScript对象的通用方法。
+valueOf()表示对该对象求值。不同的对象的valueOf方法不尽一致...">
+
+
+<meta name="robots" content="all">
+<meta name="google" content="all">
+<meta name="googlebot" content="all">
+<meta name="verify" content="all">
+    <!--Title-->
+
+<title>
+    
+    JavaScript-数组方法汇总 |
+    
+    代码视界
+</title>
+
+<link rel="alternate" href="/atom.xml" title="代码视界" type="application/atom+xml">
+
+
+<link rel="icon" href="/img/site_logo.jpg">
+
+    
+
+<link rel="stylesheet" href="/css/bootstrap.min.css?rev=3.3.7">
+<link rel="stylesheet" href="/css/font-awesome.min.css?rev=4.7.0">
+<link rel="stylesheet" href="/css/style.css?rev=@@hash">
+    
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?494af80fa01e8939bec179cfddf660d5";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+<script>
+(function(i, s, o, g, r, a, m) {
+    i['GoogleAnalyticsObject'] = r;
+    i[r] = i[r] || function() {
+        (i[r].q = i[r].q || []).push(arguments)
+    }, i[r].l = 1 * new Date();
+    a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0];
+    a.async = 1;
+    a.src = g;
+    m.parentNode.insertBefore(a, m)
+})(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+ga('create', 'UA-142577364-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+
+    
+<meta name="baidu-site-verification" content="rGeweWgWoh">
+
+
+<script>
+(function() {
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    } else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+</head></html>
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+<body>
+    <header class="main-header"  style="background-image:url(
+    https://image.chenhanpeng.com/static/images/web_static_image/banner.jpg)"
+     >
+    <div class="main-header-box">
+        <!-- <a class="header-avatar" href="/" title='Hanpeng Chen'>
+            <img src="/img/avatar.jpg" alt="logo头像" class="img-responsive center-block">
+        </a> -->
+        <a href="/" class="header-title">
+            <h1> 代码视界 </h1>
+        </a>
+        <div class="branding">
+            <!--<h2 class="text-hide">Snippet主题,从未如此简单有趣</h2>-->
+            
+            <h2>
+                Hanpeng Chen的个人博客
+            </h2>
+            
+        </div>
+    </div>
+</header>
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="navbar-header"><span class="nav-toggle-button collapsed pull-right" data-toggle="collapse" data-target="#main-menu" id="mnav">
+                        <span class="sr-only"></span>
+                        <i class="fa fa-bars"></i>
+                    </span>
+                    <a class="navbar-brand" href="http://www.chenhanpeng.com">
+                        代码视界</a>
+                </div>
+                <div class="collapse navbar-collapse" id="main-menu">
+                    <ul class="menu">
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/"><i class="fa "></i>
+                                首页</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/archives/"><i class="fa "></i>
+                                文章列表</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/"><i class="fa "></i>
+                                文章分类</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/tags/"><i class="fa "></i>
+                                文章标签</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/links/"><i class="fa "></i>
+                                友链</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/about/"><i class="fa "></i>
+                                关于作者</a>
+                        </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+                    <p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="JavaScript-数组方法汇总">
+            
+            JavaScript-数组方法汇总
+            
+        </h1>
+        <div class="post-meta">
+    
+    <span class="categories-meta fa-wrap">
+        <i class="fa fa-folder-open-o"></i>
+        <a class="category-link" href="/categories/前端/">前端</a> <a class="category-link" href="/categories/前端/JavaScript/">JavaScript</a>
+    </span>
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-tags"></i>
+        <span class="tags-meta">
+            
+            <a class="tag-link" href="/tags/JavaScript/">JavaScript</a> <a class="tag-link" href="/tags/数组方法/">数组方法</a>
+            
+        </span>
+    </span>
+    
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-clock-o"></i>
+        <span class="date-meta">
+            2020/06/15</span>
+    </span>
+    
+    <span class="fa-wrap">
+        <i class="fa fa-eye"></i>
+        <span id="busuanzi_value_page_pv"></span>
+    </span>
+    
+    
+</div>
+        
+        
+        <p class="fa fa-exclamation-triangle warning">
+            本文于<strong>
+                339</strong>
+            天之前发表，文中内容可能已经过时。
+        </p>
+        
+    </div>
+    
+    
+    <div class="post-body post-content">
+        <h2 id="valueOf-、toString"><a href="#valueOf-、toString" class="headerlink" title="valueOf()、toString()"></a>valueOf()、toString()</h2><p>valueOf()和toString()是JavaScript对象的通用方法。</p>
+<p>valueOf()表示对该对象求值。不同的对象的valueOf方法不尽一致，数组的valueOf方法返回数组的本身。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> array = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line">array.valueOf()    <span class="comment">// [1, 2, 3]</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> array1 = [<span class="number">1</span>, <span class="number">3</span>, <span class="number">3</span>, <span class="string">'a'</span>, [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]]</span><br><span class="line">array1.valueOf()   <span class="comment">// [1, 3, 3, 'a', [1, 2, 3]]</span></span><br></pre></td></tr></table></figure>
+<p>toString()返回的是数组的字符串形式。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> array = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line">array.toString()    <span class="comment">// 1,2,3</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> array1 = [<span class="number">1</span>, <span class="number">3</span>, <span class="number">3</span>, <span class="string">'a'</span>, [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>], &#123;<span class="attr">obj</span>: <span class="number">1</span>&#125;]</span><br><span class="line">array1.toString()   <span class="comment">// 1,3,3,a,1,2,3,[object Object]</span></span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>欢迎关注我的微信公众号：前端极客技术(FrontGeek)</p>
+</blockquote>
+<h2 id="Array-isArray"><a href="#Array-isArray" class="headerlink" title="Array.isArray()"></a>Array.isArray()</h2><p>该方法返回一个布尔值，表示参数是否为数组。</p>
+<p>因为数组本质上是一种特殊的对象，所以typeof运算符会返回数组的类型为<code>object</code>。使用Array.isArray方法可以识别数组，可以弥补typeof运算符的不足。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> array = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line"><span class="keyword">typeof</span> array   <span class="comment">// object</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">Array</span>.isArray(array)   <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+<h2 id="添加：push-、unshift"><a href="#添加：push-、unshift" class="headerlink" title="添加：push()、unshift()"></a>添加：push()、unshift()</h2><p>push()方法用于在数组的末端添加一个或多个元素，并返回添加新元素后的数组长度，<strong>该方法会改变原数组</strong>。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> array = [<span class="number">1</span>, <span class="number">3</span>]</span><br><span class="line"></span><br><span class="line">array.push(<span class="number">2</span>)</span><br><span class="line">array.push(<span class="string">'a'</span>, <span class="string">'b'</span>)</span><br><span class="line">array.push(<span class="literal">true</span>, &#123;&#125;)</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(array)   <span class="comment">// [1, 3, 2, "a", "b", true, &#123;&#125;]</span></span><br></pre></td></tr></table></figure>
+<p>unshift()方法用于在数组的第一个位置添加元素，并返回添加新元素后的数组长度，该方法会改变原数组。</p>
+<p>unshift()可以接受多个参数，这些参数都会添加到目标数组头部。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> array = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line"></span><br><span class="line">array.unshift(<span class="string">'a'</span>)</span><br><span class="line"></span><br><span class="line">array.unshift(<span class="string">'b'</span>, <span class="string">'c'</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(array)  <span class="comment">// ["b", "c", "a", 1, 2, 3]</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="删除：pop-、shift"><a href="#删除：pop-、shift" class="headerlink" title="删除：pop()、shift()"></a>删除：pop()、shift()</h2><p>pop()方法用于删除数组的最后一个元素，并返回该元素，<strong>该方法会改变原数组</strong>。</p>
+<p>如果对空数组使用pop方法，不会报错，而是返回undefined</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> array = [<span class="number">1</span>, <span class="number">3</span>, <span class="number">3</span>, <span class="number">4</span>]</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(array.pop())  <span class="comment">// 4</span></span><br><span class="line"><span class="built_in">console</span>.log(array)  <span class="comment">// [1, 3, 3]</span></span><br><span class="line"></span><br><span class="line">[].pop()   <span class="comment">// undefined</span></span><br></pre></td></tr></table></figure>
+<p>shift()方法用于删除数组的第一个元素，并返回该元素，该方法会改变原数组。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> array = [<span class="number">1</span>, <span class="number">3</span>, <span class="number">3</span>, <span class="number">4</span>]</span><br><span class="line"></span><br><span class="line">array.shift()</span><br><span class="line"><span class="built_in">console</span>.log(array)  <span class="comment">// [3, 3, 4]</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>push和pop两个方法结合使用，就构成了“后进后出”的栈结构（stack）。</p>
+</li>
+<li><p>push和shift结合使用，构成了“先进先出”的队列结构（queue）。</p>
+</li>
+</ul>
+<h2 id="join"><a href="#join" class="headerlink" title="join()"></a>join()</h2><p>join方法以指定参数作为分隔符，将所有数组成员连接成一个字符串返回。如果没有提供参数，默认逗号分隔。</p>
+<p>如果数组成员是undefined或null或空位，会被转成空字符串。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> array = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, ,, <span class="literal">null</span>, <span class="literal">undefined</span>]</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(array.join())  <span class="comment">// 1,2,3,4,,,,</span></span><br><span class="line"><span class="built_in">console</span>.log(array.join(<span class="string">' '</span>))  <span class="comment">// 1 2 3 4    </span></span><br><span class="line"><span class="built_in">console</span>.log(array.join(<span class="string">'-'</span>))   <span class="comment">// 1-2-3-4----</span></span><br></pre></td></tr></table></figure>
+<p>通过call方法，join也可以用于字符串或者类似数组的对象。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Array</span>.prototype.join.call(<span class="string">'hello'</span>, <span class="string">'-'</span>)  <span class="comment">// h-e-l-l-o</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> obj = &#123;<span class="number">0</span>: <span class="string">'a'</span>, <span class="number">1</span>: <span class="string">'b'</span>, <span class="number">2</span>: <span class="string">'c'</span>, <span class="attr">length</span>: <span class="number">3</span>&#125;</span><br><span class="line"><span class="built_in">Array</span>.prototype.join.call(obj, <span class="string">'-'</span>)  <span class="comment">// a-b-c</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="合并：concat"><a href="#合并：concat" class="headerlink" title="合并：concat()"></a>合并：concat()</h2><p>concat方法用于多个数组的合并，它将新数组的成员，添加到原数组成员的后面，然后返回一个新数组，原数组不变。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[<span class="string">'hello'</span>].concat([<span class="string">'world'</span>])</span><br><span class="line"><span class="comment">// ["hello", "world"]</span></span><br><span class="line"></span><br><span class="line">[<span class="string">'hello'</span>].concat([<span class="string">'world'</span>], [<span class="string">'!'</span>])</span><br><span class="line"><span class="comment">// ["hello", "world", "!"]</span></span><br><span class="line"></span><br><span class="line">[].concat(&#123;<span class="attr">a</span>: <span class="number">1</span>&#125;, &#123;<span class="attr">b</span>: <span class="number">2</span>&#125;)</span><br><span class="line"><span class="comment">// [&#123; a: 1 &#125;, &#123; b: 2 &#125;]</span></span><br><span class="line"></span><br><span class="line">[<span class="number">2</span>].concat(&#123;<span class="attr">a</span>: <span class="number">1</span>&#125;)</span><br><span class="line"><span class="comment">// [2, &#123;a: 1&#125;]</span></span><br></pre></td></tr></table></figure>
+<p>concat还可以接受其他类型的值作为参数，添加到目标数组尾部。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>].concat(<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>)</span><br><span class="line"><span class="comment">// [1, 2, 3, 4, 5, 6]</span></span><br></pre></td></tr></table></figure></p>
+<p>如果数组成员包括对象，concat方法返回当前数组的一个浅拷贝。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> obj = &#123; <span class="attr">a</span>: <span class="number">1</span> &#125;;</span><br><span class="line"><span class="keyword">var</span> oldArray = [obj];</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> newArray = oldArray.concat();</span><br><span class="line"></span><br><span class="line">obj.a = <span class="number">2</span>;</span><br><span class="line">newArray[<span class="number">0</span>].a <span class="comment">// 2</span></span><br></pre></td></tr></table></figure>
+<h2 id="reverse"><a href="#reverse" class="headerlink" title="reverse()"></a>reverse()</h2><p>reverse()方法用于颠倒排列数组元素，返回改变后的数组。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> array = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>]</span><br><span class="line"></span><br><span class="line">array.reverse()</span><br><span class="line">array   <span class="comment">// [4, 3, 2, 1]</span></span><br></pre></td></tr></table></figure>
+<h2 id="splice"><a href="#splice" class="headerlink" title="splice()"></a>splice()</h2><p>splice()方法用于删除原数组的一部分成员，并可以在删除的位置添加新的数组成员，返回的是被删除的元素。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">arr.splice(start, count, addElement1, addElement2, ...);</span><br></pre></td></tr></table></figure>
+<p>splice的第一个参数是删除的起始位置，第二个参数是被删除的元素个数。如果后面有更多的参数，表示这些是要被插入数组的元素。</p>
+<p>如果起始位置是负数，表示从倒数位置开始删除。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> arr = [<span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'c'</span>, <span class="string">'d'</span>, <span class="string">'e'</span>, <span class="string">'f'</span>, <span class="string">'g'</span>]</span><br><span class="line"></span><br><span class="line">arr.splice(<span class="number">1</span>, <span class="number">2</span>) <span class="comment">// ["b", "c"]</span></span><br><span class="line">arr <span class="comment">// ['a', 'd', 'e', 'f', 'g']</span></span><br><span class="line"></span><br><span class="line">arr.splice(<span class="number">0</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>)</span><br><span class="line">arr   <span class="comment">// [1, 2, 3, 4, "d", "e", "f", "g"]</span></span><br><span class="line"></span><br><span class="line">arr.splice(<span class="number">-6</span>, <span class="number">4</span>)</span><br><span class="line">arr   <span class="comment">// [1, 2, "f", "g"]</span></span><br></pre></td></tr></table></figure>
+<h2 id="sort"><a href="#sort" class="headerlink" title="sort()"></a>sort()</h2><p>对数组成员进行排序，<strong>默认按照字典顺序排序</strong>。排序后，原数组将被改变。</p>
+<p>如果要自定义排序方式，可以传入一个函数作为参数。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> array = [<span class="number">1</span>, <span class="number">4</span>, <span class="number">3</span>, <span class="string">'a'</span>, <span class="number">6</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">10</span>, <span class="number">98</span>, <span class="number">7</span>]</span><br><span class="line"></span><br><span class="line">array.sort()</span><br><span class="line">array   <span class="comment">// [1, 1, 10, 2, 3, 4, 6, 7, 98, "a"]</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 降序</span></span><br><span class="line"><span class="keyword">let</span> array1 = [<span class="number">1</span>, <span class="number">4</span>, <span class="number">3</span>, <span class="number">6</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">10</span>, <span class="number">98</span>, <span class="number">7</span>]</span><br><span class="line">array1.sort(<span class="function">(<span class="params">a, b</span>) =&gt;</span> b - a)</span><br><span class="line">array1  <span class="comment">// [98, 10, 7, 6, 4, 3, 2, 1, 1]</span></span><br></pre></td></tr></table></figure>
+<h2 id="map"><a href="#map" class="headerlink" title="map()"></a>map()</h2><p>将数组的所有成员依次传入参数函数，然后把每一次的执行结果组成一个新数组返回。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> array = [<span class="number">1</span>, <span class="number">3</span>, <span class="number">5</span>]</span><br><span class="line"><span class="keyword">let</span> new_array = array.map(<span class="function"><span class="keyword">function</span>(<span class="params">n</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> n + <span class="number">2</span></span><br><span class="line">&#125;)</span><br><span class="line"><span class="built_in">console</span>.log(new_array)  <span class="comment">// [3, 5, 7]</span></span><br><span class="line"><span class="built_in">console</span>.log(array)  <span class="comment">// [1, 3, 5]</span></span><br></pre></td></tr></table></figure>
+<p>调用参数函数时，map向函数传入三个参数：当前成员、当前位置、数组本身。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> array = [<span class="number">1</span>, <span class="number">3</span>, <span class="number">5</span>]</span><br><span class="line"><span class="keyword">let</span> new_array = array.map(<span class="function"><span class="keyword">function</span>(<span class="params">n, index, arr</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(n, index, arr)</span><br><span class="line">  <span class="keyword">return</span> n * index</span><br><span class="line">&#125;)</span><br><span class="line"><span class="built_in">console</span>.log(new_array)</span><br></pre></td></tr></table></figure></p>
+<p>此外，map方法还可以接受第二个参数，用来绑定回调函数内部的this变量<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> arr = [<span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'c'</span>];</span><br><span class="line"></span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>].map(<span class="function"><span class="keyword">function</span> (<span class="params">e</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">this</span>[e];</span><br><span class="line">&#125;, arr)</span><br><span class="line"><span class="comment">// ['b', 'c']</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="filter"><a href="#filter" class="headerlink" title="filter()"></a>filter()</h2><p>用于过滤数组成员，满足条件的成员组成一个新数组返回。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>].filter(<span class="function"><span class="keyword">function</span> (<span class="params">elem</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> (elem &gt; <span class="number">3</span>);</span><br><span class="line">&#125;)</span><br><span class="line"><span class="comment">// [4, 5]</span></span><br></pre></td></tr></table></figure>
+<p>filter方法和map一样，可以接受第二个参数，用来绑定参数函数内部的this，参数函数可接收三个参数。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> obj = &#123; <span class="attr">MAX</span>: <span class="number">3</span> &#125;;</span><br><span class="line"><span class="keyword">var</span> myFilter = <span class="function"><span class="keyword">function</span> (<span class="params">item</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (item &gt; <span class="keyword">this</span>.MAX) <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> arr = [<span class="number">2</span>, <span class="number">8</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">1</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">9</span>];</span><br><span class="line">arr.filter(myFilter, obj) <span class="comment">// [8, 4, 9]</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="some-、every"><a href="#some-、every" class="headerlink" title="some()、every()"></a>some()、every()</h2><p>这两个方法接受一个函数作为参数，所有数组成员依次执行该函数。该函数接受三个参数：当前成员、当前位置、整个数组，然后返回一个布尔值，表示判断数组成员是否符合某个条件。</p>
+<p>some()方法只要一个成员的返回值为true，则整个some方法的返回值就是true，否则返回false。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> array = [<span class="number">1</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>]</span><br><span class="line">array.some(<span class="function"><span class="keyword">function</span>(<span class="params">el, index, arr</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> el &gt; <span class="number">5</span></span><br><span class="line">&#125;)   <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+<p>every方法是所有成员的返回值都是true，整个every方法才返回true，否则返回false。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> array = [<span class="number">1</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>]</span><br><span class="line">array.some(<span class="function"><span class="keyword">function</span>(<span class="params">el, index, arr</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> el &gt; <span class="number">1</span></span><br><span class="line">&#125;)   <span class="comment">// false</span></span><br></pre></td></tr></table></figure></p>
+<p>对于空数组，some方法返回false，every方法返回true，回调函数都不会执行。</p>
+<h2 id="reduce-、reduceRight"><a href="#reduce-、reduceRight" class="headerlink" title="reduce()、reduceRight()"></a>reduce()、reduceRight()</h2><p>reduce方法和reduceRight方法依次处理数组的每个成员，最终累计为一个值。</p>
+<p>reduce是从左到右处理，reduceRight是从右到左处理。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">array.reduce(func, defaultValue)</span><br></pre></td></tr></table></figure>
+<p>reduce和reduceRight接收两个参数，第一个是函数，第二个是累积变量初始值。</p>
+<p>第一个参数函数接受下面四个参数：</p>
+<ul>
+<li>累积变量，默认为数组的第一个成员（必须）</li>
+<li>当前变量，默认为数组的第二个成员（必须）</li>
+<li>当前位置，从0开始（可选）</li>
+<li>原数组（可选）</li>
+</ul>
+<p>累积变量初始值是个可选参数。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>].reduce(<span class="function"><span class="keyword">function</span> (<span class="params">a, b</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> a + b;</span><br><span class="line">&#125;, <span class="number">10</span>);</span><br><span class="line"><span class="comment">// 25</span></span><br></pre></td></tr></table></figure>
+<h2 id="indexOf-、lastIndexOf"><a href="#indexOf-、lastIndexOf" class="headerlink" title="indexOf()、lastIndexOf()"></a>indexOf()、lastIndexOf()</h2><p>indexOf方法返回给定元素在数组中第一次出现的位置，如果没有出现则返回-1。该方法可接受第二个参数，用来指定搜索开始的位置。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[<span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'d'</span>].indexOf(<span class="string">'b'</span>)  <span class="comment">// 1</span></span><br><span class="line">[<span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'d'</span>].indexOf(<span class="string">'b'</span>, <span class="number">2</span>)  <span class="comment">// -1</span></span><br></pre></td></tr></table></figure>
+<p>lastIndexOf方法返回给定元素的最后一次出现的位置，如果没有出现返回-1。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = [<span class="number">2</span>, <span class="number">5</span>, <span class="number">9</span>, <span class="number">2</span>];</span><br><span class="line">a.lastIndexOf(<span class="number">2</span>) <span class="comment">// 3</span></span><br><span class="line">a.lastIndexOf(<span class="number">7</span>) <span class="comment">// -1</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>这两个方法不能用来搜索NaN的位置，因为方法内部使用严格相等运算符<code>===</code>进行比较，而NaN是唯一一个不等于自身的值。</p>
+</blockquote>
+<p><strong>下面我们来看下ES6新增的数组方法：</strong></p>
+<h2 id="Array-from"><a href="#Array-from" class="headerlink" title="Array.from()"></a>Array.from()</h2><p>用来将下面两类对象转为真正的数组。</p>
+<ul>
+<li>类似数组的对象（array-like object）</li>
+<li>可遍历（iterable）的对象（包括ES6新增的数据结构Set和Map）</li>
+</ul>
+<p>Array.from()会将数组的空位转为undefined</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 类似数组的对象</span></span><br><span class="line"><span class="keyword">let</span> arrayLike = &#123;</span><br><span class="line">  <span class="number">0</span>: <span class="string">'a'</span>,</span><br><span class="line">  <span class="number">1</span>: <span class="string">'b'</span>,</span><br><span class="line">  <span class="number">2</span>: <span class="string">'c'</span>,</span><br><span class="line">  length: <span class="number">3</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// ES5 写法</span></span><br><span class="line"><span class="keyword">let</span> newArr1 = [].slice.call(arrayLike)  <span class="comment">// ["a", "b", "c"]</span></span><br><span class="line"><span class="comment">// ES6 写法</span></span><br><span class="line"><span class="keyword">let</span> newArr2 = <span class="built_in">Array</span>.from(arrayLike)  <span class="comment">// ["a", "b", "c"]</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 可遍历的对象</span></span><br><span class="line"><span class="built_in">Array</span>.from(<span class="string">'hello'</span>)  <span class="comment">// ["h", "e", "l", "l", "o"]</span></span><br><span class="line"><span class="keyword">let</span> <span class="keyword">set</span> = new Set(['a', 'b', 'c'])</span><br><span class="line">Array.from(<span class="keyword">set</span>)   // ['a', 'b', 'c']</span><br></pre></td></tr></table></figure>
+<h2 id="Array-of"><a href="#Array-of" class="headerlink" title="Array.of()"></a>Array.of()</h2><p>用于将一组值转换为数组。如果没有参数则返回一个空数组。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Array</span>.of(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>)  <span class="comment">// [1, 2, 3, 4]</span></span><br></pre></td></tr></table></figure>
+<h2 id="数组实例的-copyWithin"><a href="#数组实例的-copyWithin" class="headerlink" title="数组实例的 copyWithin()"></a>数组实例的 copyWithin()</h2><p>在当前数组内部，将指定位置的成员复制到其他位置（会覆盖原有成员），然后返回当前数组。</p>
+<p>copyWithin()会连空位一起拷贝。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Array</span>.prototype.copyWithin(target, start = <span class="number">0</span>, end = <span class="keyword">this</span>.length)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>target：必需，从该位置开始替换数据，如果为负值，表示倒数。</li>
+<li>start：可选，从该位置开始读取数据，默认为0。如果为负值，表示从尾部开始计算。</li>
+<li>end：可选，到该位置停止读取数据，默认为数组长度，如果为负值，表示从末尾开始计算。</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>].copyWithin(<span class="number">0</span>, <span class="number">3</span>)  <span class="comment">// [4, 5, 3, 4, 5]</span></span><br><span class="line"></span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>].copyWithin(<span class="number">0</span>, <span class="number">3</span>, <span class="number">4</span>) <span class="comment">// [4, 2, 3, 4, 5]</span></span><br></pre></td></tr></table></figure>
+<h2 id="数组实例的-find-和findeIndex"><a href="#数组实例的-find-和findeIndex" class="headerlink" title="数组实例的 find()和findeIndex()"></a>数组实例的 find()和findeIndex()</h2><p>find：找出第一个符合条件的数组成员。参数是一个回调函数。如果没有符合条件的成员，返回undefined</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[<span class="number">1</span>, <span class="number">5</span>, <span class="number">10</span>, <span class="number">15</span>].find(<span class="function"><span class="keyword">function</span>(<span class="params">value, index, arr</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> value &gt; <span class="number">9</span>;</span><br><span class="line">&#125;) <span class="comment">// 10</span></span><br></pre></td></tr></table></figure>
+<p>findIndex的用法和find方法类似，返回第一个符合条件的数组成员的位置，如果没有符合条件的成员，返回-1。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[<span class="number">1</span>, <span class="number">5</span>, <span class="number">10</span>, <span class="number">15</span>].findIndex(<span class="function"><span class="keyword">function</span>(<span class="params">value, index, arr</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> value &gt; <span class="number">9</span>;</span><br><span class="line">&#125;) <span class="comment">// 2</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="数组实例的-fill"><a href="#数组实例的-fill" class="headerlink" title="数组实例的 fill()"></a>数组实例的 fill()</h2><p>fill方法使用给定值，填充一个数组。</p>
+<p>如果数组中已有元素，会被全部抹去。</p>
+<p>fill方法还可以接受第二个和第三个参数，用来指定填充的起始和结束位置。</p>
+<p>fill()会将空位视为正常的数组位置。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>].fill(<span class="number">4</span>)  <span class="comment">// [4, 4, 4]</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">new</span> <span class="built_in">Array</span>(<span class="number">3</span>).fill(<span class="number">4</span>) <span class="comment">// [4, 4, 4]</span></span><br><span class="line"></span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>].fill(<span class="number">10</span>, <span class="number">1</span>, <span class="number">3</span>) <span class="comment">//  [1, 10, 10, 4, 5]</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>如果填充的类型为对象，那么被赋值的是同一个内存地址的对象，而不是深拷贝对象。</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> arr = <span class="keyword">new</span> <span class="built_in">Array</span>(<span class="number">3</span>).fill(&#123;<span class="attr">name</span>: <span class="string">"Mike"</span>&#125;);</span><br><span class="line">arr[<span class="number">0</span>].name = <span class="string">"Ben"</span>;</span><br><span class="line">arr</span><br><span class="line"><span class="comment">// [&#123;name: "Ben"&#125;, &#123;name: "Ben"&#125;, &#123;name: "Ben"&#125;]</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> arr = <span class="keyword">new</span> <span class="built_in">Array</span>(<span class="number">3</span>).fill([]);</span><br><span class="line">arr[<span class="number">0</span>].push(<span class="number">5</span>);</span><br><span class="line">arr</span><br><span class="line"><span class="comment">// [[5], [5], [5]]</span></span><br></pre></td></tr></table></figure>
+<h2 id="数组实例的-entries-、keys-、values"><a href="#数组实例的-entries-、keys-、values" class="headerlink" title="数组实例的 entries()、keys()、values()"></a>数组实例的 entries()、keys()、values()</h2><p>这三个是ES6新增的三个用于遍历数组的方法。它们都返回一个遍历器对象，可用for…of循环进行遍历。</p>
+<p>keys()是对键名的遍历，values()是对键值的遍历，entries()是对键值对的遍历。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> index <span class="keyword">of</span> [<span class="string">'a'</span>, <span class="string">'b'</span>].keys()) &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(index);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 0</span></span><br><span class="line"><span class="comment">// 1</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> elem <span class="keyword">of</span> [<span class="string">'a'</span>, <span class="string">'b'</span>].values()) &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(elem);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 'a'</span></span><br><span class="line"><span class="comment">// 'b'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> [index, elem] <span class="keyword">of</span> [<span class="string">'a'</span>, <span class="string">'b'</span>].entries()) &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(index, elem);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 0 "a"</span></span><br><span class="line"><span class="comment">// 1 "b"</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="数组实例的-includes"><a href="#数组实例的-includes" class="headerlink" title="数组实例的 includes()"></a>数组实例的 includes()</h2><p>Array.prototype.includes方法返回一个布尔值，表示某个数组是否包含给定的值，与字符串的includes方法类似。ES2016 引入了该方法。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>].includes(<span class="number">2</span>)     <span class="comment">// true</span></span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>].includes(<span class="number">4</span>)     <span class="comment">// false</span></span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="literal">NaN</span>].includes(<span class="literal">NaN</span>) <span class="comment">// true</span></span><br></pre></td></tr></table></figure></p>
+<p>该方法的第二个参数表示搜索的起始位置，默认为0。如果第二个参数为负数，则表示倒数的位置，如果这时它大于数组长度（比如第二个参数为-4，但数组长度为3），则会重置为从0开始。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>].includes(<span class="number">3</span>, <span class="number">3</span>);  <span class="comment">// false</span></span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>].includes(<span class="number">3</span>, <span class="number">-1</span>); <span class="comment">// true</span></span><br></pre></td></tr></table></figure></p>
+<p>可以用该方法判断数组中是否有NaN<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[<span class="literal">NaN</span>].includes(<span class="literal">NaN</span>)</span><br><span class="line"><span class="comment">// true</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="数组实例的-flat-、flatMap"><a href="#数组实例的-flat-、flatMap" class="headerlink" title="数组实例的 flat()、flatMap()"></a>数组实例的 flat()、flatMap()</h2><h3 id="flat"><a href="#flat" class="headerlink" title="flat()"></a>flat()</h3><p>Array.prototype.flat()用于将嵌套的数组“拉平”，变成一维的数组。该方法返回一个新数组，对原数据没有影响。</p>
+<p>flat()默认只会“拉平”一层，如果要“拉平”多层嵌套数组，可以将flat()方法的参数写成一个整数，表示要拉平的层数。</p>
+<p>如果不管多少层嵌套，都要转成一维数组，可以用<code>Infinity</code>关键字作为参数。</p>
+<p>如果原数组存在空位，flat方法会跳过空位。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[<span class="number">1</span>, <span class="number">2</span>, [<span class="number">3</span>, [<span class="number">4</span>, <span class="number">5</span>]]].flat()</span><br><span class="line"><span class="comment">// [1, 2, 3, [4, 5]]</span></span><br><span class="line"></span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, [<span class="number">3</span>, [<span class="number">4</span>, <span class="number">5</span>]]].flat(<span class="number">2</span>)</span><br><span class="line"><span class="comment">// [1, 2, 3, 4, 5]</span></span><br><span class="line"></span><br><span class="line">[<span class="number">1</span>, [<span class="number">2</span>, [<span class="number">3</span>]]].flat(<span class="literal">Infinity</span>)</span><br><span class="line"><span class="comment">// [1, 2, 3]</span></span><br></pre></td></tr></table></figure>
+<h3 id="flatMap"><a href="#flatMap" class="headerlink" title="flatMap()"></a>flatMap()</h3><p>flatMap方法对原数组的每个成员执行一个函数，然后对返回值组成的数组执行flat方法。该方法返回一个新的数组。</p>
+<p><strong>flatMap方法只能“拉平”一层数组。</strong><br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[<span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>].flatMap(<span class="function">(<span class="params">x</span>) =&gt;</span> [x, x * <span class="number">2</span>])</span><br><span class="line"><span class="comment">// [2, 4, 3, 6, 4, 8]</span></span><br><span class="line"></span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>].flatMap(<span class="function"><span class="params">x</span> =&gt;</span> [[x * <span class="number">2</span>]])</span><br><span class="line"><span class="comment">// [[2], [4], [6], [8]]</span></span><br></pre></td></tr></table></figure></p>
+<p>flatMap()方法的参数是一个遍历函数，该函数可以接受三个参数，分别是当前数组成员、当前数组成员的位置（从零开始）、原数组。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">arr.flatMap(<span class="function"><span class="keyword">function</span> <span class="title">callback</span>(<span class="params">currentValue[, index[, array]]</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;[, thisArg])</span><br></pre></td></tr></table></figure></p>
+<p>flatMap方法可以有第二个参数，用来绑定遍历函数中的this</p>
+<p>参考资料：</p>
+<ul>
+<li><a href="https://wangdoc.com/javascript/stdlib/array.html" target="_blank" rel="noopener">https://wangdoc.com/javascript/stdlib/array.html</a></li>
+<li><a href="https://es6.ruanyifeng.com/#docs/array" target="_blank" rel="noopener">https://es6.ruanyifeng.com/#docs/array</a></li>
+</ul>
+
+    </div>
+    <div class="wechat">
+        
+            <strong> 欢迎关注微信公众号： 『前端极客技术』『代码视界』 </strong>
+            <img class="wechat-image" src="https://image.chenhanpeng.com/static/images/web_static_image/article-gzh-qrcode.png" />
+        
+    </div>
+    
+    <div class="reward" ontouchstart>
+    <div class="reward-wrap">赏
+        <div class="reward-box">
+            
+            <span class="reward-type">
+                <img class="alipay" src="https://image.chenhanpeng.com/static/images/web_static_image/donate/alipay_qrcode.png"><b>支付宝打赏</b>
+            </span>
+            
+            
+            <span class="reward-type">
+                <img class="wechat" src="https://image.chenhanpeng.com/static/images/web_static_image/donate/weixin_pay_qrcode.png"><b>微信打赏</b>
+            </span>
+            
+        </div>
+    </div>
+    <p class="reward-tip">
+        赞赏是不耍流氓的鼓励
+    </p>
+</div>
+    
+    <div class="post-footer">
+        <div>
+            
+            转载声明：
+            商业转载请联系作者获得授权,非商业转载请注明出处 © <a href="" target="_blank">代码视界</a>
+            
+            
+        </div>
+        <div>
+            
+        </div>
+    </div>
+</article>
+<div class="article-nav prev-next-wrap clearfix">
+    
+    <a href="/javascript-array-flatten/" class="pre-post btn btn-default" title='JavaScript-数组扁平化'>
+        <i class="fa fa-angle-left fa-fw"></i><span class="hidden-lg">上一篇</span>
+        <span class="hidden-xs">
+            JavaScript-数组扁平化</span>
+    </a>
+    
+    
+    <a href="/javascript-throttle/" class="next-post btn btn-default" title='JavaScript-函数节流'>
+        <span class="hidden-lg">下一篇</span>
+        <span class="hidden-xs">
+            JavaScript-函数节流</span><i class="fa fa-angle-right fa-fw"></i>
+    </a>
+    
+</div>
+
+<!-- google广告 -->
+<!-- <ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-1437849089810081"
+     data-ad-slot="9946365914"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script> -->
+
+
+    <div id="comments">
+        
+<link rel="stylesheet" href="https://cdn.bootcss.com/gitalk/1.7.2/gitalk.min.css">
+<script src="//cdn.bootcss.com/gitalk/1.7.2/gitalk.min.js"></script>
+<script src="//cdn.bootcss.com/blueimp-md5/2.9.0/js/md5.min.js"></script>
+<div id="gitalk-container"></div>
+<script type="text/javascript">
+var gitalk = new Gitalk({
+    // Gitalk配置
+    language: "zh-CN",
+    clientID: "fb80658382dee5240195",
+    clientSecret: "66663a08264192222ba993f20dd7c0a27c1e6fa5",
+    repo: "blog-comments",
+    owner: "Hanpeng-Chen",
+    admin: ["Hanpeng-Chen"],
+    id: md5(location.pathname),
+    distractionFreeMode: true,
+    proxy: "https://cloudflare-cors-anywhere.hanpengchen.workers.dev/?https://github.com/login/oauth/access_token"
+});
+gitalk.render('gitalk-container');
+</script>
+
+    </div>
+
+                </main>
+                
+                    <div class="col-md-4">
+<!-- 方形 -->
+<!-- <ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-1437849089810081"
+     data-ad-slot="2426112279"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script> -->
+</div>
+<aside id="article-toc" role="navigation" class="col-md-4">
+    <div class="widget">
+        <h3 class="title">
+            文章目录
+        </h3>
+        
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#valueOf-、toString"><span class="toc-text">valueOf()、toString()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Array-isArray"><span class="toc-text">Array.isArray()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#添加：push-、unshift"><span class="toc-text">添加：push()、unshift()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#删除：pop-、shift"><span class="toc-text">删除：pop()、shift()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#join"><span class="toc-text">join()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#合并：concat"><span class="toc-text">合并：concat()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#reverse"><span class="toc-text">reverse()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#splice"><span class="toc-text">splice()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#sort"><span class="toc-text">sort()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#map"><span class="toc-text">map()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#filter"><span class="toc-text">filter()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#some-、every"><span class="toc-text">some()、every()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#reduce-、reduceRight"><span class="toc-text">reduce()、reduceRight()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#indexOf-、lastIndexOf"><span class="toc-text">indexOf()、lastIndexOf()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Array-from"><span class="toc-text">Array.from()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Array-of"><span class="toc-text">Array.of()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数组实例的-copyWithin"><span class="toc-text">数组实例的 copyWithin()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数组实例的-find-和findeIndex"><span class="toc-text">数组实例的 find()和findeIndex()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数组实例的-fill"><span class="toc-text">数组实例的 fill()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数组实例的-entries-、keys-、values"><span class="toc-text">数组实例的 entries()、keys()、values()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数组实例的-includes"><span class="toc-text">数组实例的 includes()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数组实例的-flat-、flatMap"><span class="toc-text">数组实例的 flat()、flatMap()</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#flat"><span class="toc-text">flat()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#flatMap"><span class="toc-text">flatMap()</span></a></li></ol></li></ol>
+        
+    </div>
+</aside>
+                
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+<a id="back-to-top" class="icon-btn hide">
+    <i class="fa fa-chevron-up"></i>
+</a>
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="busuanzi">
+    
+</div>
+            </div>
+            <div class="col-sm-12">
+                <span>Copyright &copy;
+                    2019
+                    
+                </span> |
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> |
+                <span>
+                    Theme by <a href="//github.com/shenliyang/hexo-theme-snippet.git" class="copyright-links" target="_blank" rel="nofollow">Snippet</a>
+                </span>
+                
+                    <span> | </span>
+                    <span>
+                        <a href="//beian.miit.gov.cn/" target="_blank" rel="nofollow">
+                            闽ICP备19010134号-1
+                        </a>
+                    </span>
+                
+                
+                    <span> | </span>
+                    <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=35020302033449" rel="nofollow">
+                        <img src="https://image.chenhanpeng.com/static/images/web_static_image/beian_icon.png" width="20">
+                        <span>闽公网安备 35020302033449号</span>
+                    </a>
+                         
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<script src="/js/app.js?rev=@@hash"></script>
+</body>
+</html>

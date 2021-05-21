@@ -1,0 +1,427 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="代码视界">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="theme-version" content="1.2.3">
+    <meta name="root" content="/">
+    <link rel="dns-prefetch" href="http://www.chenhanpeng.com">
+    <script data-ad-client="ca-pub-1437849089810081" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <!--SEO-->
+
+<meta name="keywords" content="pdf.js,在线预览PDF文件">
+
+
+<meta name="description" content="背景现在很多项目开发过程中都会碰到PDF在线预览的需求，对于PC端浏览器，一般直接提供PDF文件，iframe一下就可以直接预览。但在移动端要预览PDF则较为麻烦，有些浏览器检测到文件流，就会直...">
+
+
+<meta name="robots" content="all">
+<meta name="google" content="all">
+<meta name="googlebot" content="all">
+<meta name="verify" content="all">
+    <!--Title-->
+
+<title>
+    
+    PDF.js实现在线展示pdf文件 |
+    
+    代码视界
+</title>
+
+<link rel="alternate" href="/atom.xml" title="代码视界" type="application/atom+xml">
+
+
+<link rel="icon" href="/img/site_logo.jpg">
+
+    
+
+<link rel="stylesheet" href="/css/bootstrap.min.css?rev=3.3.7">
+<link rel="stylesheet" href="/css/font-awesome.min.css?rev=4.7.0">
+<link rel="stylesheet" href="/css/style.css?rev=@@hash">
+    
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?494af80fa01e8939bec179cfddf660d5";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+<script>
+(function(i, s, o, g, r, a, m) {
+    i['GoogleAnalyticsObject'] = r;
+    i[r] = i[r] || function() {
+        (i[r].q = i[r].q || []).push(arguments)
+    }, i[r].l = 1 * new Date();
+    a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0];
+    a.async = 1;
+    a.src = g;
+    m.parentNode.insertBefore(a, m)
+})(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+ga('create', 'UA-142577364-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+
+    
+<meta name="baidu-site-verification" content="rGeweWgWoh">
+
+
+<script>
+(function() {
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    } else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+</head></html>
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+<body>
+    <header class="main-header"  style="background-image:url(
+    https://image.chenhanpeng.com/static/images/web_static_image/banner.jpg)"
+     >
+    <div class="main-header-box">
+        <!-- <a class="header-avatar" href="/" title='Hanpeng Chen'>
+            <img src="/img/avatar.jpg" alt="logo头像" class="img-responsive center-block">
+        </a> -->
+        <a href="/" class="header-title">
+            <h1> 代码视界 </h1>
+        </a>
+        <div class="branding">
+            <!--<h2 class="text-hide">Snippet主题,从未如此简单有趣</h2>-->
+            
+            <h2>
+                Hanpeng Chen的个人博客
+            </h2>
+            
+        </div>
+    </div>
+</header>
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="navbar-header"><span class="nav-toggle-button collapsed pull-right" data-toggle="collapse" data-target="#main-menu" id="mnav">
+                        <span class="sr-only"></span>
+                        <i class="fa fa-bars"></i>
+                    </span>
+                    <a class="navbar-brand" href="http://www.chenhanpeng.com">
+                        代码视界</a>
+                </div>
+                <div class="collapse navbar-collapse" id="main-menu">
+                    <ul class="menu">
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/"><i class="fa "></i>
+                                首页</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/archives/"><i class="fa "></i>
+                                文章列表</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/"><i class="fa "></i>
+                                文章分类</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/tags/"><i class="fa "></i>
+                                文章标签</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/links/"><i class="fa "></i>
+                                友链</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/about/"><i class="fa "></i>
+                                关于作者</a>
+                        </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+                    <p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="PDF.js实现在线展示pdf文件">
+            
+            PDF.js实现在线展示pdf文件
+            
+        </h1>
+        <div class="post-meta">
+    
+    <span class="categories-meta fa-wrap">
+        <i class="fa fa-folder-open-o"></i>
+        <a class="category-link" href="/categories/前端/">前端</a>
+    </span>
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-tags"></i>
+        <span class="tags-meta">
+            
+            <a class="tag-link" href="/tags/pdf-js/">pdf.js</a> <a class="tag-link" href="/tags/在线预览PDF文件/">在线预览PDF文件</a>
+            
+        </span>
+    </span>
+    
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-clock-o"></i>
+        <span class="date-meta">
+            2019/06/28</span>
+    </span>
+    
+    <span class="fa-wrap">
+        <i class="fa fa-eye"></i>
+        <span id="busuanzi_value_page_pv"></span>
+    </span>
+    
+    
+</div>
+        
+        
+        <p class="fa fa-exclamation-triangle warning">
+            本文于<strong>
+                693</strong>
+            天之前发表，文中内容可能已经过时。
+        </p>
+        
+    </div>
+    
+    
+    <div class="post-body post-content">
+        <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>现在很多项目开发过程中都会碰到PDF在线预览的需求，对于PC端浏览器，一般直接提供PDF文件，iframe一下就可以直接预览。但在移动端要预览PDF则较为麻烦，有些浏览器检测到文件流，就会直接下载，无法实现预览功能。</p>
+<p>PDFJS就是解决这一问题比较好用的一款插件。</p>
+<h1 id="PDF-js"><a href="#PDF-js" class="headerlink" title="PDF.js"></a>PDF.js</h1><p>PDF.js是一个使用HTML5构建的可移植文档格式库。</p>
+<p>PDF.js官网：<a href="http://mozilla.github.io/pdf.js/" target="_blank" rel="noopener">http://mozilla.github.io/pdf.js/</a></p>
+<p>官网给出的使用方法是将PDF.js下载到项目静态资源目录中，在html文件中引入pdf.js去使用，但这样会导致最后项目编译打包后的资源包比较大。</p>
+<p>pdfjs-dist这一node库这好可以解决我们的问题。pdfjs-dist是pdf.js源代码的预构建版本，我们直接在项目中引入该库即可使用，接下来我们介绍如何使用。</p>
+<p>需要预览的PDF一般是后台接口返回的base64编码数据或者是本地上传获取到文件，接下来我们在vue工程上实现本地上传PDF文件，获取文件的base64编码，利用pdf.js实现预览效果。</p>
+<h1 id="基于Vue工程实现PDF在线预览"><a href="#基于Vue工程实现PDF在线预览" class="headerlink" title="基于Vue工程实现PDF在线预览"></a>基于Vue工程实现PDF在线预览</h1><h2 id="1、安装pdfjs-dist依赖"><a href="#1、安装pdfjs-dist依赖" class="headerlink" title="1、安装pdfjs-dist依赖"></a>1、安装pdfjs-dist依赖</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install pdfjs-dist</span><br></pre></td></tr></table></figure>
+<h2 id="2、初始化PDF，核心代码"><a href="#2、初始化PDF，核心代码" class="headerlink" title="2、初始化PDF，核心代码"></a>2、初始化PDF，核心代码</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">previewPDF() &#123;</span><br><span class="line">  // 引入pdf.js的字体</span><br><span class="line">  let CMAP_URL = &apos;https://unpkg.com/pdfjs-dist@2.0.943/cmaps/&apos;</span><br><span class="line">  //读取base64的pdf流文件</span><br><span class="line">  let loadingTask = pdfJS.getDocument(&#123;</span><br><span class="line">    data: this.pdfData, // PDF base64编码</span><br><span class="line">    cMapUrl: CMAP_URL,</span><br><span class="line">    cMapPacked: true</span><br><span class="line">  &#125;)</span><br><span class="line">  loadingTask.promise.then((pdf) =&gt; &#123;</span><br><span class="line">    this.loadFinished = true</span><br><span class="line">    let numPages = pdf.numPages</span><br><span class="line">    let pageNumber = 1</span><br><span class="line">    this.getPage(pdf, pageNumber, numPages)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;,</span><br><span class="line">getPage(pdf, pageNumber, numPages) &#123;</span><br><span class="line">  let _this = this</span><br><span class="line">  pdf.getPage(pageNumber)</span><br><span class="line">    .then((page) =&gt; &#123;</span><br><span class="line">      // 获取DOM中为预览PDF准备好的canvasDOM对象</span><br><span class="line">      let canvas = this.$refs.myCanvas</span><br><span class="line">      let viewport = page.getViewport(_this.scale)</span><br><span class="line">      canvas.height = viewport.height</span><br><span class="line">      canvas.width = viewport.width</span><br><span class="line"></span><br><span class="line">      let ctx = canvas.getContext(&apos;2d&apos;)</span><br><span class="line">      let renderContext = &#123;</span><br><span class="line">        canvasContext: ctx,</span><br><span class="line">        viewport: viewport</span><br><span class="line">      &#125;</span><br><span class="line">      page.render(renderContext).then(() =&gt; &#123;</span><br><span class="line">        pageNumber += 1</span><br><span class="line">        if (pageNumber &lt;= numPages) &#123;</span><br><span class="line">          _this.getPage(pdf, pageNumber, numPages)</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="3、效果"><a href="#3、效果" class="headerlink" title="3、效果"></a>3、效果</h2><!-- ![Alt](/images/articles/2019/vue-pdfjs-demo.png) -->
+<img src="http://image.chenhanpeng.com/static/images/vue/vue-pdfjs-demo.png">
+<h2 id="4、注意点"><a href="#4、注意点" class="headerlink" title="4、注意点"></a>4、注意点</h2><p>当PDF文件中有中文的情况下，在引用pdfjs过程中可能会出现中文不显示问题，在console中会报下面的错误，<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Warning: The CMap &quot;baseUrl&quot; parameter must be specified, ensure that the &quot;cMapUrl&quot; and &quot;cMapPacked&quot; API parameters are provided.</span><br></pre></td></tr></table></figure></p>
+<p>主要原因是有pdf不支持的字体格式，可以通过引入pdf.js的字体来解决该问题。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// 引入pdf.js的字体</span><br><span class="line">let CMAP_URL = &apos;https://unpkg.com/pdfjs-dist@2.0.943/cmaps/&apos;</span><br><span class="line">//读取base64的pdf流文件</span><br><span class="line">let loadingTask = pdfJS.getDocument(&#123;</span><br><span class="line">  data: this.pdfData, // PDF base64编码</span><br><span class="line">  cMapUrl: CMAP_URL,</span><br><span class="line">  cMapPacked: true</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
+<p><strong>完整代码获取：</strong><br><a href="https://github.com/Hanpeng-Chen/hampton-demo-repo/tree/master/example-project" target="_blank" rel="noopener">https://github.com/Hanpeng-Chen/hampton-demo-repo/tree/master/example-project</a></p>
+
+    </div>
+    <div class="wechat">
+        
+            <strong> 欢迎关注微信公众号： 『前端极客技术』『代码视界』 </strong>
+            <img class="wechat-image" src="https://image.chenhanpeng.com/static/images/web_static_image/article-gzh-qrcode.png" />
+        
+    </div>
+    
+    <div class="reward" ontouchstart>
+    <div class="reward-wrap">赏
+        <div class="reward-box">
+            
+            <span class="reward-type">
+                <img class="alipay" src="https://image.chenhanpeng.com/static/images/web_static_image/donate/alipay_qrcode.png"><b>支付宝打赏</b>
+            </span>
+            
+            
+            <span class="reward-type">
+                <img class="wechat" src="https://image.chenhanpeng.com/static/images/web_static_image/donate/weixin_pay_qrcode.png"><b>微信打赏</b>
+            </span>
+            
+        </div>
+    </div>
+    <p class="reward-tip">
+        赞赏是不耍流氓的鼓励
+    </p>
+</div>
+    
+    <div class="post-footer">
+        <div>
+            
+            转载声明：
+            商业转载请联系作者获得授权,非商业转载请注明出处 © <a href="" target="_blank">代码视界</a>
+            
+            
+        </div>
+        <div>
+            
+        </div>
+    </div>
+</article>
+<div class="article-nav prev-next-wrap clearfix">
+    
+    <a href="/wechat-miniprogram-otp-use-summary/" class="pre-post btn btn-default" title='微信小程序使用otp算法踩坑总结'>
+        <i class="fa fa-angle-left fa-fw"></i><span class="hidden-lg">上一篇</span>
+        <span class="hidden-xs">
+            微信小程序使用otp算法踩坑总结</span>
+    </a>
+    
+    
+    <a href="/Tensorflow-Object-Detection-image-video/" class="next-post btn btn-default" title='利用TensorFlow Object Detection API实现图片和视频物体检测'>
+        <span class="hidden-lg">下一篇</span>
+        <span class="hidden-xs">
+            利用TensorFlow Object Detection API实现图片和视频物体检测</span><i class="fa fa-angle-right fa-fw"></i>
+    </a>
+    
+</div>
+
+<!-- google广告 -->
+<!-- <ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-1437849089810081"
+     data-ad-slot="9946365914"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script> -->
+
+
+    <div id="comments">
+        
+<link rel="stylesheet" href="https://cdn.bootcss.com/gitalk/1.7.2/gitalk.min.css">
+<script src="//cdn.bootcss.com/gitalk/1.7.2/gitalk.min.js"></script>
+<script src="//cdn.bootcss.com/blueimp-md5/2.9.0/js/md5.min.js"></script>
+<div id="gitalk-container"></div>
+<script type="text/javascript">
+var gitalk = new Gitalk({
+    // Gitalk配置
+    language: "zh-CN",
+    clientID: "fb80658382dee5240195",
+    clientSecret: "66663a08264192222ba993f20dd7c0a27c1e6fa5",
+    repo: "blog-comments",
+    owner: "Hanpeng-Chen",
+    admin: ["Hanpeng-Chen"],
+    id: md5(location.pathname),
+    distractionFreeMode: true,
+    proxy: "https://cloudflare-cors-anywhere.hanpengchen.workers.dev/?https://github.com/login/oauth/access_token"
+});
+gitalk.render('gitalk-container');
+</script>
+
+    </div>
+
+                </main>
+                
+                    <div class="col-md-4">
+<!-- 方形 -->
+<!-- <ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-1437849089810081"
+     data-ad-slot="2426112279"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script> -->
+</div>
+<aside id="article-toc" role="navigation" class="col-md-4">
+    <div class="widget">
+        <h3 class="title">
+            文章目录
+        </h3>
+        
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#背景"><span class="toc-text">背景</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#PDF-js"><span class="toc-text">PDF.js</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#基于Vue工程实现PDF在线预览"><span class="toc-text">基于Vue工程实现PDF在线预览</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1、安装pdfjs-dist依赖"><span class="toc-text">1、安装pdfjs-dist依赖</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2、初始化PDF，核心代码"><span class="toc-text">2、初始化PDF，核心代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3、效果"><span class="toc-text">3、效果</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4、注意点"><span class="toc-text">4、注意点</span></a></li></ol></li></ol>
+        
+    </div>
+</aside>
+                
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+<a id="back-to-top" class="icon-btn hide">
+    <i class="fa fa-chevron-up"></i>
+</a>
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="busuanzi">
+    
+</div>
+            </div>
+            <div class="col-sm-12">
+                <span>Copyright &copy;
+                    2019
+                    
+                </span> |
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> |
+                <span>
+                    Theme by <a href="//github.com/shenliyang/hexo-theme-snippet.git" class="copyright-links" target="_blank" rel="nofollow">Snippet</a>
+                </span>
+                
+                    <span> | </span>
+                    <span>
+                        <a href="//beian.miit.gov.cn/" target="_blank" rel="nofollow">
+                            闽ICP备19010134号-1
+                        </a>
+                    </span>
+                
+                
+                    <span> | </span>
+                    <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=35020302033449" rel="nofollow">
+                        <img src="https://image.chenhanpeng.com/static/images/web_static_image/beian_icon.png" width="20">
+                        <span>闽公网安备 35020302033449号</span>
+                    </a>
+                         
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<script src="/js/app.js?rev=@@hash"></script>
+</body>
+</html>

@@ -1,0 +1,438 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="代码视界">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="theme-version" content="1.2.3">
+    <meta name="root" content="/">
+    <link rel="dns-prefetch" href="http://www.chenhanpeng.com">
+    <script data-ad-client="ca-pub-1437849089810081" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <!--SEO-->
+
+<meta name="keywords" content="JavaScript,乱序">
+
+
+<meta name="description" content="前言对数组进行排序对我们来说很容易就能够实现，但是你有考虑过如何对一个有序的数组实现乱序，即随机排序吗？
+数组乱序在实际开发过程中是可能碰到的，下面我们一起看看如何实现数组乱序。
+sort + ...">
+
+
+<meta name="robots" content="all">
+<meta name="google" content="all">
+<meta name="googlebot" content="all">
+<meta name="verify" content="all">
+    <!--Title-->
+
+<title>
+    
+    JavaScript数组乱序 |
+    
+    代码视界
+</title>
+
+<link rel="alternate" href="/atom.xml" title="代码视界" type="application/atom+xml">
+
+
+<link rel="icon" href="/img/site_logo.jpg">
+
+    
+
+<link rel="stylesheet" href="/css/bootstrap.min.css?rev=3.3.7">
+<link rel="stylesheet" href="/css/font-awesome.min.css?rev=4.7.0">
+<link rel="stylesheet" href="/css/style.css?rev=@@hash">
+    
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?494af80fa01e8939bec179cfddf660d5";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+<script>
+(function(i, s, o, g, r, a, m) {
+    i['GoogleAnalyticsObject'] = r;
+    i[r] = i[r] || function() {
+        (i[r].q = i[r].q || []).push(arguments)
+    }, i[r].l = 1 * new Date();
+    a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0];
+    a.async = 1;
+    a.src = g;
+    m.parentNode.insertBefore(a, m)
+})(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+ga('create', 'UA-142577364-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+
+    
+<meta name="baidu-site-verification" content="rGeweWgWoh">
+
+
+<script>
+(function() {
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    } else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+</head></html>
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+<body>
+    <header class="main-header"  style="background-image:url(
+    https://image.chenhanpeng.com/static/images/web_static_image/banner.jpg)"
+     >
+    <div class="main-header-box">
+        <!-- <a class="header-avatar" href="/" title='Hanpeng Chen'>
+            <img src="/img/avatar.jpg" alt="logo头像" class="img-responsive center-block">
+        </a> -->
+        <a href="/" class="header-title">
+            <h1> 代码视界 </h1>
+        </a>
+        <div class="branding">
+            <!--<h2 class="text-hide">Snippet主题,从未如此简单有趣</h2>-->
+            
+            <h2>
+                Hanpeng Chen的个人博客
+            </h2>
+            
+        </div>
+    </div>
+</header>
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="navbar-header"><span class="nav-toggle-button collapsed pull-right" data-toggle="collapse" data-target="#main-menu" id="mnav">
+                        <span class="sr-only"></span>
+                        <i class="fa fa-bars"></i>
+                    </span>
+                    <a class="navbar-brand" href="http://www.chenhanpeng.com">
+                        代码视界</a>
+                </div>
+                <div class="collapse navbar-collapse" id="main-menu">
+                    <ul class="menu">
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/"><i class="fa "></i>
+                                首页</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/archives/"><i class="fa "></i>
+                                文章列表</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/"><i class="fa "></i>
+                                文章分类</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/tags/"><i class="fa "></i>
+                                文章标签</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/links/"><i class="fa "></i>
+                                友链</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/about/"><i class="fa "></i>
+                                关于作者</a>
+                        </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+                    <p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="JavaScript数组乱序">
+            
+            JavaScript数组乱序
+            
+        </h1>
+        <div class="post-meta">
+    
+    <span class="categories-meta fa-wrap">
+        <i class="fa fa-folder-open-o"></i>
+        <a class="category-link" href="/categories/前端/">前端</a> <a class="category-link" href="/categories/前端/JavaScript/">JavaScript</a>
+    </span>
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-tags"></i>
+        <span class="tags-meta">
+            
+            <a class="tag-link" href="/tags/JavaScript/">JavaScript</a> <a class="tag-link" href="/tags/乱序/">乱序</a>
+            
+        </span>
+    </span>
+    
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-clock-o"></i>
+        <span class="date-meta">
+            2020/08/12</span>
+    </span>
+    
+    <span class="fa-wrap">
+        <i class="fa fa-eye"></i>
+        <span id="busuanzi_value_page_pv"></span>
+    </span>
+    
+    
+</div>
+        
+        
+    </div>
+    
+    
+    <div class="post-body post-content">
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>对数组进行排序对我们来说很容易就能够实现，但是你有考虑过如何对一个有序的数组实现乱序，即随机排序吗？</p>
+<p>数组乱序在实际开发过程中是可能碰到的，下面我们一起看看如何实现数组乱序。</p>
+<h2 id="sort-Math-random"><a href="#sort-Math-random" class="headerlink" title="sort + Math.random"></a>sort + Math.random</h2><p>我们一开始可能会想到利用数组的sort方法，判断随机出来的0-1的值与0.5的大小，实现排序。该方法实现如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>];</span><br><span class="line"></span><br><span class="line">arr.sort(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">Math</span>.random() - <span class="number">0.5</span>;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(arr)</span><br></pre></td></tr></table></figure>
+<p>上面的实现方法看起来很完美地实现了乱序的需求，但实际的效果如何我们还是要进行测试。</p>
+<h2 id="对sort-Math-random方法进行测试"><a href="#对sort-Math-random方法进行测试" class="headerlink" title="对sort + Math.random方法进行测试"></a>对sort + Math.random方法进行测试</h2><p>在Chrome浏览器上将[1, 2, 3, 4, 5]数组进行乱序10万次，计算乱序后每个值出现在各个位置的概率。测试代码如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> statistics = <span class="keyword">new</span> <span class="built_in">Array</span>(<span class="number">5</span>).fill(<span class="number">0</span>).map(<span class="function"><span class="params">()</span> =&gt;</span> <span class="keyword">new</span> <span class="built_in">Array</span>(<span class="number">5</span>).fill(<span class="number">0</span>));</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; <span class="number">100000</span>; i++) &#123;</span><br><span class="line">	<span class="keyword">let</span> arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>];</span><br><span class="line">	arr.sort(<span class="function"><span class="params">()</span> =&gt;</span> <span class="built_in">Math</span>.random() - <span class="number">0.5</span>);</span><br><span class="line">	arr.forEach(<span class="function">(<span class="params">value, index</span>) =&gt;</span> &#123;</span><br><span class="line">		statistics[index][value - <span class="number">1</span>]++;</span><br><span class="line">	&#125;)</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.table(statistics.map(<span class="function"><span class="params">item</span> =&gt;</span> item.map(<span class="function"><span class="params">value</span> =&gt;</span> (value / <span class="number">100000</span> * <span class="number">100</span>).toFixed(<span class="number">2</span>) + <span class="string">'%'</span>)));</span><br></pre></td></tr></table></figure>
+<p>在Chrome浏览器上执行得到如下结果：</p>
+<img src="http://image.chenhanpeng.com/static/images/javascript/array_shuffle_1.png">
+<p>从上图我们可以看出：元素出现在每个位置上的概率并没有趋向于相等，反而元素停留在原位置上的概率更大，所以Array.sort()方法进行乱序是存在问题的。要知道问题具体出现在哪，我们需要了解sort方法实现原理。</p>
+<h2 id="Array-sort-方法的实现"><a href="#Array-sort-方法的实现" class="headerlink" title="Array.sort()方法的实现"></a>Array.sort()方法的实现</h2><p>ECMAScript对 Array.prototype.sort 的定义只规定了效果，没有要求用什么样的排序方式实现sort()方法，也没有要求是否要采用稳定排序算法，所以不同的浏览器实现的方式都不太一样。</p>
+<h3 id="Chrome的sort"><a href="#Chrome的sort" class="headerlink" title="Chrome的sort"></a>Chrome的sort</h3><p>基于V8引擎，它的排序算法进行了很多的优化，但核心是小于等于10的数组用插入排序，大于10的采用快速排序。</p>
+<h3 id="FireFox的sort"><a href="#FireFox的sort" class="headerlink" title="FireFox的sort"></a>FireFox的sort</h3><p>基于SpiderMonkey引擎，采用归并排序。</p>
+<h3 id="Safari的sort"><a href="#Safari的sort" class="headerlink" title="Safari的sort"></a>Safari的sort</h3><p>基于Nitro(JavaScriptCore) 引擎，如果没有自定义的排序规则传入，采用桶排序；传入自定义规则，采用归并排序。</p>
+<h3 id="Microsoft-Edge-IE9-的sort"><a href="#Microsoft-Edge-IE9-的sort" class="headerlink" title="Microsoft Edge/IE9+ 的sort"></a>Microsoft Edge/IE9+ 的sort</h3><p>基于Chakra引擎，采用快速排序。</p>
+<h3 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h3><p>其实不管用什么排序方法，大多数排序算法的时间复杂度介于O(n)到O(n2)之间，元素之间的比较次数通常情况下要远小于n(n-1)/2，也就意味着有一些元素之间根本就没机会相比较（也就没有了随机交换的可能），这些 sort 随机排序的算法自然也不能真正随机。</p>
+<p>怎么理解上边这句话呢？其实我们想使用array.sort进行乱序，理想的方案或者说纯乱序的方案是数组中每两个元素都要进行比较，这个比较有50%的交换位置概率。这样一来，总共比较次数一定为n(n-1)。而在sort排序算法中，大多数情况都不会满足这样的条件。因而当然不是完全随机的结果了。</p>
+<p>这里我们以Chrome使用的插入排序算法为例：在插入排序的算法中，当待排序元素跟有序元素进行比较时，一旦确定了位置，就不会再跟位置前面的有序元素进行比较，所以就出现了前面说的“没有了随机交换的可能”的情况，导致乱序不彻底。</p>
+<p>要实现真正意义上的乱序，这就要提到经典的 <a href="https://en.wikipedia.org/wiki/Fisher–Yates_shuffle" target="_blank" rel="noopener">洗牌算法Fisher–Yates_shuffle</a>。</p>
+<h2 id="洗牌算法Fisher–Yates-shuffle"><a href="#洗牌算法Fisher–Yates-shuffle" class="headerlink" title="洗牌算法Fisher–Yates_shuffle"></a>洗牌算法Fisher–Yates_shuffle</h2><p>Fisher–Yates_shuffle的原理如下：</p>
+<blockquote>
+<p>1、写下从 1 到 N 的数字<br>2、取一个从 1 到剩下的数字（包括这个数字）的随机数 k<br>3、从低位开始，得到第 k 个数字（这个数字还没有被取出），把它写在独立的一个列表的最后一位<br>4、重复第 2 步，直到所有的数字都被取出<br>5、第 3 步写出的这个序列，现在就是原始数字的随机排列</p>
+</blockquote>
+<p>简单的说：就是随机抽一个放到最后。把剩余的数继续抽，继续放到次后。。。。依次执行</p>
+<p>实现代码如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">shuffle</span>(<span class="params">array</span>) </span>&#123;</span><br><span class="line">	<span class="keyword">var</span> j, x, i;</span><br><span class="line">	<span class="keyword">for</span> (i = array.length; i; i--) &#123;</span><br><span class="line">		j = <span class="built_in">Math</span>.floor(<span class="built_in">Math</span>.random() * i);</span><br><span class="line">		x = array[i - <span class="number">1</span>];</span><br><span class="line">		array[i - <span class="number">1</span>] = array[j];</span><br><span class="line">		array[j] = x;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> array;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们对上面实现的方法进行10万次乱序：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> statistics = <span class="keyword">new</span> <span class="built_in">Array</span>(<span class="number">5</span>).fill(<span class="number">0</span>).map(<span class="function"><span class="params">()</span> =&gt;</span> <span class="keyword">new</span> <span class="built_in">Array</span>(<span class="number">5</span>).fill(<span class="number">0</span>));</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; <span class="number">100000</span>; i++) &#123;</span><br><span class="line">	<span class="keyword">let</span> arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>];</span><br><span class="line">	arr = shuffle(arr);</span><br><span class="line">	arr.forEach(<span class="function">(<span class="params">value, index</span>) =&gt;</span> &#123;</span><br><span class="line">		statistics[index][value - <span class="number">1</span>]++;</span><br><span class="line">	&#125;)</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.table(statistics.map(<span class="function"><span class="params">item</span> =&gt;</span> item.map(<span class="function"><span class="params">value</span> =&gt;</span> (value / <span class="number">100000</span> * <span class="number">100</span>).toFixed(<span class="number">2</span>) + <span class="string">'%'</span>)));</span><br></pre></td></tr></table></figure></p>
+<p>统计结果如下：<br><img src="http://image.chenhanpeng.com/static/images/javascript/array_shuffle_2.png"></p>
+<p>从上图可以看出，数组中任意一个元素出现在任何一个位置的概率都是相等的，这样我们就真正实现了乱序的效果。</p>
+
+    </div>
+    <div class="wechat">
+        
+            <strong> 欢迎关注微信公众号： 『前端极客技术』『代码视界』 </strong>
+            <img class="wechat-image" src="https://image.chenhanpeng.com/static/images/web_static_image/article-gzh-qrcode.png" />
+        
+    </div>
+    
+    <div class="reward" ontouchstart>
+    <div class="reward-wrap">赏
+        <div class="reward-box">
+            
+            <span class="reward-type">
+                <img class="alipay" src="https://image.chenhanpeng.com/static/images/web_static_image/donate/alipay_qrcode.png"><b>支付宝打赏</b>
+            </span>
+            
+            
+            <span class="reward-type">
+                <img class="wechat" src="https://image.chenhanpeng.com/static/images/web_static_image/donate/weixin_pay_qrcode.png"><b>微信打赏</b>
+            </span>
+            
+        </div>
+    </div>
+    <p class="reward-tip">
+        赞赏是不耍流氓的鼓励
+    </p>
+</div>
+    
+    <div class="post-footer">
+        <div>
+            
+            转载声明：
+            商业转载请联系作者获得授权,非商业转载请注明出处 © <a href="" target="_blank">代码视界</a>
+            
+            
+        </div>
+        <div>
+            
+        </div>
+    </div>
+</article>
+<div class="article-nav prev-next-wrap clearfix">
+    
+    <a href="/ten-classic-sort-algorithms/" class="pre-post btn btn-default" title='十大经典排序算法'>
+        <i class="fa fa-angle-left fa-fw"></i><span class="hidden-lg">上一篇</span>
+        <span class="hidden-xs">
+            十大经典排序算法</span>
+    </a>
+    
+    
+    <a href="/javascript-array-unique/" class="next-post btn btn-default" title='JavaScript-数组去重'>
+        <span class="hidden-lg">下一篇</span>
+        <span class="hidden-xs">
+            JavaScript-数组去重</span><i class="fa fa-angle-right fa-fw"></i>
+    </a>
+    
+</div>
+
+<!-- google广告 -->
+<!-- <ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-1437849089810081"
+     data-ad-slot="9946365914"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script> -->
+
+
+    <div id="comments">
+        
+<link rel="stylesheet" href="https://cdn.bootcss.com/gitalk/1.7.2/gitalk.min.css">
+<script src="//cdn.bootcss.com/gitalk/1.7.2/gitalk.min.js"></script>
+<script src="//cdn.bootcss.com/blueimp-md5/2.9.0/js/md5.min.js"></script>
+<div id="gitalk-container"></div>
+<script type="text/javascript">
+var gitalk = new Gitalk({
+    // Gitalk配置
+    language: "zh-CN",
+    clientID: "fb80658382dee5240195",
+    clientSecret: "66663a08264192222ba993f20dd7c0a27c1e6fa5",
+    repo: "blog-comments",
+    owner: "Hanpeng-Chen",
+    admin: ["Hanpeng-Chen"],
+    id: md5(location.pathname),
+    distractionFreeMode: true,
+    proxy: "https://cloudflare-cors-anywhere.hanpengchen.workers.dev/?https://github.com/login/oauth/access_token"
+});
+gitalk.render('gitalk-container');
+</script>
+
+    </div>
+
+                </main>
+                
+                    <div class="col-md-4">
+<!-- 方形 -->
+<!-- <ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-1437849089810081"
+     data-ad-slot="2426112279"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script> -->
+</div>
+<aside id="article-toc" role="navigation" class="col-md-4">
+    <div class="widget">
+        <h3 class="title">
+            文章目录
+        </h3>
+        
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#sort-Math-random"><span class="toc-text">sort + Math.random</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#对sort-Math-random方法进行测试"><span class="toc-text">对sort + Math.random方法进行测试</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Array-sort-方法的实现"><span class="toc-text">Array.sort()方法的实现</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Chrome的sort"><span class="toc-text">Chrome的sort</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#FireFox的sort"><span class="toc-text">FireFox的sort</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Safari的sort"><span class="toc-text">Safari的sort</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Microsoft-Edge-IE9-的sort"><span class="toc-text">Microsoft Edge/IE9+ 的sort</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#分析"><span class="toc-text">分析</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#洗牌算法Fisher–Yates-shuffle"><span class="toc-text">洗牌算法Fisher–Yates_shuffle</span></a></li></ol>
+        
+    </div>
+</aside>
+                
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+<a id="back-to-top" class="icon-btn hide">
+    <i class="fa fa-chevron-up"></i>
+</a>
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="busuanzi">
+    
+</div>
+            </div>
+            <div class="col-sm-12">
+                <span>Copyright &copy;
+                    2019
+                    
+                </span> |
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> |
+                <span>
+                    Theme by <a href="//github.com/shenliyang/hexo-theme-snippet.git" class="copyright-links" target="_blank" rel="nofollow">Snippet</a>
+                </span>
+                
+                    <span> | </span>
+                    <span>
+                        <a href="//beian.miit.gov.cn/" target="_blank" rel="nofollow">
+                            闽ICP备19010134号-1
+                        </a>
+                    </span>
+                
+                
+                    <span> | </span>
+                    <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=35020302033449" rel="nofollow">
+                        <img src="https://image.chenhanpeng.com/static/images/web_static_image/beian_icon.png" width="20">
+                        <span>闽公网安备 35020302033449号</span>
+                    </a>
+                         
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<script src="/js/app.js?rev=@@hash"></script>
+</body>
+</html>

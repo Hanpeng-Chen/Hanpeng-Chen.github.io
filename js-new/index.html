@@ -1,0 +1,460 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="代码视界">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="theme-version" content="1.2.3">
+    <meta name="root" content="/">
+    <link rel="dns-prefetch" href="http://www.chenhanpeng.com">
+    <script data-ad-client="ca-pub-1437849089810081" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <!--SEO-->
+
+<meta name="keywords" content="JavaScript">
+
+
+<meta name="description" content="
+作者：Hanpeng_Chen
+公众号：前端极客技术
+
+new关键字对于前端开发者来说是比较常见的操作，在互联网大厂的面试中，有时候会要求手写实现new。接下来我们一起看看new到底做了什么？...">
+
+
+<meta name="robots" content="all">
+<meta name="google" content="all">
+<meta name="googlebot" content="all">
+<meta name="verify" content="all">
+    <!--Title-->
+
+<title>
+    
+    一起搞清楚JS中的new到底做了什么，并模拟实现一个new |
+    
+    代码视界
+</title>
+
+<link rel="alternate" href="/atom.xml" title="代码视界" type="application/atom+xml">
+
+
+<link rel="icon" href="/img/site_logo.jpg">
+
+    
+
+<link rel="stylesheet" href="/css/bootstrap.min.css?rev=3.3.7">
+<link rel="stylesheet" href="/css/font-awesome.min.css?rev=4.7.0">
+<link rel="stylesheet" href="/css/style.css?rev=@@hash">
+    
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?494af80fa01e8939bec179cfddf660d5";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+<script>
+(function(i, s, o, g, r, a, m) {
+    i['GoogleAnalyticsObject'] = r;
+    i[r] = i[r] || function() {
+        (i[r].q = i[r].q || []).push(arguments)
+    }, i[r].l = 1 * new Date();
+    a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0];
+    a.async = 1;
+    a.src = g;
+    m.parentNode.insertBefore(a, m)
+})(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+ga('create', 'UA-142577364-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+
+    
+<meta name="baidu-site-verification" content="rGeweWgWoh">
+
+
+<script>
+(function() {
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    } else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+</head></html>
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+<body>
+    <header class="main-header"  style="background-image:url(
+    https://image.chenhanpeng.com/static/images/web_static_image/banner.jpg)"
+     >
+    <div class="main-header-box">
+        <!-- <a class="header-avatar" href="/" title='Hanpeng Chen'>
+            <img src="/img/avatar.jpg" alt="logo头像" class="img-responsive center-block">
+        </a> -->
+        <a href="/" class="header-title">
+            <h1> 代码视界 </h1>
+        </a>
+        <div class="branding">
+            <!--<h2 class="text-hide">Snippet主题,从未如此简单有趣</h2>-->
+            
+            <h2>
+                Hanpeng Chen的个人博客
+            </h2>
+            
+        </div>
+    </div>
+</header>
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="navbar-header"><span class="nav-toggle-button collapsed pull-right" data-toggle="collapse" data-target="#main-menu" id="mnav">
+                        <span class="sr-only"></span>
+                        <i class="fa fa-bars"></i>
+                    </span>
+                    <a class="navbar-brand" href="http://www.chenhanpeng.com">
+                        代码视界</a>
+                </div>
+                <div class="collapse navbar-collapse" id="main-menu">
+                    <ul class="menu">
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/"><i class="fa "></i>
+                                首页</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/archives/"><i class="fa "></i>
+                                文章列表</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/"><i class="fa "></i>
+                                文章分类</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/tags/"><i class="fa "></i>
+                                文章标签</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/links/"><i class="fa "></i>
+                                友链</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/about/"><i class="fa "></i>
+                                关于作者</a>
+                        </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+                    <p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="一起搞清楚JS中的new到底做了什么，并模拟实现一个new">
+            
+            一起搞清楚JS中的new到底做了什么，并模拟实现一个new
+            
+        </h1>
+        <div class="post-meta">
+    
+    <span class="categories-meta fa-wrap">
+        <i class="fa fa-folder-open-o"></i>
+        <a class="category-link" href="/categories/前端/">前端</a> <a class="category-link" href="/categories/前端/JavaScript/">JavaScript</a> <a class="category-link" href="/categories/前端/原理源码/">原理源码</a>
+    </span>
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-tags"></i>
+        <span class="tags-meta">
+            
+            <a class="tag-link" href="/tags/JavaScript/">JavaScript</a>
+            
+        </span>
+    </span>
+    
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-clock-o"></i>
+        <span class="date-meta">
+            2021/04/13</span>
+    </span>
+    
+    <span class="fa-wrap">
+        <i class="fa fa-eye"></i>
+        <span id="busuanzi_value_page_pv"></span>
+    </span>
+    
+    
+</div>
+        
+        
+    </div>
+    
+    
+    <div class="post-body post-content">
+        <blockquote>
+<p>作者：Hanpeng_Chen</p>
+<p>公众号：<strong>前端极客技术</strong></p>
+</blockquote>
+<p>new关键字对于前端开发者来说是比较常见的操作，在互联网大厂的面试中，有时候会要求手写实现new。接下来我们一起看看new到底做了什么？如何模拟实现？</p>
+<h2 id="new原理介绍"><a href="#new原理介绍" class="headerlink" title="new原理介绍"></a>new原理介绍</h2><h3 id="new概念"><a href="#new概念" class="headerlink" title="new概念"></a>new概念</h3><p>关于new关键字，MDN上是这样描述的：</p>
+<blockquote>
+<p><code>new</code>关键字创建一个用户定义的对象类型的实例或具有构造函数的内置对象的实例。</p>
+</blockquote>
+<p>上面这句话也许有些难懂，我们先来看下面这段代码：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> Parent = <span class="function"><span class="keyword">function</span>(<span class="params">name, age</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.name = name;</span><br><span class="line">  <span class="keyword">this</span>.age = age;</span><br><span class="line">&#125;;</span><br><span class="line">Parent.prototype.getName = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">this</span>.name;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> child = <span class="keyword">new</span> Parent(<span class="string">'张三'</span>, <span class="number">25</span>);</span><br><span class="line"><span class="built_in">console</span>.log(child.getName());</span><br><span class="line"><span class="built_in">console</span>.log(child.age);</span><br></pre></td></tr></table></figure>
+<p>从这个例子中，我们可以看到：实例child可以访问到Parent构造函数里的属性，也可以访问到Parent.prototype中的属性。</p>
+<p>从输出结果可以看出：child是一个通过Parent这个构造函数生成的一个实例对象。</p>
+<blockquote>
+<p>那么关于new关键字的作用，我们可以理解为就是执行一个构造函数，返回一个实例对象，在new的过程中，根据构造函数的情况，来确定是否可以接受参数传递。</p>
+</blockquote>
+<h3 id="不使用new关键字会发生什么"><a href="#不使用new关键字会发生什么" class="headerlink" title="不使用new关键字会发生什么"></a>不使用new关键字会发生什么</h3><p>我们对上面代码进行改造一下，去掉new，会有什么变化？</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> Parent = <span class="function"><span class="keyword">function</span>(<span class="params">name, age</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.name = name;</span><br><span class="line">  <span class="keyword">this</span>.age = age;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> child1 = Parent(<span class="string">'张三'</span>, <span class="number">25</span>)</span><br><span class="line"><span class="built_in">console</span>.log(child1) <span class="comment">// undefined</span></span><br><span class="line"><span class="built_in">console</span>.log(age) <span class="comment">// 25</span></span><br><span class="line"><span class="built_in">console</span>.log(child1.name) <span class="comment">// Cannot read property 'name' of undefined</span></span><br></pre></td></tr></table></figure>
+<p>从上面代码我们可以看到，没有使用new关键词，返回的结果是<code>undefined</code>。我们直接打印age可以获取到值，是因为JavaScript代码在默认情况下this的指向是window。</p>
+<h3 id="构造函数返回一个对象会发生什么？"><a href="#构造函数返回一个对象会发生什么？" class="headerlink" title="构造函数返回一个对象会发生什么？"></a>构造函数返回一个对象会发生什么？</h3><p>如果构造函数中有return一个对象的操作，结果会发生什么变化？我们再来看下面这段改造后的代码：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Parent</span>(<span class="params">name</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.name = name;</span><br><span class="line">  <span class="keyword">return</span> &#123;<span class="attr">age</span>: <span class="number">30</span>&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> p = <span class="keyword">new</span> Parent(<span class="string">'张三'</span>)</span><br><span class="line"><span class="built_in">console</span>.log(p); <span class="comment">// &#123; age: 30 &#125;</span></span><br><span class="line"><span class="built_in">console</span>.log(p.name); <span class="comment">// undefined</span></span><br><span class="line"><span class="built_in">console</span>.log(p.age); <span class="comment">// 30</span></span><br></pre></td></tr></table></figure>
+<p>从上述代码的执行结果看到：如果构造函数return出来的是一个和this无关的对象时，new命令会直接返回这个新对象，而不是生成一个绑定了最新this的新对象并返回出来。</p>
+<p>如果构造函数return回来的不是一个对象，那么还是会按照new的实现步骤，返回新生成的对象。我们通过下面的代码验证一下：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Parent</span>(<span class="params">name</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.name = name;</span><br><span class="line">  <span class="keyword">return</span> <span class="string">'Chinese'</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> p = <span class="keyword">new</span> Parent(<span class="string">'张三'</span>)</span><br><span class="line"><span class="built_in">console</span>.log(p); <span class="comment">// Parent &#123; name: '张三' &#125;</span></span><br><span class="line"><span class="built_in">console</span>.log(p.name); <span class="comment">// 张三</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="小结：new到底做了什么？"><a href="#小结：new到底做了什么？" class="headerlink" title="小结：new到底做了什么？"></a>小结：new到底做了什么？</h3><p>new在这个生成实例过程中到底进行了哪些步骤来实现？我将其总结为下面几个步骤：</p>
+<ul>
+<li>创建一个空的简单JavaScript对象，即 <code>{}</code>；</li>
+<li>将构造函数的作用域赋给新对象（this指向新对象）；</li>
+<li>执行构造函数中的代码（为新对象添加属性）；</li>
+<li>如果该函数没有返回对象，则返回this。</li>
+</ul>
+<h2 id="new的实现"><a href="#new的实现" class="headerlink" title="new的实现"></a>new的实现</h2><p>结合上面的内容，我们一起来手写实现new。</p>
+<p>在开始写代码之前，我们先确定new被调用后大致做了那几件事：</p>
+<ul>
+<li>让实例可以访问到私有属性；</li>
+<li>让实例可以访问构造函数原型（constructor.prototype）所在原型链上的属性；</li>
+<li>构造函数返回的最后结果是引用数据类型。</li>
+</ul>
+<p>知道了new被调用后做了哪些事情，那么我们就可以开始手写实现它了。实现代码如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">_new</span>(<span class="params">ctor, ...args</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (<span class="keyword">typeof</span> ctor !== <span class="string">'function'</span>) &#123;</span><br><span class="line">    <span class="keyword">throw</span> <span class="string">'ctor must be a function'</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 创建新的对象</span></span><br><span class="line">  <span class="keyword">let</span> newObj = <span class="keyword">new</span> <span class="built_in">Object</span>();</span><br><span class="line">  <span class="comment">// 让新创建的对象可以访问构造函数原型（constructor.prototype）所在原型链上的属性；</span></span><br><span class="line">  newObj.__proto__ = <span class="built_in">Object</span>.create(ctor.prototype);</span><br><span class="line">  <span class="comment">// 将构造函数的作用域赋给新对象（this指向新对象）；</span></span><br><span class="line">  <span class="comment">// 执行构造函数中的代码</span></span><br><span class="line">  <span class="keyword">let</span> res = ctor.apply(newObj, [...args]);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">let</span> isObject = <span class="keyword">typeof</span> res === <span class="string">'object'</span> &amp;&amp; res !== <span class="literal">null</span>;</span><br><span class="line">  <span class="keyword">let</span> isFunction = <span class="keyword">typeof</span> res === <span class="string">'function'</span>;</span><br><span class="line">  <span class="keyword">return</span> isObject || isFunction ? res : newObj;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>对我们上面模拟实现的new方法进行测试，代码如下：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> Parent = <span class="function"><span class="keyword">function</span>(<span class="params">name, age</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.name = name;</span><br><span class="line">  <span class="keyword">this</span>.age = age;</span><br><span class="line">&#125;;</span><br><span class="line">Parent.prototype.getName = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">this</span>.name;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> p = _new(Parent, <span class="string">'zhangsan'</span>, <span class="number">25</span>);</span><br><span class="line"><span class="built_in">console</span>.log(p); <span class="comment">// Parent &#123; name: 'zhangsan', age: 25 &#125;</span></span><br><span class="line"><span class="built_in">console</span>.log(p.age); <span class="comment">// 25 </span></span><br><span class="line"><span class="built_in">console</span>.log(p.getName()); <span class="comment">// zhangsan</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Parent1</span>(<span class="params">name</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.name = name;</span><br><span class="line">  <span class="keyword">return</span> &#123;<span class="attr">age</span>: <span class="number">30</span>&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> p1 = _new(Parent1, <span class="string">'lisi'</span>)</span><br><span class="line"><span class="built_in">console</span>.log(p1); <span class="comment">// &#123; age: 30 &#125;</span></span><br><span class="line"><span class="built_in">console</span>.log(p1.name); <span class="comment">// undefined</span></span><br><span class="line"><span class="built_in">console</span>.log(p1.age); <span class="comment">// 30</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Parent2</span>(<span class="params">name</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.name = name;</span><br><span class="line">  <span class="keyword">return</span> <span class="string">'Chinese'</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> p2 = _new(Parent2, <span class="string">'wangwu'</span>)</span><br><span class="line"><span class="built_in">console</span>.log(p2); <span class="comment">// Parent &#123; name: 'wangwu' &#125;</span></span><br><span class="line"><span class="built_in">console</span>.log(p2.name); <span class="comment">// wangwu</span></span><br></pre></td></tr></table></figure></p>
+<p>从测试结果可以看出，我们模拟实现的_new方法和原生的new关键字调用结果是一样的。</p>
+<p>到这里手写模拟实现new就结束了，你学会了吗？</p>
+<p>如有发现不妥或可改进之处，欢迎留言指出。</p>
+<blockquote>
+<p>如果你觉得这篇内容对你有帮助的话：</p>
+<p>1、<strong>点赞</strong>支持下吧，让更多的人也能看到这篇内容</p>
+<p>2、关注公众号：<strong>前端极客技术</strong>，我们一起学习一起进步。</p>
+</blockquote>
+<p><img src="https://gitee.com/HanpengChen/blog-images/raw/master/%E5%89%8D%E7%AB%AF%E6%9E%81%E5%AE%A2%E6%8A%80%E6%9C%AF%E4%BA%8C%E7%BB%B4%E7%A0%81.png" alt></p>
+
+    </div>
+    <div class="wechat">
+        
+            <strong> 欢迎关注微信公众号： 『前端极客技术』『代码视界』 </strong>
+            <img class="wechat-image" src="https://image.chenhanpeng.com/static/images/web_static_image/article-gzh-qrcode.png" />
+        
+    </div>
+    
+    <div class="reward" ontouchstart>
+    <div class="reward-wrap">赏
+        <div class="reward-box">
+            
+            <span class="reward-type">
+                <img class="alipay" src="https://image.chenhanpeng.com/static/images/web_static_image/donate/alipay_qrcode.png"><b>支付宝打赏</b>
+            </span>
+            
+            
+            <span class="reward-type">
+                <img class="wechat" src="https://image.chenhanpeng.com/static/images/web_static_image/donate/weixin_pay_qrcode.png"><b>微信打赏</b>
+            </span>
+            
+        </div>
+    </div>
+    <p class="reward-tip">
+        赞赏是不耍流氓的鼓励
+    </p>
+</div>
+    
+    <div class="post-footer">
+        <div>
+            
+            转载声明：
+            商业转载请联系作者获得授权,非商业转载请注明出处 © <a href="" target="_blank">代码视界</a>
+            
+            
+        </div>
+        <div>
+            
+        </div>
+    </div>
+</article>
+<div class="article-nav prev-next-wrap clearfix">
+    
+    <a href="/handwriting-apply-call-bind/" class="pre-post btn btn-default" title='JS中的apply、call、bind你掌握了吗？一起来手写实现这三个方法吧'>
+        <i class="fa fa-angle-left fa-fw"></i><span class="hidden-lg">上一篇</span>
+        <span class="hidden-xs">
+            JS中的apply、call、bind你掌握了吗？一起来手写实现这三个方法吧</span>
+    </a>
+    
+    
+    <a href="/handwriting-promise-accord-with-promise-a-plus-specification/" class="next-post btn btn-default" title='一起手写实现符合Promise/A+规范的Promise源码'>
+        <span class="hidden-lg">下一篇</span>
+        <span class="hidden-xs">
+            一起手写实现符合Promise/A+规范的Promise源码</span><i class="fa fa-angle-right fa-fw"></i>
+    </a>
+    
+</div>
+
+<!-- google广告 -->
+<!-- <ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-1437849089810081"
+     data-ad-slot="9946365914"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script> -->
+
+
+    <div id="comments">
+        
+<link rel="stylesheet" href="https://cdn.bootcss.com/gitalk/1.7.2/gitalk.min.css">
+<script src="//cdn.bootcss.com/gitalk/1.7.2/gitalk.min.js"></script>
+<script src="//cdn.bootcss.com/blueimp-md5/2.9.0/js/md5.min.js"></script>
+<div id="gitalk-container"></div>
+<script type="text/javascript">
+var gitalk = new Gitalk({
+    // Gitalk配置
+    language: "zh-CN",
+    clientID: "fb80658382dee5240195",
+    clientSecret: "66663a08264192222ba993f20dd7c0a27c1e6fa5",
+    repo: "blog-comments",
+    owner: "Hanpeng-Chen",
+    admin: ["Hanpeng-Chen"],
+    id: md5(location.pathname),
+    distractionFreeMode: true,
+    proxy: "https://cloudflare-cors-anywhere.hanpengchen.workers.dev/?https://github.com/login/oauth/access_token"
+});
+gitalk.render('gitalk-container');
+</script>
+
+    </div>
+
+                </main>
+                
+                    <div class="col-md-4">
+<!-- 方形 -->
+<!-- <ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-1437849089810081"
+     data-ad-slot="2426112279"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script> -->
+</div>
+<aside id="article-toc" role="navigation" class="col-md-4">
+    <div class="widget">
+        <h3 class="title">
+            文章目录
+        </h3>
+        
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#new原理介绍"><span class="toc-text">new原理介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#new概念"><span class="toc-text">new概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#不使用new关键字会发生什么"><span class="toc-text">不使用new关键字会发生什么</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#构造函数返回一个对象会发生什么？"><span class="toc-text">构造函数返回一个对象会发生什么？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#小结：new到底做了什么？"><span class="toc-text">小结：new到底做了什么？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#new的实现"><span class="toc-text">new的实现</span></a></li></ol>
+        
+    </div>
+</aside>
+                
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+<a id="back-to-top" class="icon-btn hide">
+    <i class="fa fa-chevron-up"></i>
+</a>
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="busuanzi">
+    
+</div>
+            </div>
+            <div class="col-sm-12">
+                <span>Copyright &copy;
+                    2019
+                    
+                </span> |
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> |
+                <span>
+                    Theme by <a href="//github.com/shenliyang/hexo-theme-snippet.git" class="copyright-links" target="_blank" rel="nofollow">Snippet</a>
+                </span>
+                
+                    <span> | </span>
+                    <span>
+                        <a href="//beian.miit.gov.cn/" target="_blank" rel="nofollow">
+                            闽ICP备19010134号-1
+                        </a>
+                    </span>
+                
+                
+                    <span> | </span>
+                    <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=35020302033449" rel="nofollow">
+                        <img src="https://image.chenhanpeng.com/static/images/web_static_image/beian_icon.png" width="20">
+                        <span>闽公网安备 35020302033449号</span>
+                    </a>
+                         
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<script src="/js/app.js?rev=@@hash"></script>
+</body>
+</html>

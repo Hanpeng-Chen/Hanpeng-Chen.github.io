@@ -1,0 +1,455 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="代码视界">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="theme-version" content="1.2.3">
+    <meta name="root" content="/">
+    <link rel="dns-prefetch" href="http://www.chenhanpeng.com">
+    <script data-ad-client="ca-pub-1437849089810081" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <!--SEO-->
+
+<meta name="keywords" content="vue,解决方案,gzip压缩">
+
+
+<meta name="description" content="用Vue开发移动端H5，可能很多同学会遇到最后打包上线，用户第一次打开可能有3s，甚至更久的白屏时间，白屏时间过长是很容易导致用户流失的，所以是必须要解决的问题。
+经排查后发现是因为打包后的ap...">
+
+
+<meta name="robots" content="all">
+<meta name="google" content="all">
+<meta name="googlebot" content="all">
+<meta name="verify" content="all">
+    <!--Title-->
+
+<title>
+    
+    vue项目配合nginx开启gzip提升页面打开速度 |
+    
+    代码视界
+</title>
+
+<link rel="alternate" href="/atom.xml" title="代码视界" type="application/atom+xml">
+
+
+<link rel="icon" href="/img/site_logo.jpg">
+
+    
+
+<link rel="stylesheet" href="/css/bootstrap.min.css?rev=3.3.7">
+<link rel="stylesheet" href="/css/font-awesome.min.css?rev=4.7.0">
+<link rel="stylesheet" href="/css/style.css?rev=@@hash">
+    
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?494af80fa01e8939bec179cfddf660d5";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+<script>
+(function(i, s, o, g, r, a, m) {
+    i['GoogleAnalyticsObject'] = r;
+    i[r] = i[r] || function() {
+        (i[r].q = i[r].q || []).push(arguments)
+    }, i[r].l = 1 * new Date();
+    a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0];
+    a.async = 1;
+    a.src = g;
+    m.parentNode.insertBefore(a, m)
+})(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+ga('create', 'UA-142577364-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+
+    
+<meta name="baidu-site-verification" content="rGeweWgWoh">
+
+
+<script>
+(function() {
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    } else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+</head></html>
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+<body>
+    <header class="main-header"  style="background-image:url(
+    https://image.chenhanpeng.com/static/images/web_static_image/banner.jpg)"
+     >
+    <div class="main-header-box">
+        <!-- <a class="header-avatar" href="/" title='Hanpeng Chen'>
+            <img src="/img/avatar.jpg" alt="logo头像" class="img-responsive center-block">
+        </a> -->
+        <a href="/" class="header-title">
+            <h1> 代码视界 </h1>
+        </a>
+        <div class="branding">
+            <!--<h2 class="text-hide">Snippet主题,从未如此简单有趣</h2>-->
+            
+            <h2>
+                Hanpeng Chen的个人博客
+            </h2>
+            
+        </div>
+    </div>
+</header>
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="navbar-header"><span class="nav-toggle-button collapsed pull-right" data-toggle="collapse" data-target="#main-menu" id="mnav">
+                        <span class="sr-only"></span>
+                        <i class="fa fa-bars"></i>
+                    </span>
+                    <a class="navbar-brand" href="http://www.chenhanpeng.com">
+                        代码视界</a>
+                </div>
+                <div class="collapse navbar-collapse" id="main-menu">
+                    <ul class="menu">
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/"><i class="fa "></i>
+                                首页</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/archives/"><i class="fa "></i>
+                                文章列表</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/"><i class="fa "></i>
+                                文章分类</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/tags/"><i class="fa "></i>
+                                文章标签</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/links/"><i class="fa "></i>
+                                友链</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/about/"><i class="fa "></i>
+                                关于作者</a>
+                        </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+                    <p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="vue项目配合nginx开启gzip提升页面打开速度">
+            
+            vue项目配合nginx开启gzip提升页面打开速度
+            
+        </h1>
+        <div class="post-meta">
+    
+    <span class="categories-meta fa-wrap">
+        <i class="fa fa-folder-open-o"></i>
+        <a class="category-link" href="/categories/解决方案/">解决方案</a>
+    </span>
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-tags"></i>
+        <span class="tags-meta">
+            
+            <a class="tag-link" href="/tags/gzip压缩/">gzip压缩</a> <a class="tag-link" href="/tags/vue/">vue</a> <a class="tag-link" href="/tags/解决方案/">解决方案</a>
+            
+        </span>
+    </span>
+    
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-clock-o"></i>
+        <span class="date-meta">
+            2021/05/20</span>
+    </span>
+    
+    <span class="fa-wrap">
+        <i class="fa fa-eye"></i>
+        <span id="busuanzi_value_page_pv"></span>
+    </span>
+    
+    
+</div>
+        
+        
+    </div>
+    
+    
+    <div class="post-body post-content">
+        <p>用Vue开发移动端H5，可能很多同学会遇到最后打包上线，用户第一次打开可能有3s，甚至更久的白屏时间，白屏时间过长是很容易导致用户流失的，所以是必须要解决的问题。</p>
+<p>经排查后发现是因为打包后的app.js太大，以及引用的一些插件安装包加载比较慢。</p>
+<p>针对这种情况有很多解决方案：</p>
+<ul>
+<li>路由懒加载</li>
+<li>打包文件中去掉map文件</li>
+<li>CDN引入第三方库</li>
+<li>代码压缩</li>
+<li>分包</li>
+<li>预渲染</li>
+<li>开启Gzip</li>
+</ul>
+<p>gzip压缩一种非常方便，且效果明显的解决方法，使用gzip压缩可以减小60%以上的体积。</p>
+<p><img src="https://gitee.com/HanpengChen/blog-images/raw/master/blogImages/2021/summer/20210520152024.png" alt></p>
+<p>从上图我们可以看到gzip压缩后的文件体积基本减小了60%左右，效果喜人。</p>
+<p>下面我们主要看下如何开启Gzip打包，已经nginx如何配置开启Gzip。</p>
+<h2 id="gzip介绍"><a href="#gzip介绍" class="headerlink" title="gzip介绍"></a>gzip介绍</h2><p>gzip属于在线压缩，在资源通过http发送报文给客户端的过程中，进行压缩，可以减少客户端带宽占用，减少文件传输大小。</p>
+<p>html、js、css文件，甚至Json数据都可以用其来进行压缩。</p>
+<p>但是不是每个浏览器都支持gzip的，如果知道客户端是否支持gzip呢，请求头中有个Accept-Encoding来标识对压缩的支持。客户端http请求头声明浏览器支持的压缩方式，服务端配置启用压缩，压缩的文件类型，压缩方式。当客户端请求到服务端的时候，服务器解析请求头，如果客户端支持gzip压缩，响应时对请求的资源进行压缩并返回给客户端，浏览器按照自己的方式解析，在http响应头，我们可以看到content-encoding:gzip，这是指服务端使用了gzip的压缩方式。</p>
+<p><img src="https://gitee.com/HanpengChen/blog-images/raw/master/blogImages/2021/summer/20210520152903.png" alt></p>
+<p>那么怎么看有没有用gzip压缩的文件呢，打开f12，查看network，按照下面的方式过滤，如果content-encoding是gzip，说明返回的是gzip。</p>
+<p><img src="https://gitee.com/HanpengChen/blog-images/raw/master/blogImages/2021/summer/20210520153445.png" alt></p>
+<p>nginx的gzip分为两种：</p>
+<ul>
+<li>nginx动态压缩，对每个请求先压缩再输出</li>
+<li>nginx静态压缩，使用现成的扩展名为.gz的预压缩文件</li>
+</ul>
+<h2 id="nginx动态压缩配置-gzip"><a href="#nginx动态压缩配置-gzip" class="headerlink" title="nginx动态压缩配置 gzip"></a>nginx动态压缩配置 gzip</h2><p>gzip使用环境:http、server、location、if(x)，一般把它定义在nginx.conf的http{…..}之间</p>
+<h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">http &#123;</span><br><span class="line">    gzip  on;</span><br><span class="line">    gzip_min_length    <span class="number">1</span>k;</span><br><span class="line">    gzip_buffers        <span class="number">4</span> <span class="number">8</span>k;</span><br><span class="line">    gzip_http_version  <span class="number">1.0</span>;</span><br><span class="line">    gzip_comp_level    <span class="number">4</span>;</span><br><span class="line">    gzip_proxied        any;</span><br><span class="line">    gzip_types          text/css</span><br><span class="line">                        text/javascript</span><br><span class="line">                        text/xml</span><br><span class="line">                        text/plain</span><br><span class="line">                        image/x-icon</span><br><span class="line">                        application/javascript</span><br><span class="line">                        application/x-javascript</span><br><span class="line">                        application/json;</span><br><span class="line">    gzip_vary          on;</span><br><span class="line">    gzip_disable        <span class="string">"MSIE [1-6]\."</span>;</span><br><span class="line">    #以下的配置省略...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>nginx -s reload ：修改配置后重新加载生效</p>
+<h3 id="配置项说明"><a href="#配置项说明" class="headerlink" title="配置项说明"></a>配置项说明</h3><ul>
+<li>gzip：on为启用，off为关闭</li>
+<li>gzip_min_length：设置允许压缩的页面最小字节数，页面字节数从header头中的Content-Length中进行获取。默认值是0，不管页面多大都压缩。建议设置成大于1k的字节数，小于1k可能会越压越大。</li>
+<li>gzip_buffers：获取多少内存用于缓存压缩结果，‘4 16k’表示以16k*4为单位获得</li>
+<li>gzip_comp_level：gzip压缩比（1~9），越小压缩效果越差，但是越大处理越慢，所以一般取中间值;</li>
+<li>gzip_types：对特定的MIME类型生效,其中’text/html’被系统强制启用</li>
+<li>gzip_http_version：识别http协议的版本,早起浏览器可能不支持gzip自解压,用户会看到乱码</li>
+<li>gzip_vary：启用应答头”Vary: Accept-Encoding”</li>
+<li>gzip_proxied：nginx做为反向代理时启用,off(关闭所有代理结果的数据的压缩),expired(启用压缩,如果header头中包括”Expires”头信息),no-cache(启用压缩,header头中包含”Cache-Control:no-cache”),no-store(启用压缩,header头中包含”Cache-Control:no-store”),private(启用压缩,header头中包含”Cache-Control:private”),no_last_modefied(启用压缩,header头中不包含”Last-Modified”),no_etag(启用压缩,如果header头中不包含”Etag”头信息),auth(启用压缩,如果header头中包含”Authorization”头信息)</li>
+<li>gzip_disable：(IE5.5和IE6 SP1使用msie6参数来禁止gzip压缩 )指定哪些不需要gzip压缩的浏览器(将和User-Agents进行匹配),依赖于PCRE库</li>
+</ul>
+<h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><p>开启gzip，资源下载体积减小了，下载效率提升了，但是在线gzip比较占用CPU，和 <code>gzip_static</code> 相比还是不太友好。</p>
+<h2 id="nginx静态压缩配置gzip-static"><a href="#nginx静态压缩配置gzip-static" class="headerlink" title="nginx静态压缩配置gzip_static"></a>nginx静态压缩配置gzip_static</h2><p>在前端代码打包构建bundle的时候，一般都有根据一定的算法自动压缩代码成gz文件的webpack插件。</p>
+<p>当我们不在 nginx 开启 gzip_static的时候，发现生产的gz文件并没有被运行。</p>
+<p>gzip_static是会自动执行gz文件的，这样的就避免了通过gzip自动压缩。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">http &#123;</span><br><span class="line">  gzip_static  on;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="如何判断gzip-static是否生效"><a href="#如何判断gzip-static是否生效" class="headerlink" title="如何判断gzip_static是否生效"></a>如何判断gzip_static是否生效</h3><p>在请求的response headers里面的Etag里面，没有<code>W/</code>就表明使用的是我们自己的 .gz 文件。</p>
+<p><img src="https://gitee.com/HanpengChen/blog-images/raw/master/blogImages/2021/summer/20210521113526.png" alt></p>
+<h3 id="Vue项目打包-gz文件"><a href="#Vue项目打包-gz文件" class="headerlink" title="Vue项目打包.gz文件"></a>Vue项目打包.gz文件</h3><h4 id="1-安装插件"><a href="#1-安装插件" class="headerlink" title="1. 安装插件"></a>1. 安装插件</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install compression-webpack-plugin -D</span><br></pre></td></tr></table></figure>
+<h4 id="2-在vue-config-js中配置"><a href="#2-在vue-config-js中配置" class="headerlink" title="2. 在vue.config.js中配置"></a>2. 在vue.config.js中配置</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> CompressionPlugin = <span class="built_in">require</span>(<span class="string">'compression-webpack-plugin'</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  ...</span><br><span class="line">  configureWebpack: &#123;</span><br><span class="line">    plugins: [</span><br><span class="line">      <span class="keyword">new</span> CompressionPlugin(&#123;</span><br><span class="line">        test: <span class="regexp">/\.js$|\.html$|\.css/</span>,</span><br><span class="line">        threshold: <span class="number">10240</span>,</span><br><span class="line">        deleteOriginalAssets: <span class="literal">false</span>,</span><br><span class="line">        algorithm: <span class="string">'gzip'</span></span><br><span class="line">      &#125;)</span><br><span class="line">    ]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="动态压缩和静态压缩结合使用"><a href="#动态压缩和静态压缩结合使用" class="headerlink" title="动态压缩和静态压缩结合使用"></a>动态压缩和静态压缩结合使用</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">http &#123;</span><br><span class="line">    gzip_static  on;</span><br><span class="line">    gzip_proxied expired no-cache no-store private auth;</span><br><span class="line">    gzip  on;</span><br><span class="line">    gzip_min_length    <span class="number">1</span>k;</span><br><span class="line">    gzip_buffers        <span class="number">4</span> <span class="number">8</span>k;</span><br><span class="line">    gzip_http_version  <span class="number">1.0</span>;</span><br><span class="line">    gzip_comp_level    <span class="number">8</span>;</span><br><span class="line">    gzip_types          application/javascript text/css image/gif;</span><br><span class="line">    gzip_vary          on;</span><br><span class="line">    gzip_disable        <span class="string">"MSIE [1-6]\."</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>首先尝试使用静态压缩，如果有则返回 .gz 的预压缩文件，否则尝试动态压缩。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>vue重新打包部署后，nginx配置后重新加载，再打开页面速度是不是快了很多。</p>
+
+    </div>
+    <div class="wechat">
+        
+            <strong> 欢迎关注微信公众号： 『前端极客技术』『代码视界』 </strong>
+            <img class="wechat-image" src="https://image.chenhanpeng.com/static/images/web_static_image/article-gzh-qrcode.png" />
+        
+    </div>
+    
+    <div class="reward" ontouchstart>
+    <div class="reward-wrap">赏
+        <div class="reward-box">
+            
+            <span class="reward-type">
+                <img class="alipay" src="https://image.chenhanpeng.com/static/images/web_static_image/donate/alipay_qrcode.png"><b>支付宝打赏</b>
+            </span>
+            
+            
+            <span class="reward-type">
+                <img class="wechat" src="https://image.chenhanpeng.com/static/images/web_static_image/donate/weixin_pay_qrcode.png"><b>微信打赏</b>
+            </span>
+            
+        </div>
+    </div>
+    <p class="reward-tip">
+        赞赏是不耍流氓的鼓励
+    </p>
+</div>
+    
+    <div class="post-footer">
+        <div>
+            
+            转载声明：
+            商业转载请联系作者获得授权,非商业转载请注明出处 © <a href="" target="_blank">代码视界</a>
+            
+            
+        </div>
+        <div>
+            
+        </div>
+    </div>
+</article>
+<div class="article-nav prev-next-wrap clearfix">
+    
+    
+    <a href="/reflow-and-repaint/" class="next-post btn btn-default" title='面试经常提到的重排和重绘，你真的了解吗？'>
+        <span class="hidden-lg">下一篇</span>
+        <span class="hidden-xs">
+            面试经常提到的重排和重绘，你真的了解吗？</span><i class="fa fa-angle-right fa-fw"></i>
+    </a>
+    
+</div>
+
+<!-- google广告 -->
+<!-- <ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-1437849089810081"
+     data-ad-slot="9946365914"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script> -->
+
+
+    <div id="comments">
+        
+<link rel="stylesheet" href="https://cdn.bootcss.com/gitalk/1.7.2/gitalk.min.css">
+<script src="//cdn.bootcss.com/gitalk/1.7.2/gitalk.min.js"></script>
+<script src="//cdn.bootcss.com/blueimp-md5/2.9.0/js/md5.min.js"></script>
+<div id="gitalk-container"></div>
+<script type="text/javascript">
+var gitalk = new Gitalk({
+    // Gitalk配置
+    language: "zh-CN",
+    clientID: "fb80658382dee5240195",
+    clientSecret: "66663a08264192222ba993f20dd7c0a27c1e6fa5",
+    repo: "blog-comments",
+    owner: "Hanpeng-Chen",
+    admin: ["Hanpeng-Chen"],
+    id: md5(location.pathname),
+    distractionFreeMode: true,
+    proxy: "https://cloudflare-cors-anywhere.hanpengchen.workers.dev/?https://github.com/login/oauth/access_token"
+});
+gitalk.render('gitalk-container');
+</script>
+
+    </div>
+
+                </main>
+                
+                    <div class="col-md-4">
+<!-- 方形 -->
+<!-- <ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-1437849089810081"
+     data-ad-slot="2426112279"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script> -->
+</div>
+<aside id="article-toc" role="navigation" class="col-md-4">
+    <div class="widget">
+        <h3 class="title">
+            文章目录
+        </h3>
+        
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#gzip介绍"><span class="toc-text">gzip介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#nginx动态压缩配置-gzip"><span class="toc-text">nginx动态压缩配置 gzip</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#配置"><span class="toc-text">配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#配置项说明"><span class="toc-text">配置项说明</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#问题"><span class="toc-text">问题</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#nginx静态压缩配置gzip-static"><span class="toc-text">nginx静态压缩配置gzip_static</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#如何判断gzip-static是否生效"><span class="toc-text">如何判断gzip_static是否生效</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Vue项目打包-gz文件"><span class="toc-text">Vue项目打包.gz文件</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-安装插件"><span class="toc-text">1. 安装插件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-在vue-config-js中配置"><span class="toc-text">2. 在vue.config.js中配置</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#动态压缩和静态压缩结合使用"><span class="toc-text">动态压缩和静态压缩结合使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li></ol>
+        
+    </div>
+</aside>
+                
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+<a id="back-to-top" class="icon-btn hide">
+    <i class="fa fa-chevron-up"></i>
+</a>
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="busuanzi">
+    
+</div>
+            </div>
+            <div class="col-sm-12">
+                <span>Copyright &copy;
+                    2019
+                    
+                </span> |
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> |
+                <span>
+                    Theme by <a href="//github.com/shenliyang/hexo-theme-snippet.git" class="copyright-links" target="_blank" rel="nofollow">Snippet</a>
+                </span>
+                
+                    <span> | </span>
+                    <span>
+                        <a href="//beian.miit.gov.cn/" target="_blank" rel="nofollow">
+                            闽ICP备19010134号-1
+                        </a>
+                    </span>
+                
+                
+                    <span> | </span>
+                    <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=35020302033449" rel="nofollow">
+                        <img src="https://image.chenhanpeng.com/static/images/web_static_image/beian_icon.png" width="20">
+                        <span>闽公网安备 35020302033449号</span>
+                    </a>
+                         
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<script src="/js/app.js?rev=@@hash"></script>
+</body>
+</html>

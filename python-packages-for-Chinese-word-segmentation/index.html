@@ -1,0 +1,475 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="代码视界">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="theme-version" content="1.2.3">
+    <meta name="root" content="/">
+    <link rel="dns-prefetch" href="http://www.chenhanpeng.com">
+    <script data-ad-client="ca-pub-1437849089810081" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <!--SEO-->
+
+<meta name="keywords" content="中文分词">
+
+
+<meta name="description" content="在前面的文章《中文分词》一文中，我们简单介绍了中文分词及其常用的分词方法，本文将介绍几个比较有代表性的支持中文分词的python库。本文所有实例均基于python3.6环境运行。
+jieba结巴...">
+
+
+<meta name="robots" content="all">
+<meta name="google" content="all">
+<meta name="googlebot" content="all">
+<meta name="verify" content="all">
+    <!--Title-->
+
+<title>
+    
+    中文分词Python库介绍 |
+    
+    代码视界
+</title>
+
+<link rel="alternate" href="/atom.xml" title="代码视界" type="application/atom+xml">
+
+
+<link rel="icon" href="/img/site_logo.jpg">
+
+    
+
+<link rel="stylesheet" href="/css/bootstrap.min.css?rev=3.3.7">
+<link rel="stylesheet" href="/css/font-awesome.min.css?rev=4.7.0">
+<link rel="stylesheet" href="/css/style.css?rev=@@hash">
+    
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?494af80fa01e8939bec179cfddf660d5";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+<script>
+(function(i, s, o, g, r, a, m) {
+    i['GoogleAnalyticsObject'] = r;
+    i[r] = i[r] || function() {
+        (i[r].q = i[r].q || []).push(arguments)
+    }, i[r].l = 1 * new Date();
+    a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0];
+    a.async = 1;
+    a.src = g;
+    m.parentNode.insertBefore(a, m)
+})(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+ga('create', 'UA-142577364-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+
+    
+<meta name="baidu-site-verification" content="rGeweWgWoh">
+
+
+<script>
+(function() {
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    } else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+</head></html>
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+<body>
+    <header class="main-header"  style="background-image:url(
+    https://image.chenhanpeng.com/static/images/web_static_image/banner.jpg)"
+     >
+    <div class="main-header-box">
+        <!-- <a class="header-avatar" href="/" title='Hanpeng Chen'>
+            <img src="/img/avatar.jpg" alt="logo头像" class="img-responsive center-block">
+        </a> -->
+        <a href="/" class="header-title">
+            <h1> 代码视界 </h1>
+        </a>
+        <div class="branding">
+            <!--<h2 class="text-hide">Snippet主题,从未如此简单有趣</h2>-->
+            
+            <h2>
+                Hanpeng Chen的个人博客
+            </h2>
+            
+        </div>
+    </div>
+</header>
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="navbar-header"><span class="nav-toggle-button collapsed pull-right" data-toggle="collapse" data-target="#main-menu" id="mnav">
+                        <span class="sr-only"></span>
+                        <i class="fa fa-bars"></i>
+                    </span>
+                    <a class="navbar-brand" href="http://www.chenhanpeng.com">
+                        代码视界</a>
+                </div>
+                <div class="collapse navbar-collapse" id="main-menu">
+                    <ul class="menu">
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/"><i class="fa "></i>
+                                首页</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/archives/"><i class="fa "></i>
+                                文章列表</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/"><i class="fa "></i>
+                                文章分类</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/tags/"><i class="fa "></i>
+                                文章标签</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/links/"><i class="fa "></i>
+                                友链</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/about/"><i class="fa "></i>
+                                关于作者</a>
+                        </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+                    <p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="中文分词Python库介绍">
+            
+            中文分词Python库介绍
+            
+        </h1>
+        <div class="post-meta">
+    
+    <span class="categories-meta fa-wrap">
+        <i class="fa fa-folder-open-o"></i>
+        <a class="category-link" href="/categories/机器学习/">机器学习</a>
+    </span>
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-tags"></i>
+        <span class="tags-meta">
+            
+            <a class="tag-link" href="/tags/中文分词/">中文分词</a>
+            
+        </span>
+    </span>
+    
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-clock-o"></i>
+        <span class="date-meta">
+            2019/04/21</span>
+    </span>
+    
+    <span class="fa-wrap">
+        <i class="fa fa-eye"></i>
+        <span id="busuanzi_value_page_pv"></span>
+    </span>
+    
+    
+</div>
+        
+        
+        <p class="fa fa-exclamation-triangle warning">
+            本文于<strong>
+                760</strong>
+            天之前发表，文中内容可能已经过时。
+        </p>
+        
+    </div>
+    
+    
+    <div class="post-body post-content">
+        <p>在前面的文章《中文分词》一文中，我们简单介绍了中文分词及其常用的分词方法，本文将介绍几个比较有代表性的支持中文分词的python库。<br>本文所有实例均基于python3.6环境运行。</p>
+<h1 id="jieba"><a href="#jieba" class="headerlink" title="jieba"></a>jieba</h1><p><strong>结巴分词</strong>：使用较为广泛的一款python分词工具，专用于分词的python库，分词效果较好。</p>
+<p><strong>GitHub</strong>： <a href="https://github.com/fxsjy/jieba" target="_blank" rel="noopener">https://github.com/fxsjy/jieba</a></p>
+<h2 id="特点："><a href="#特点：" class="headerlink" title="特点："></a>特点：</h2><ul>
+<li><p>支持三种分词模式：<br>1、精确模式：试图将句子最精确地切开，适合文本分析<br>2、全模式：把句子中所有的可以成词的词语都扫描出来，速度非常快，但是不能解决歧义<br>3、搜索引擎模式：在精确模式下，对长词再次切分，提高召回率，适合用于搜索引擎分词</p>
+</li>
+<li><p>支持繁体分词</p>
+</li>
+<li>支持自定义词典</li>
+</ul>
+<h2 id="算法："><a href="#算法：" class="headerlink" title="算法："></a>算法：</h2><ul>
+<li>基于前缀词典实现高效的词图扫描，生成句子中汉字所有可能成词情况所构成的有向无环图 (DAG)</li>
+<li>采用了动态规划查找最大概率路径, 找出基于词频的最大切分组合</li>
+<li>对于未登录词，采用了基于汉字成词能力的 HMM 模型，使用了 Viterbi 算法</li>
+</ul>
+<h2 id="用法实例："><a href="#用法实例：" class="headerlink" title="用法实例："></a>用法实例：</h2><p>下面我们通过简单的代码来看一下精确模式、全模式、搜索引擎模式三种分词模式的分词效果。代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"># -*- coding: utf-8 -*-</span><br><span class="line">import jieba</span><br><span class="line">string = &apos;话说天下大势，分久必合，合久必分。周末七国分争，并入于秦。及秦灭之后，楚、汉分争，又并入于汉。汉朝自高祖斩白蛇而起义，一统天下，后来光武中兴，传至献帝，遂分为三国。推其致乱之由，殆始于桓、灵二帝。桓帝禁锢善类，崇信宦官。及桓帝崩，灵帝即位，大将军窦武、太傅陈蕃共相辅佐。时有宦官曹节等弄权，窦武、陈蕃谋诛之，机事不密，反为所害，中涓自此愈横。&apos;</span><br><span class="line"># 精确模式</span><br><span class="line">default_result = jieba.cut(string)</span><br><span class="line">print(&apos;精确模式：&apos; + &apos;/&apos;.join(default_result))</span><br><span class="line"></span><br><span class="line"># 全模式</span><br><span class="line">full_result = jieba.cut(string, cut_all=True)</span><br><span class="line">print(&apos;全模式：&apos; + &apos;/&apos;.join(full_result))</span><br><span class="line"></span><br><span class="line"># 搜索引擎模式</span><br><span class="line">search_result = jieba.cut_for_search(string)</span><br><span class="line">print(&apos;搜索引擎模式：&apos; + &apos;/&apos;.join(search_result))</span><br></pre></td></tr></table></figure></p>
+<p>结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">精确模式：话/说/天下/大势/，/分久必合/，/合久必分/。/周末/七/国/分争/，/并入/于/秦/。/及/秦灭/之后/，/楚/、/汉/分争/，/又/并入/于汉/。/汉朝/自/高祖/斩/白蛇/而/起义/，/一统天下/，/后来/光武/中兴/，/传至/献帝/，/遂/分为/三国/。/推其致/乱/之/由/，/殆/始于/桓/、/灵/二帝/。/桓帝/禁锢/善类/，/崇信/宦官/。/及桓帝/崩/，/灵帝/即位/，/大将军/窦武/、/太傅陈/蕃/共/相/辅佐/。/时有/宦官/曹节/等/弄权/，/窦武/、/陈蕃/谋/诛/之/，/机事不密/，/反为/所害/，/中/涓/自此/愈横/。</span><br><span class="line"></span><br><span class="line">全模式：话/说/天下/大势///分久必合///合久必分///周末/七国/国分/分争///并入/于/秦///及/秦/灭/之后///楚///汉/分争///又/并入/于/汉///汉朝/自/高祖/斩/白蛇/而/起义///一统/一统天下/天下///后来/光/武/中兴///传/至/献帝///遂/分为/三国///推/其/致/乱/之/由///殆/始于/桓///灵/二帝///桓/帝/禁锢/善类///崇信/宦官///及/桓/帝/崩///灵/帝/即位///大将/大将军/将军/窦/武///太傅/太傅陈/蕃/共相/相辅/辅佐///时/有/宦官/曹/节/等/弄权///窦/武///陈/蕃/谋/诛/之///机事不密///反为/所/害///中/涓/自此/愈/横//</span><br><span class="line"></span><br><span class="line">搜索引擎模式：话/说/天下/大势/，/分久必合/，/合久必分/。/周末/七/国/分争/，/并入/于/秦/。/及/秦灭/之后/，/楚/、/汉/分争/，/又/并入/于汉/。/汉朝/自/高祖/斩/白蛇/而/起义/，/一统/天下/一统天下/，/后来/光武/中兴/，/传至/献帝/，/遂/分为/三国/。/推其致/乱/之/由/，/殆/始于/桓/、/灵/二帝/。/桓帝/禁锢/善类/，/崇信/宦官/。/及桓帝/崩/，/灵帝/即位/，/大将/将军/大将军/窦武/、/太傅/太傅陈/蕃/共/相/辅佐/。/时有/宦官/曹节/等/弄权/，/窦武/、/陈蕃/谋/诛/之/，/机事不密/，/反为/所害/，/中/涓/自此/愈横/。</span><br></pre></td></tr></table></figure></p>
+<p>从上面的结果来看，分词效果还不错。</p>
+<p>jieba还提供了下面几个功能，具体实现代码可以自行到github上查看，这里不再详细介绍。</p>
+<ul>
+<li>添加自定义词典：开发者还可以指定自己自定义的词典，以便包含jieba词库中没有的词。</li>
+<li>关键词提取：<ul>
+<li>基于TF-IDF算法的关键词抽取(jieba.analyse)</li>
+<li>基于TextRank算法的关键词抽取(jieba.analyse.textrank)</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h1 id="THULAC"><a href="#THULAC" class="headerlink" title="THULAC"></a>THULAC</h1><p><strong>THULAC（THU Lexical Analyzer for Chinese）</strong>由清华大学自然语言处理与社会人文计算实验室研制推出的一套中文词法分析工具包，具有中文分词和词性标注功能。</p>
+<p><strong>GitHub</strong>：<a href="https://github.com/thunlp/THULAC-Python" target="_blank" rel="noopener">https://github.com/thunlp/THULAC-Python</a></p>
+<h2 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h2><p>THULAC具有如下几个特点：</p>
+<ul>
+<li>能力强。利用我们集成的目前世界上规模最大的人工分词和词性标注中文语料库（约含5800万字）训练而成，模型标注能力强大。</li>
+<li>准确率高。该工具包在标准数据集Chinese Treebank（CTB5）上分词的F1值可达97.3％，词性标注的F1值可达到92.9％，与该数据集上最好方法效果相当。</li>
+<li>速度较快。同时进行分词和词性标注速度为300KB/s，每秒可处理约15万字。只进行分词速度可达到1.3MB/s。</li>
+</ul>
+<h2 id="用法实例"><a href="#用法实例" class="headerlink" title="用法实例"></a>用法实例</h2><p>下面我们开看下THULAC的分词效果，代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"># -*- coding: utf-8 -*-</span><br><span class="line">import thulac</span><br><span class="line"></span><br><span class="line"># 默认模式，有词性标注</span><br><span class="line">thu1 = thulac.thulac()</span><br><span class="line">thu1_result = thu1.cut(string, text=True)</span><br><span class="line">print(&apos;thu1_result：&apos; + thu1_result)</span><br><span class="line"></span><br><span class="line"># 只分词，不进行词性标注</span><br><span class="line">thu2 = thulac.thulac(seg_only=True)</span><br><span class="line">thu2_result = thu2.cut(string, text=True)</span><br><span class="line">print(&apos;thu2_result：&apos; + thu2_result)</span><br></pre></td></tr></table></figure></p>
+<p>分词结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">thu1_result：话_n 说_v 天下_n 大势_n ，_w 分久必合_id ，_w 合久必分_id 。_w 周末_t 七国分争_id ，_w 并入_v 于_p 秦_g 。_w 及_c 秦灭_v 之后_f ，_w 楚_j 、_w 汉_g 分争_v ，_w 又_c 并入_v 于_p 汉_g 。_w 汉朝_t 自_r 高_a 祖斩_n 白蛇_n 而_c 起义_v ，_w 一统天下_id ，_w 后_f 来_v 光武_ns 中兴_nz ，_w 传_v 至_d 献_v 帝_g ，_w 遂_d 分为_v 三_m 国_n 。_w 推_v 其_r 致乱_v 之_u 由_g ，_w 殆始_v 于_p 桓_g 、_w 灵二帝_id 。_w 桓帝_np 禁锢_v 善类_n ，_w 崇信_v 宦官_n 。_w 及_c 桓帝崩_n ，_w 灵帝_n 即位_n ，_w 大将军_n 窦武_v 、_w 太傅_n 陈蕃_np 共_d 相_d 辅佐_v 。_w 时_g 有_v 宦官_n 曹节_np 等_u 弄权_n ，_w 窦武_np 、_w 陈蕃_np 谋诛_v 之_u ，_w 机事不密_i ，_w 反_d 为_v 所_u 害_v ，_w 中_j 涓_j 自此_d 愈_d 横_a 。_w</span><br><span class="line"></span><br><span class="line">thu2_result：话 说 天下 大势 ， 分久必合 ， 合久必分 。 周末 七国分争 ， 并入 于 秦 。 及 秦灭 之后 ， 楚 、 汉分 争 ， 又 并入 于汉 。 汉朝 自 高祖斩白蛇而起义 ， 一统天下 ， 后 来 光武 中兴 ， 传 至 献帝 ， 遂 分为 三 国 。 推 其 致乱 之 由 ， 殆始 于 桓 、 灵二帝 。 桓帝 禁锢善类 ， 崇信 宦官 。 及 桓帝崩 ， 灵帝 即位 ， 大将 军窦武 、 太 傅陈蕃 共 相辅佐 。 时 有 宦官 曹节 等 弄权 ， 窦武 、 陈蕃 谋诛之 ， 机事不密 ， 反 为 所 害 ， 中涓 自此 愈横 。</span><br></pre></td></tr></table></figure></p>
+<hr>
+<h1 id="PKUSeg"><a href="#PKUSeg" class="headerlink" title="PKUSeg"></a>PKUSeg</h1><p><strong>PKUSeg</strong>是由北京大学语言计算与机器学习研究组研制推出的一套全新的中文分词工具包。它简单易用，支持多领域分词，在不同领域的数据上都大幅提高了分词的准确率。</p>
+<p><strong>GitHub</strong>: <a href="https://github.com/lancopku/pkuseg-python" target="_blank" rel="noopener">https://github.com/lancopku/pkuseg-python</a></p>
+<h2 id="特点-1"><a href="#特点-1" class="headerlink" title="特点"></a>特点</h2><p>pkuseg有如下几个特点：</p>
+<ul>
+<li>多领域分词</li>
+<li>更高的分词准确率</li>
+<li>支持用户自训练模型</li>
+<li>支持词性标注</li>
+</ul>
+<h2 id="用法实例-1"><a href="#用法实例-1" class="headerlink" title="用法实例"></a>用法实例</h2><p>分词代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">import pkuseg</span><br><span class="line"># 使用默认配置进行分词</span><br><span class="line">seg = pkuseg.pkuseg()</span><br><span class="line">text = seg.cut(string)</span><br><span class="line">print(text)</span><br></pre></td></tr></table></figure></p>
+<p>分词结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[&apos;话说&apos;, &apos;天下&apos;, &apos;大势&apos;, &apos;，&apos;, &apos;分久必合&apos;, &apos;，&apos;, &apos;合久必分&apos;, &apos;。&apos;, &apos;周末&apos;, &apos;七&apos;, &apos;国&apos;, &apos;分争&apos;, &apos;，&apos;, &apos;并入&apos;, &apos;于&apos;, &apos;秦&apos;, &apos;。&apos;, &apos;及&apos;, &apos;秦灭&apos;, &apos;之后&apos;, &apos;，&apos;, &apos;楚&apos;, &apos;、&apos;, &apos;汉分&apos;, &apos;争&apos;, &apos;，&apos;, &apos;又&apos;, &apos;并入&apos;, &apos;于汉&apos;, &apos;。&apos;, &apos;汉朝&apos;, &apos;自&apos;, &apos;高&apos;, &apos;祖斩&apos;, &apos;白蛇而起义&apos;, &apos;，&apos;, &apos;一统天下&apos;, &apos;，&apos;, &apos;后来&apos;, &apos;光武&apos;, &apos;中兴&apos;, &apos;，&apos;, &apos;传至&apos;, &apos;献帝&apos;, &apos;，&apos;, &apos;遂&apos;, &apos;分为&apos;, &apos;三国&apos;, &apos;。&apos;, &apos;推&apos;, &apos;其&apos;, &apos;致乱&apos;, &apos;之&apos;, &apos;由&apos;, &apos;，&apos;, &apos;殆始于桓&apos;, &apos;、&apos;, &apos;灵二帝&apos;, &apos;。&apos;, &apos;桓帝&apos;, &apos;禁锢&apos;, &apos;善类&apos;, &apos;，&apos;, &apos;崇信&apos;, &apos;宦官&apos;, &apos;。&apos;, &apos;及&apos;, &apos;桓帝崩&apos;, &apos;，&apos;, &apos;灵帝&apos;, &apos;即位&apos;, &apos;，&apos;, &apos;大将军&apos;, &apos;窦武&apos;, &apos;、&apos;, &apos;太傅&apos;, &apos;陈&apos;, &apos;蕃共&apos;, &apos;相&apos;, &apos;辅佐&apos;, &apos;。&apos;, &apos;时有&apos;, &apos;宦官&apos;, &apos;曹节&apos;, &apos;等&apos;, &apos;弄权&apos;, &apos;，&apos;, &apos;窦武&apos;, &apos;、&apos;, &apos;陈&apos;, &apos;蕃谋&apos;, &apos;诛之&apos;, &apos;，&apos;, &apos;机事不密&apos;, &apos;，&apos;, &apos;反为所害&apos;, &apos;，&apos;, &apos;中&apos;, &apos;涓&apos;, &apos;自此&apos;, &apos;愈&apos;, &apos;横&apos;, &apos;。&apos;]</span><br></pre></td></tr></table></figure></p>
+<h2 id="三个库比较"><a href="#三个库比较" class="headerlink" title="三个库比较"></a>三个库比较</h2><p>pkuseg在开源时对其进行测评，pkuseg的作者们选择 THULAC、结巴分词等国内代表分词工具包与 pkuseg 做性能比较。他们选择 Linux 作为测试环境，在新闻数据（MSRA）和混合型文本（CTB8）数据上对不同工具包进行了准确率测试。此外，测试使用的是第二届国际汉语分词评测比赛提供的分词评价脚本。评测结果如下：</p>
+<!-- ![Alt](/images/articles/2019/zhongwenfenci_python_1.png#pic_center) -->
+<img src="http://image.chenhanpeng.com/static/images/machine_learning/zhongwenfenci_python_1.png">
+<p>我们可以看到，最广泛使用的结巴分词准确率最低，清华的THULAC分词准确率也低于PKUSeg。当然，pkuseg 是在这些数据集上训练的，因此它在这些任务上的准确率也会更高一些，也由此在其开源后对于其高准确率曾引起一些质疑和争议，有兴趣的朋友可以自行百度或点击下面链接查看：<br><a href="https://github.com/lancopku/pkuseg-python/issues/9" target="_blank" rel="noopener">https://github.com/lancopku/pkuseg-python/issues/9</a></p>
+<hr>
+<h1 id="更多python中文分词库"><a href="#更多python中文分词库" class="headerlink" title="更多python中文分词库"></a>更多python中文分词库</h1><p>上面都只是简单介绍了jieba、THULAC和pkuseg三个分词python库，更多用法和参数请到相应的github上查阅。</p>
+<p>还有一些中文分词的python库，这里只提供其github地址，就不一一介绍，有兴趣的朋友自行查看研究。</p>
+<p><strong>SnowNLP</strong>    <a href="https://github.com/isnowfy/snownlp" target="_blank" rel="noopener">https://github.com/isnowfy/snownlp</a></p>
+<p><strong>NLPIR</strong>   <a href="https://github.com/NLPIR-team/NLPIR" target="_blank" rel="noopener">https://github.com/NLPIR-team/NLPIR</a></p>
+<p><strong>FoolNLTK</strong>    <a href="https://github.com/rockyzhengwu/FoolNLTK" target="_blank" rel="noopener">https://github.com/rockyzhengwu/FoolNLTK</a></p>
+<p><strong>LTP</strong>  <a href="https://github.com/HIT-SCIR/pyltp" target="_blank" rel="noopener">https://github.com/HIT-SCIR/pyltp</a></p>
+
+    </div>
+    <div class="wechat">
+        
+            <strong> 欢迎关注微信公众号： 『前端极客技术』『代码视界』 </strong>
+            <img class="wechat-image" src="https://image.chenhanpeng.com/static/images/web_static_image/article-gzh-qrcode.png" />
+        
+    </div>
+    
+    <div class="reward" ontouchstart>
+    <div class="reward-wrap">赏
+        <div class="reward-box">
+            
+            <span class="reward-type">
+                <img class="alipay" src="https://image.chenhanpeng.com/static/images/web_static_image/donate/alipay_qrcode.png"><b>支付宝打赏</b>
+            </span>
+            
+            
+            <span class="reward-type">
+                <img class="wechat" src="https://image.chenhanpeng.com/static/images/web_static_image/donate/weixin_pay_qrcode.png"><b>微信打赏</b>
+            </span>
+            
+        </div>
+    </div>
+    <p class="reward-tip">
+        赞赏是不耍流氓的鼓励
+    </p>
+</div>
+    
+    <div class="post-footer">
+        <div>
+            
+            转载声明：
+            商业转载请联系作者获得授权,非商业转载请注明出处 © <a href="" target="_blank">代码视界</a>
+            
+            
+        </div>
+        <div>
+            
+        </div>
+    </div>
+</article>
+<div class="article-nav prev-next-wrap clearfix">
+    
+    <a href="/Vue-Cli3-mode-and-env/" class="pre-post btn btn-default" title='Vue-CLI3 环境变量和模式'>
+        <i class="fa fa-angle-left fa-fw"></i><span class="hidden-lg">上一篇</span>
+        <span class="hidden-xs">
+            Vue-CLI3 环境变量和模式</span>
+    </a>
+    
+    
+    <a href="/recommendation-system-introduce/" class="next-post btn btn-default" title='推荐系统介绍'>
+        <span class="hidden-lg">下一篇</span>
+        <span class="hidden-xs">
+            推荐系统介绍</span><i class="fa fa-angle-right fa-fw"></i>
+    </a>
+    
+</div>
+
+<!-- google广告 -->
+<!-- <ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-1437849089810081"
+     data-ad-slot="9946365914"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script> -->
+
+
+    <div id="comments">
+        
+<link rel="stylesheet" href="https://cdn.bootcss.com/gitalk/1.7.2/gitalk.min.css">
+<script src="//cdn.bootcss.com/gitalk/1.7.2/gitalk.min.js"></script>
+<script src="//cdn.bootcss.com/blueimp-md5/2.9.0/js/md5.min.js"></script>
+<div id="gitalk-container"></div>
+<script type="text/javascript">
+var gitalk = new Gitalk({
+    // Gitalk配置
+    language: "zh-CN",
+    clientID: "fb80658382dee5240195",
+    clientSecret: "66663a08264192222ba993f20dd7c0a27c1e6fa5",
+    repo: "blog-comments",
+    owner: "Hanpeng-Chen",
+    admin: ["Hanpeng-Chen"],
+    id: md5(location.pathname),
+    distractionFreeMode: true,
+    proxy: "https://cloudflare-cors-anywhere.hanpengchen.workers.dev/?https://github.com/login/oauth/access_token"
+});
+gitalk.render('gitalk-container');
+</script>
+
+    </div>
+
+                </main>
+                
+                    <div class="col-md-4">
+<!-- 方形 -->
+<!-- <ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-1437849089810081"
+     data-ad-slot="2426112279"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script> -->
+</div>
+<aside id="article-toc" role="navigation" class="col-md-4">
+    <div class="widget">
+        <h3 class="title">
+            文章目录
+        </h3>
+        
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#jieba"><span class="toc-text">jieba</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#特点："><span class="toc-text">特点：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#算法："><span class="toc-text">算法：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#用法实例："><span class="toc-text">用法实例：</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#THULAC"><span class="toc-text">THULAC</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#特点"><span class="toc-text">特点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#用法实例"><span class="toc-text">用法实例</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#PKUSeg"><span class="toc-text">PKUSeg</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#特点-1"><span class="toc-text">特点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#用法实例-1"><span class="toc-text">用法实例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#三个库比较"><span class="toc-text">三个库比较</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#更多python中文分词库"><span class="toc-text">更多python中文分词库</span></a></li></ol>
+        
+    </div>
+</aside>
+                
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+<a id="back-to-top" class="icon-btn hide">
+    <i class="fa fa-chevron-up"></i>
+</a>
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="busuanzi">
+    
+</div>
+            </div>
+            <div class="col-sm-12">
+                <span>Copyright &copy;
+                    2019
+                    
+                </span> |
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> |
+                <span>
+                    Theme by <a href="//github.com/shenliyang/hexo-theme-snippet.git" class="copyright-links" target="_blank" rel="nofollow">Snippet</a>
+                </span>
+                
+                    <span> | </span>
+                    <span>
+                        <a href="//beian.miit.gov.cn/" target="_blank" rel="nofollow">
+                            闽ICP备19010134号-1
+                        </a>
+                    </span>
+                
+                
+                    <span> | </span>
+                    <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=35020302033449" rel="nofollow">
+                        <img src="https://image.chenhanpeng.com/static/images/web_static_image/beian_icon.png" width="20">
+                        <span>闽公网安备 35020302033449号</span>
+                    </a>
+                         
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<script src="/js/app.js?rev=@@hash"></script>
+</body>
+</html>

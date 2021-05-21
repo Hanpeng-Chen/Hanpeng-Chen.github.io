@@ -1,0 +1,532 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="代码视界">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="theme-version" content="1.2.3">
+    <meta name="root" content="/">
+    <link rel="dns-prefetch" href="http://www.chenhanpeng.com">
+    <script data-ad-client="ca-pub-1437849089810081" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <!--SEO-->
+
+<meta name="keywords" content="推荐算法,大数据">
+
+
+<meta name="description" content="概述上一篇文章我们介绍了CB推荐算法，本篇文章我们将介绍另外一种推荐算法——基于协同过滤的推荐算法(Collaborative Filtering Recommendations)，下文我们统一...">
+
+
+<meta name="robots" content="all">
+<meta name="google" content="all">
+<meta name="googlebot" content="all">
+<meta name="verify" content="all">
+    <!--Title-->
+
+<title>
+    
+    CF-基于协同过滤的推荐算法 |
+    
+    代码视界
+</title>
+
+<link rel="alternate" href="/atom.xml" title="代码视界" type="application/atom+xml">
+
+
+<link rel="icon" href="/img/site_logo.jpg">
+
+    
+
+<link rel="stylesheet" href="/css/bootstrap.min.css?rev=3.3.7">
+<link rel="stylesheet" href="/css/font-awesome.min.css?rev=4.7.0">
+<link rel="stylesheet" href="/css/style.css?rev=@@hash">
+    
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?494af80fa01e8939bec179cfddf660d5";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+<script>
+(function(i, s, o, g, r, a, m) {
+    i['GoogleAnalyticsObject'] = r;
+    i[r] = i[r] || function() {
+        (i[r].q = i[r].q || []).push(arguments)
+    }, i[r].l = 1 * new Date();
+    a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0];
+    a.async = 1;
+    a.src = g;
+    m.parentNode.insertBefore(a, m)
+})(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+ga('create', 'UA-142577364-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+
+    
+<meta name="baidu-site-verification" content="rGeweWgWoh">
+
+
+<script>
+(function() {
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    } else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+</head></html>
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+<body>
+    <header class="main-header"  style="background-image:url(
+    https://image.chenhanpeng.com/static/images/web_static_image/banner.jpg)"
+     >
+    <div class="main-header-box">
+        <!-- <a class="header-avatar" href="/" title='Hanpeng Chen'>
+            <img src="/img/avatar.jpg" alt="logo头像" class="img-responsive center-block">
+        </a> -->
+        <a href="/" class="header-title">
+            <h1> 代码视界 </h1>
+        </a>
+        <div class="branding">
+            <!--<h2 class="text-hide">Snippet主题,从未如此简单有趣</h2>-->
+            
+            <h2>
+                Hanpeng Chen的个人博客
+            </h2>
+            
+        </div>
+    </div>
+</header>
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="navbar-header"><span class="nav-toggle-button collapsed pull-right" data-toggle="collapse" data-target="#main-menu" id="mnav">
+                        <span class="sr-only"></span>
+                        <i class="fa fa-bars"></i>
+                    </span>
+                    <a class="navbar-brand" href="http://www.chenhanpeng.com">
+                        代码视界</a>
+                </div>
+                <div class="collapse navbar-collapse" id="main-menu">
+                    <ul class="menu">
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/"><i class="fa "></i>
+                                首页</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/archives/"><i class="fa "></i>
+                                文章列表</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/"><i class="fa "></i>
+                                文章分类</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/tags/"><i class="fa "></i>
+                                文章标签</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/links/"><i class="fa "></i>
+                                友链</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/about/"><i class="fa "></i>
+                                关于作者</a>
+                        </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+                    <p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="CF-基于协同过滤的推荐算法">
+            
+            CF-基于协同过滤的推荐算法
+            
+        </h1>
+        <div class="post-meta">
+    
+    <span class="categories-meta fa-wrap">
+        <i class="fa fa-folder-open-o"></i>
+        <a class="category-link" href="/categories/大数据/">大数据</a>
+    </span>
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-tags"></i>
+        <span class="tags-meta">
+            
+            <a class="tag-link" href="/tags/大数据/">大数据</a> <a class="tag-link" href="/tags/推荐算法/">推荐算法</a>
+            
+        </span>
+    </span>
+    
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-clock-o"></i>
+        <span class="date-meta">
+            2019/05/13</span>
+    </span>
+    
+    <span class="fa-wrap">
+        <i class="fa fa-eye"></i>
+        <span id="busuanzi_value_page_pv"></span>
+    </span>
+    
+    
+</div>
+        
+        
+        <p class="fa fa-exclamation-triangle warning">
+            本文于<strong>
+                738</strong>
+            天之前发表，文中内容可能已经过时。
+        </p>
+        
+    </div>
+    
+    
+    <div class="post-body post-content">
+        <h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><p>上一篇文章我们介绍了CB推荐算法，本篇文章我们将介绍另外一种推荐算法——基于协同过滤的推荐算法(Collaborative Filtering Recommendations)，下文我们统一简称为CF算法。</p>
+<p>协同过滤推荐算法作为推荐算法中最经典的类型，包括在线的协同和离线的过滤两部分。在线协同是指通过在线数据找到用户可能喜欢的物品，离线过滤则是过滤掉一些不值得推荐的数据，比如推荐评分低的，或者推荐评分高但用户已经购买过的数据。</p>
+<p>CF算法的数据源是基于用户历史行为和物品的矩阵数据，即UI（User-Item）矩阵数据。CF算法一般可以分为基于用户（User-Based）的协同过滤和基于物品（item-based）的协同过滤。</p>
+<h1 id="算法原理"><a href="#算法原理" class="headerlink" title="算法原理"></a>算法原理</h1><h2 id="1、-User-Based-CF"><a href="#1、-User-Based-CF" class="headerlink" title="1、 User-Based CF"></a>1、 User-Based CF</h2><p>假设：</p>
+<ul>
+<li>用户喜欢跟他过去喜欢的物品相似的物品</li>
+<li>历史上相似的物品在未来也相似</li>
+</ul>
+<p>方法：</p>
+<ul>
+<li>给定用户u，找到他过去喜欢的物品的集合R(u)</li>
+<li>把和R(u)相似的物品推荐给u</li>
+</ul>
+<h2 id="2、-Item-Based-CF"><a href="#2、-Item-Based-CF" class="headerlink" title="2、 Item-Based CF"></a>2、 Item-Based CF</h2><p>假设：</p>
+<ul>
+<li>用户喜欢跟他过去喜欢的物品相似的物品</li>
+<li>历史上相似的物品在未来也相似</li>
+</ul>
+<p>方法：</p>
+<ul>
+<li>给定用户u，找到他过去喜欢的物品的集合R(u)</li>
+<li>把和R(u)相似的物品推荐给u</li>
+</ul>
+<!-- ![Alt](/images/articles/2019/CF_1.png) -->
+<img src="http://image.chenhanpeng.com/static/images/machine_learning/CF_1.png">
+<h1 id="CF算法优缺点"><a href="#CF算法优缺点" class="headerlink" title="CF算法优缺点"></a>CF算法优缺点</h1><p><strong>优点：</strong></p>
+<ul>
+<li>充分利用群体智慧</li>
+<li>推荐精度高于CB</li>
+<li>利于挖掘隐含的相关性</li>
+</ul>
+<p><strong>缺点：</strong></p>
+<ul>
+<li>推荐结果解释性较差</li>
+<li>对时效性强的Item不适用</li>
+<li>冷启动问题</li>
+</ul>
+<h1 id="算法处理过程"><a href="#算法处理过程" class="headerlink" title="算法处理过程"></a>算法处理过程</h1><h3 id="1、数据准备"><a href="#1、数据准备" class="headerlink" title="1、数据准备"></a>1、数据准备</h3><p>用户user_id,物品item_id，打分score（score可以是用户对某件物品的评分，或是根据用户行为计算出的偏好度得分，比如曝光、点击、收藏的加权得分，具体权重可以参考漏斗模型），数据如下：</p>
+<table>
+<thead>
+<tr>
+<th>user_id</th>
+<th>item_id</th>
+<th>score</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id1</td>
+<td>item1</td>
+<td>3</td>
+</tr>
+<tr>
+<td>id1</td>
+<td>item2</td>
+<td>2</td>
+</tr>
+<tr>
+<td>id2</td>
+<td>item1</td>
+<td>4</td>
+</tr>
+<tr>
+<td>id2</td>
+<td>item2</td>
+<td>3</td>
+</tr>
+</tbody>
+</table>
+<h3 id="2、计算相似性矩阵"><a href="#2、计算相似性矩阵" class="headerlink" title="2、计算相似性矩阵"></a>2、计算相似性矩阵</h3><p>CF算法的关键在于计算获得user或item的相似度矩阵，即UU矩阵和II矩阵。</p>
+<p><strong>User-Based：</strong></p>
+<!-- ![Alt](/images/articles/2019/CF_2.png) -->
+<img src="http://image.chenhanpeng.com/static/images/machine_learning/CF_2.png">
+<p>用户之间的相似度计算，是基于对相同的物品打过分，可以将各个分值联合起来作为一个向量，然后计算余弦相似度：</p>
+<!-- ![Alt](/images/articles/2019/CF_3.jpg) -->
+<img src="http://image.chenhanpeng.com/static/images/machine_learning/CF_3.png">
+<p><strong>Item-Based：</strong></p>
+<!-- ![Alt](/images/articles/2019/CF_5.png) -->
+<img src="http://image.chenhanpeng.com/static/images/machine_learning/CF_5.png">
+<p>计算各个Item之间的相似度矩阵，即对两个Item都打过分的id的打分情况作为向量，同理得到item的相似度矩阵。</p>
+<h3 id="3、推荐"><a href="#3、推荐" class="headerlink" title="3、推荐"></a>3、推荐</h3><p>根据相似度矩阵，选择与目标用户相似度最高的几位用户，在第一张表中选取各自打分较高的物品，形成一个推荐候选集合，准备推荐给目标用户。</p>
+<h1 id="User-Based-CF和Item-Based-CF区别"><a href="#User-Based-CF和Item-Based-CF区别" class="headerlink" title="User-Based CF和Item-Based CF区别"></a>User-Based CF和Item-Based CF区别</h1><p>通过两种方法，我们发现两种的分数不一样，那么该用哪个呢，哪个真实，其实这个不重要，生活中我们一般是基于用户给用户推荐Top问题，而不是打分情况，即只要排好序就可以，工作这个分数其实还是有用的，一般我们有这么个准则，哪个维度小用哪个，电商网站物品的矩阵远大于用户矩阵，规模太大有时候造成一些慢，相反一样 </p>
+<p>那么我们来看一下这两个对比不同</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>User-Based</th>
+<th>Item-Based</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>性能</td>
+<td>适用用户较少场合，如果用户多，计算用户相似矩阵代价太大</td>
+<td>适用于物品数明显小于用户数的场合，如果物品很多，计算物品相似度矩阵代价很大</td>
+</tr>
+<tr>
+<td>领域</td>
+<td>时效性强，用户个性化兴趣不太明显的领域</td>
+<td>长尾物品丰富，用户个性化需求强烈的领域</td>
+</tr>
+<tr>
+<td>实时性</td>
+<td>用户有新行为，不一定造成推荐结果立即变化</td>
+<td>用户有新行为，一定会导致推荐结果的实时变化</td>
+</tr>
+<tr>
+<td>冷启动</td>
+<td>在新用户对很少的物品产生行为后，不能立即对他进行个性化推荐，因为用户相似度表是每隔一段时间离线计算的  新物品上线后一段时间，一旦有用户对物品产生行为，就可以将新物品推荐给对它产生行为的用户兴趣相似的其他用户</td>
+<td>新用户只要对一个物品产生行为，就可以给他推荐和该物品相关的其他物品   但没有办法在不离线更新物品相似度表的情况下将新物品推荐给用户</td>
+</tr>
+<tr>
+<td>推荐理由</td>
+<td>很难提供令用户信服的推荐解释</td>
+<td>利用用户的历史行为给用户做推荐解释，可以令用户比较信服</td>
+</tr>
+</tbody>
+</table>
+
+    </div>
+    <div class="wechat">
+        
+            <strong> 欢迎关注微信公众号： 『前端极客技术』『代码视界』 </strong>
+            <img class="wechat-image" src="https://image.chenhanpeng.com/static/images/web_static_image/article-gzh-qrcode.png" />
+        
+    </div>
+    
+    <div class="reward" ontouchstart>
+    <div class="reward-wrap">赏
+        <div class="reward-box">
+            
+            <span class="reward-type">
+                <img class="alipay" src="https://image.chenhanpeng.com/static/images/web_static_image/donate/alipay_qrcode.png"><b>支付宝打赏</b>
+            </span>
+            
+            
+            <span class="reward-type">
+                <img class="wechat" src="https://image.chenhanpeng.com/static/images/web_static_image/donate/weixin_pay_qrcode.png"><b>微信打赏</b>
+            </span>
+            
+        </div>
+    </div>
+    <p class="reward-tip">
+        赞赏是不耍流氓的鼓励
+    </p>
+</div>
+    
+    <div class="post-footer">
+        <div>
+            
+            转载声明：
+            商业转载请联系作者获得授权,非商业转载请注明出处 © <a href="" target="_blank">代码视界</a>
+            
+            
+        </div>
+        <div>
+            
+        </div>
+    </div>
+</article>
+<div class="article-nav prev-next-wrap clearfix">
+    
+    <a href="/Basic-concepts-of-TensorFlow/" class="pre-post btn btn-default" title='TensorFlow基础概念'>
+        <i class="fa fa-angle-left fa-fw"></i><span class="hidden-lg">上一篇</span>
+        <span class="hidden-xs">
+            TensorFlow基础概念</span>
+    </a>
+    
+    
+    <a href="/CB-Recommendation-algorithm/" class="next-post btn btn-default" title='CB-基于内容的推荐算法'>
+        <span class="hidden-lg">下一篇</span>
+        <span class="hidden-xs">
+            CB-基于内容的推荐算法</span><i class="fa fa-angle-right fa-fw"></i>
+    </a>
+    
+</div>
+
+<!-- google广告 -->
+<!-- <ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-1437849089810081"
+     data-ad-slot="9946365914"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script> -->
+
+
+    <div id="comments">
+        
+<link rel="stylesheet" href="https://cdn.bootcss.com/gitalk/1.7.2/gitalk.min.css">
+<script src="//cdn.bootcss.com/gitalk/1.7.2/gitalk.min.js"></script>
+<script src="//cdn.bootcss.com/blueimp-md5/2.9.0/js/md5.min.js"></script>
+<div id="gitalk-container"></div>
+<script type="text/javascript">
+var gitalk = new Gitalk({
+    // Gitalk配置
+    language: "zh-CN",
+    clientID: "fb80658382dee5240195",
+    clientSecret: "66663a08264192222ba993f20dd7c0a27c1e6fa5",
+    repo: "blog-comments",
+    owner: "Hanpeng-Chen",
+    admin: ["Hanpeng-Chen"],
+    id: md5(location.pathname),
+    distractionFreeMode: true,
+    proxy: "https://cloudflare-cors-anywhere.hanpengchen.workers.dev/?https://github.com/login/oauth/access_token"
+});
+gitalk.render('gitalk-container');
+</script>
+
+    </div>
+
+                </main>
+                
+                    <div class="col-md-4">
+<!-- 方形 -->
+<!-- <ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-1437849089810081"
+     data-ad-slot="2426112279"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script> -->
+</div>
+<aside id="article-toc" role="navigation" class="col-md-4">
+    <div class="widget">
+        <h3 class="title">
+            文章目录
+        </h3>
+        
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#概述"><span class="toc-text">概述</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#算法原理"><span class="toc-text">算法原理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1、-User-Based-CF"><span class="toc-text">1、 User-Based CF</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2、-Item-Based-CF"><span class="toc-text">2、 Item-Based CF</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#CF算法优缺点"><span class="toc-text">CF算法优缺点</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#算法处理过程"><span class="toc-text">算法处理过程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1、数据准备"><span class="toc-text">1、数据准备</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2、计算相似性矩阵"><span class="toc-text">2、计算相似性矩阵</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3、推荐"><span class="toc-text">3、推荐</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#User-Based-CF和Item-Based-CF区别"><span class="toc-text">User-Based CF和Item-Based CF区别</span></a></li></ol>
+        
+    </div>
+</aside>
+                
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+<a id="back-to-top" class="icon-btn hide">
+    <i class="fa fa-chevron-up"></i>
+</a>
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="busuanzi">
+    
+</div>
+            </div>
+            <div class="col-sm-12">
+                <span>Copyright &copy;
+                    2019
+                    
+                </span> |
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> |
+                <span>
+                    Theme by <a href="//github.com/shenliyang/hexo-theme-snippet.git" class="copyright-links" target="_blank" rel="nofollow">Snippet</a>
+                </span>
+                
+                    <span> | </span>
+                    <span>
+                        <a href="//beian.miit.gov.cn/" target="_blank" rel="nofollow">
+                            闽ICP备19010134号-1
+                        </a>
+                    </span>
+                
+                
+                    <span> | </span>
+                    <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=35020302033449" rel="nofollow">
+                        <img src="https://image.chenhanpeng.com/static/images/web_static_image/beian_icon.png" width="20">
+                        <span>闽公网安备 35020302033449号</span>
+                    </a>
+                         
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<script src="/js/app.js?rev=@@hash"></script>
+</body>
+</html>

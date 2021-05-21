@@ -1,0 +1,576 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="代码视界">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="theme-version" content="1.2.3">
+    <meta name="root" content="/">
+    <link rel="dns-prefetch" href="http://www.chenhanpeng.com">
+    <script data-ad-client="ca-pub-1437849089810081" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <!--SEO-->
+
+<meta name="keywords" content="前端,性能监控">
+
+
+<meta name="description" content="前言页面性能优化是前端开发中一个重要的环节，而评判前端性能的优劣有两个比较经常听说的指标：白屏时间和首屏时间。
+接下来我们一起来看看什么是白屏时间和首屏时间，如何去计算。
+什么是白屏和首屏时间白...">
+
+
+<meta name="robots" content="all">
+<meta name="google" content="all">
+<meta name="googlebot" content="all">
+<meta name="verify" content="all">
+    <!--Title-->
+
+<title>
+    
+    前端性能指标：白屏和首屏时间的计算 |
+    
+    代码视界
+</title>
+
+<link rel="alternate" href="/atom.xml" title="代码视界" type="application/atom+xml">
+
+
+<link rel="icon" href="/img/site_logo.jpg">
+
+    
+
+<link rel="stylesheet" href="/css/bootstrap.min.css?rev=3.3.7">
+<link rel="stylesheet" href="/css/font-awesome.min.css?rev=4.7.0">
+<link rel="stylesheet" href="/css/style.css?rev=@@hash">
+    
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?494af80fa01e8939bec179cfddf660d5";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+<script>
+(function(i, s, o, g, r, a, m) {
+    i['GoogleAnalyticsObject'] = r;
+    i[r] = i[r] || function() {
+        (i[r].q = i[r].q || []).push(arguments)
+    }, i[r].l = 1 * new Date();
+    a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0];
+    a.async = 1;
+    a.src = g;
+    m.parentNode.insertBefore(a, m)
+})(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+ga('create', 'UA-142577364-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+
+    
+<meta name="baidu-site-verification" content="rGeweWgWoh">
+
+
+<script>
+(function() {
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    } else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+</head></html>
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+<body>
+    <header class="main-header"  style="background-image:url(
+    https://image.chenhanpeng.com/static/images/web_static_image/banner.jpg)"
+     >
+    <div class="main-header-box">
+        <!-- <a class="header-avatar" href="/" title='Hanpeng Chen'>
+            <img src="/img/avatar.jpg" alt="logo头像" class="img-responsive center-block">
+        </a> -->
+        <a href="/" class="header-title">
+            <h1> 代码视界 </h1>
+        </a>
+        <div class="branding">
+            <!--<h2 class="text-hide">Snippet主题,从未如此简单有趣</h2>-->
+            
+            <h2>
+                Hanpeng Chen的个人博客
+            </h2>
+            
+        </div>
+    </div>
+</header>
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="navbar-header"><span class="nav-toggle-button collapsed pull-right" data-toggle="collapse" data-target="#main-menu" id="mnav">
+                        <span class="sr-only"></span>
+                        <i class="fa fa-bars"></i>
+                    </span>
+                    <a class="navbar-brand" href="http://www.chenhanpeng.com">
+                        代码视界</a>
+                </div>
+                <div class="collapse navbar-collapse" id="main-menu">
+                    <ul class="menu">
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/"><i class="fa "></i>
+                                首页</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/archives/"><i class="fa "></i>
+                                文章列表</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/"><i class="fa "></i>
+                                文章分类</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/tags/"><i class="fa "></i>
+                                文章标签</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/links/"><i class="fa "></i>
+                                友链</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/about/"><i class="fa "></i>
+                                关于作者</a>
+                        </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+                    <p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="前端性能指标：白屏和首屏时间的计算">
+            
+            前端性能指标：白屏和首屏时间的计算
+            
+        </h1>
+        <div class="post-meta">
+    
+    <span class="categories-meta fa-wrap">
+        <i class="fa fa-folder-open-o"></i>
+        <a class="category-link" href="/categories/前端/">前端</a>
+    </span>
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-tags"></i>
+        <span class="tags-meta">
+            
+            <a class="tag-link" href="/tags/前端/">前端</a> <a class="tag-link" href="/tags/性能监控/">性能监控</a>
+            
+        </span>
+    </span>
+    
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-clock-o"></i>
+        <span class="date-meta">
+            2021/01/12</span>
+    </span>
+    
+    <span class="fa-wrap">
+        <i class="fa fa-eye"></i>
+        <span id="busuanzi_value_page_pv"></span>
+    </span>
+    
+    
+</div>
+        
+        
+    </div>
+    
+    
+    <div class="post-body post-content">
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>页面性能优化是前端开发中一个重要的环节，而评判前端性能的优劣有两个比较经常听说的指标：白屏时间和首屏时间。</p>
+<p>接下来我们一起来看看什么是白屏时间和首屏时间，如何去计算。</p>
+<h2 id="什么是白屏和首屏时间"><a href="#什么是白屏和首屏时间" class="headerlink" title="什么是白屏和首屏时间"></a>什么是白屏和首屏时间</h2><h3 id="白屏时间-FP"><a href="#白屏时间-FP" class="headerlink" title="白屏时间(FP)"></a>白屏时间(FP)</h3><p>白屏时间(First Paint)：是指浏览器从响应用户输入网址地址，到浏览器开始显示内容的时间。</p>
+<ul>
+<li>白屏时间 = 页面开始展示的时间点 - 开始请求的时间点</li>
+</ul>
+<h3 id="首屏时间-FCP"><a href="#首屏时间-FCP" class="headerlink" title="首屏时间(FCP)"></a>首屏时间(FCP)</h3><p>首屏时间(First Contentful Paint)：是指浏览器从响应用户输入网络地址，到首屏内容渲染完成的时间。</p>
+<ul>
+<li>首屏时间 = 首屏内容渲染结束时间点 - 开始请求的时间点</li>
+</ul>
+<blockquote>
+<p>欢迎关注我的微信公众号：<strong>前端极客技术(FrontGeek)</strong></p>
+</blockquote>
+<h2 id="常规计算方式"><a href="#常规计算方式" class="headerlink" title="常规计算方式"></a>常规计算方式</h2><h3 id="白屏时间"><a href="#白屏时间" class="headerlink" title="白屏时间"></a>白屏时间</h3><p>白屏时间是从用户开始请求页面时开始计算到开始显示内容结束，中间过程包括DNS查询、建立TCP链接、发送首个HTTP请求、返回HTML文档、HTML文档head解析完毕。</p>
+<p>因此影响白屏时间的因素：网络、服务端性能、前端页面结构设计。</p>
+<p>通常认为浏览器开始渲染<code>&lt;body&gt;</code>或者解析完<code>&lt;head&gt;</code>的时间是白屏结束的时间点。所以我们可以在html文档的head中所有的静态资源以及内嵌脚本/样式之前记录一个时间点，在head最底部记录另一个时间点，两者的差值作为白屏时间</p>
+<p><strong>代码实现：</strong><br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"width=device-width, initial-scale=1.0"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">title</span>&gt;</span>白屏时间计算-常规方法<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="javascript">    <span class="built_in">window</span>.pageStartTime = <span class="built_in">Date</span>.now()</span></span><br><span class="line"><span class="undefined">  </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span> <span class="attr">href</span>=<span class="string">"https://b-gold-cdn.xitu.io/ionicons/2.0.1/css/ionicons.min.css"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span> <span class="attr">href</span>=<span class="string">"https://b-gold-cdn.xitu.io/asset/fw-icon/1.0.9/iconfont.css"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="javascript">    <span class="built_in">window</span>.firstPaint = <span class="built_in">Date</span>.now()</span></span><br><span class="line"><span class="javascript">    <span class="built_in">console</span>.log(<span class="string">`白屏时间：<span class="subst">$&#123;<span class="built_in">window</span>.firstPaint - <span class="built_in">window</span>.pageStartTime&#125;</span>`</span>)</span></span><br><span class="line"><span class="undefined">  </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span>&gt;</span>这是常规计算白屏时间的示例页面<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>白屏时间 = window.firstPaint - window.pageStartTime</p>
+<p>这个方法有个缺点：无法获取解析HTML文档之前的时间信息。</p>
+<h3 id="首屏时间"><a href="#首屏时间" class="headerlink" title="首屏时间"></a>首屏时间</h3><p>首屏时间要知道两个时间点：开始请求时间点和首屏内容渲染结束时间点。开始请求时间点和白屏时间一样，下面就是如何拿到首屏内容渲染结束时间点。</p>
+<p>首屏结束时间应该是页面的第一屏绘制完，但是目前没有一个明确的API可以来直接得到这个时间点，所以我们只能智取，比如我们要知道第一屏内容底部在HTML文档的什么位置，那么这个第一屏内容底部，也称之为<strong>首屏线</strong>。</p>
+<p>现在的问题是：首屏线在哪里？</p>
+<p>实际情况分很多种，不同的场景有不同的计算方式。</p>
+<h4 id="标记首屏标签模块"><a href="#标记首屏标签模块" class="headerlink" title="标记首屏标签模块"></a>标记首屏标签模块</h4><p>这种方式比较简单，通过在HTML文档中，在首屏线的位置添加脚本去获取这个位置的时间。</p>
+<p>但是在哪里添加我们只能大约估摸一个位置，以手机屏幕为例，不同型号手机屏幕大小不一样，我们取的位置可能在首屏线上面，也可以在下面，只能得到一个大约的值。</p>
+<p><strong>代码实现</strong><br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"width=device-width, initial-scale=1.0"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">title</span>&gt;</span>首屏时间计算-标记首屏标签模块<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="javascript">    <span class="built_in">window</span>.pageStartTime = <span class="built_in">Date</span>.now()</span></span><br><span class="line"><span class="undefined">  </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span> <span class="attr">href</span>=<span class="string">"https://b-gold-cdn.xitu.io/ionicons/2.0.1/css/ionicons.min.css"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span> <span class="attr">href</span>=<span class="string">"https://b-gold-cdn.xitu.io/asset/fw-icon/1.0.9/iconfont.css"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span>&gt;</span>首屏时间计算-标记首屏标签模块<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"module-1"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"module-2"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="javascript">    <span class="built_in">window</span>.firstScreen = <span class="built_in">Date</span>.now();</span></span><br><span class="line"><span class="javascript">    <span class="built_in">console</span>.log(<span class="string">`首屏时间：<span class="subst">$&#123;<span class="built_in">window</span>.firstScreen - <span class="built_in">window</span>.pageStartTime&#125;</span>`</span>)</span></span><br><span class="line"><span class="undefined">  </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"module-3"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"module-4"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>首屏时间 = window.firstScreen - window.pageStartTime</p>
+<p><strong>这种方法的适用场景：</strong></p>
+<ul>
+<li>首屏内不需要拉取数据，否则可能拿到首屏线获取时间的时候，首屏还是空白</li>
+<li>不需要考虑图片加载，只考虑首屏主要模块</li>
+</ul>
+<p>在业务中，较少使用这种算法，大多数页面需要使用接口，所以这种方法就太不常用</p>
+<p>但是如果你的页面是静态页面，或者异步数据不影响整体的首屏体验，那么就可以使用这种办法</p>
+<h4 id="统计首屏最慢图片加载时间"><a href="#统计首屏最慢图片加载时间" class="headerlink" title="统计首屏最慢图片加载时间"></a>统计首屏最慢图片加载时间</h4><p>我们知道在一个页面中，图片资源往往是比较后加载完的，因此可以统计首屏加载最慢的图片是否加载完成，加载完了，记录结束时间。</p>
+<p>如何知道首屏内哪张图片加载最慢？</p>
+<p>我们可以拿到首屏内所有的图片，遍历它们，逐个监听图片标签的onload事件，并收集到它们的加载时间，最后比较得到加载时间的最大值。</p>
+<p><strong>代码实现：</strong><br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"width=device-width, initial-scale=1.0"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">title</span>&gt;</span>首屏时间计算-统计首屏最慢图片加载时间<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="javascript">    <span class="built_in">window</span>.pageStartTime = <span class="built_in">Date</span>.now()</span></span><br><span class="line"><span class="undefined">  </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"https://gitee.com/HanpengChen/blog-images/raw/master/blogImages/2021/spring/20210107155629.png"</span> <span class="attr">alt</span>=<span class="string">"img"</span> <span class="attr">onload</span>=<span class="string">"load()"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"https://gitee.com/HanpengChen/blog-images/raw/master/blogImages/2020/autumn/article-gzh-qrcode.png"</span> <span class="attr">alt</span>=<span class="string">"img"</span> <span class="attr">onload</span>=<span class="string">"load()"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="javascript">    <span class="function"><span class="keyword">function</span> <span class="title">load</span>(<span class="params"></span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">      <span class="built_in">window</span>.firstScreen = <span class="built_in">Date</span>.now()</span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="javascript">    <span class="built_in">window</span>.onload = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">      <span class="comment">// 首屏时间</span></span></span><br><span class="line"><span class="javascript">      <span class="built_in">console</span>.log(<span class="built_in">window</span>.firstScreen - <span class="built_in">window</span>.pageStartTime)</span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="undefined">  </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>首屏时间 = window.firstScreen - window.pageStartTime</p>
+<p><strong>适用场景：</strong></p>
+<ul>
+<li>首屏元素数量固定的页面，比如移动端首屏不论屏幕大小都展示相同数量的内容。</li>
+</ul>
+<p>但是对于首屏元素不固定的页面，这种方案并不适用，最典型的就是PC端页面，不同屏幕尺寸下展示的首屏内容不同。上述方案便不适用于此场景。</p>
+<h4 id="自定义模块计算法"><a href="#自定义模块计算法" class="headerlink" title="自定义模块计算法"></a>自定义模块计算法</h4><p>这种算法和标记首屏的方法相似，同样忽略了首屏内图片加载的情况，这个方法主要考虑的是异步数据。</p>
+<p>在首屏标签标记法中，是无法计算到异步数据带来的首屏空白的，所以它的适配场景十分有限</p>
+<p>自定义模块，就是根据首屏内接口计算比较得出最迟的时间</p>
+<p><strong>代码实现：</strong><br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"width=device-width, initial-scale=1.0"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">title</span>&gt;</span>首屏时间计算-自定义模块计算法<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="javascript">    <span class="built_in">window</span>.pageStartTime = <span class="built_in">Date</span>.now()</span></span><br><span class="line"><span class="undefined">  </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"module-1"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"module-2"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="javascript">    setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span></span><br><span class="line"><span class="javascript">      <span class="comment">// 假设这里异步加载首屏要显示的文章列表数据</span></span></span><br><span class="line"><span class="javascript">      <span class="built_in">window</span>.firstScreen = <span class="built_in">Date</span>.now();</span></span><br><span class="line"><span class="javascript">      <span class="built_in">console</span>.log(<span class="built_in">window</span>.firstScreen - <span class="built_in">window</span>.pageStartTime)</span></span><br><span class="line"><span class="undefined">    &#125;, 500)</span></span><br><span class="line"><span class="undefined">  </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"module-3"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="window-performance"><a href="#window-performance" class="headerlink" title="window.performance"></a>window.performance</h2><p>上面我们学习了几种常规的计算首屏和白屏时间的方法，其实现在w3c提供了一个用来测量网页和web应用程序的API：<code>window.performance</code>，通过这个API，我们可以更方便获取到相应的时间节点。</p>
+<p>这个API在IE9以上的浏览器都支持。</p>
+<p>window.performance是一个浏览器中用于记录页面加载和解析过程中关键时间点的对象，放置在global环境下，通过JavaScript可以访问到它。</p>
+<p>通过以下代码可以探测和兼容performance：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> performance = <span class="built_in">window</span>.performance || </span><br><span class="line">    <span class="built_in">window</span>.msPerformance || </span><br><span class="line">    <span class="built_in">window</span>.webkitPerformance;</span><br><span class="line"><span class="keyword">if</span> (performance) &#123;</span><br><span class="line">    <span class="comment">// 你的代码</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="performance属性"><a href="#performance属性" class="headerlink" title="performance属性"></a>performance属性</h3><p>我们一起来看下performance都有哪些属性：</p>
+<ul>
+<li>memory：显示此刻内存占用情况，是一个动态值<ul>
+<li>usedJSHeapSize：JS对象占用的内存数</li>
+<li>jsHeapSizeLimit：可使用的内存</li>
+<li>totalJSHeapSize：内存大小限制</li>
+</ul>
+</li>
+</ul>
+<p>正常usedJSHeapSize不大于totalJSHeapSize，如果大于，说明可能出现了内存泄漏。</p>
+<ul>
+<li><p>navigation：显示页面的来源信息</p>
+<ul>
+<li>redirectCount：表示如果有重定向的话，页面通过几次重定向跳转而来，默认为0</li>
+<li>type：表示页面打开的方式。0-正常进入；1-通过window.reload()刷新的页面；2-通过浏览器的前进后退按钮进入的页面；255-非以上方式进入的页面。</li>
+</ul>
+</li>
+<li><p>onresourcetimingbufferfull：在resourcetimingbufferfull事件触发时会被调用的一个event handler。它的值是一个手动设置的回调函数，这个回调函数会在浏览器的资源时间性能缓冲区满时执行。</p>
+</li>
+<li><p>timeOrigin：一系列时间点的基准点，精确到万分之一毫秒。</p>
+</li>
+<li><p>timing：一系列关键时间点，包含网络、解析等一系列的时间数据。</p>
+</li>
+</ul>
+<p><img src="https://gitee.com/HanpengChen/blog-images/raw/master/blogImages/2020/20201113233024.png" alt></p>
+<h3 id="timing中的时间点"><a href="#timing中的时间点" class="headerlink" title="timing中的时间点"></a>timing中的时间点</h3><p>下面我们来看下timing中的各个时间点：</p>
+<ul>
+<li><p>navigationStart：同一个浏览器上一个页面卸载(unload)结束时的时间戳。如果没有上一个页面，这个值会和fetchStart相同</p>
+</li>
+<li><p>unloadEventStart: 上一个页面unload事件抛出时的时间戳。如果没有上一个页面，这个值会返回0。</p>
+</li>
+<li><p>unloadEventEnd: 和 unloadEventStart 相对应，unload事件处理完成时的时间戳。如果没有上一个页面,这个值会返回0。</p>
+</li>
+<li><p>redirectStart: 第一个HTTP重定向开始时的时间戳。如果没有重定向，或者重定向中的一个不同源，这个值会返回0</p>
+</li>
+<li><p>redirectEnd: 最后一个HTTP重定向完成时（也就是说是HTTP响应的最后一个比特直接被收到的时间）的时间戳。如果没有重定向，或者重定向中的一个不同源，这个值会返回0</p>
+</li>
+<li><p>fetchStart: 浏览器准备好使用HTTP请求来获取(fetch)文档的时间戳。这个时间点会在检查任何应用缓存之前。</p>
+</li>
+<li><p>domainLookupStart: DNS 域名查询开始的UNIX时间戳。如果使用了持续连接(persistent connection)，或者这个信息存储到了缓存或者本地资源上，这个值将和fetchStart一致。</p>
+</li>
+<li><p>domainLookupEnd: DNS 域名查询完成的时间。如果使用了本地缓存（即无 DNS 查询）或持久连接，则与 fetchStart 值相等</p>
+</li>
+<li><p>connectStart: HTTP（TCP） 域名查询结束的时间戳。如果使用了持续连接(persistent connection)，或者这个信息存储到了缓存或者本地资源上，这个值将和 fetchStart一致。</p>
+</li>
+<li><p>connectEnd: HTTP（TCP） 返回浏览器与服务器之间的连接建立时的时间戳。如果建立的是持久连接，则返回值等同于fetchStart属性的值。连接建立指的是所有握手和认证过程全部结束。</p>
+</li>
+<li><p>secureConnectionStart: HTTPS 返回浏览器与服务器开始安全链接的握手时的时间戳。如果当前网页不要求安全连接，则返回0。</p>
+</li>
+<li><p>requestStart: 返回浏览器向服务器发出HTTP请求时（或开始读取本地缓存时）的时间戳。</p>
+</li>
+<li><p>responseStart: 返回浏览器从服务器收到（或从本地缓存读取）第一个字节时的时间戳。如果传输层在开始请求之后失败并且连接被重开，该属性将会被数制成新的请求的相对应的发起时间。</p>
+</li>
+<li><p>responseEnd: 返回浏览器从服务器收到（或从本地缓存读取，或从本地资源读取）最后一个字节时。（如果在此之前HTTP连接已经关闭，则返回关闭时）的时间戳。</p>
+</li>
+<li><p>domLoading: 当前网页DOM结构开始解析时（即Document.readyState属性变为“loading”、相应的 readystatechange事件触发时）的时间戳。</p>
+</li>
+<li><p>domInteractive: 当前网页DOM结构结束解析、开始加载内嵌资源时（即Document.readyState属性变为“interactive”、相应的readystatechange事件触发时）的时间戳。</p>
+</li>
+<li><p>domContentLoadedEventStart: 当解析器发送DOMContentLoaded 事件，即所有需要被执行的脚本已经被解析时的时间戳。</p>
+</li>
+<li><p>domContentLoadedEventEnd: 当所有需要立即执行的脚本已经被执行（不论执行顺序）时的时间戳。</p>
+</li>
+<li><p>domComplete: 当前文档解析完成，即Document.readyState 变为 ‘complete’且相对应的readystatechange 被触发时的时间戳</p>
+</li>
+<li><p>loadEventStart: load事件被发送时的时间戳。如果这个事件还未被发送，它的值将会是0。</p>
+</li>
+<li><p>loadEventEnd: 当load事件结束，即加载事件完成时的时间戳。如果这个事件还未被发送，或者尚未完成，它的值将会是0</p>
+</li>
+</ul>
+<p>通过上面这些时间点，我们看能计算到哪些时间：</p>
+<ul>
+<li>重定向耗时：redirectEnd - redirectStart</li>
+<li>DNS查询耗时：domainLookupEnd - domainLookupStart</li>
+<li>TCP链接耗时：connectEnd - connectStart</li>
+<li>HTTP请求耗时：responseEnd - responseStart</li>
+<li>解析dom树耗时：domComplete - domInteractive</li>
+<li>白屏时间：responseStart - navigationStart</li>
+<li>DOM ready时间：domContentLoadedEventEnd - navigationStart</li>
+<li>onload时间：loadEventEnd - navigationStart</li>
+</ul>
+<h3 id="资源性能API"><a href="#资源性能API" class="headerlink" title="资源性能API"></a>资源性能API</h3><p>performance.timing记录的是用于分析页面整体性能指标。如果要获取个别资源（例如JS、图片）的性能指标，就需要使用Resource Timing API。</p>
+<p>performance.getEntries()方法，包含了所有静态资源的数组列表；每一项是一个请求的相关参数有name，type，时间等等。</p>
+<p>除了performance.getEntries之外，performance还包含一系列有用的方法，比如：</p>
+<ul>
+<li>performance.now()</li>
+<li>Performance.getEntriesByName()</li>
+<li>….</li>
+</ul>
+<p>上面这些方法我不具体介绍，大家可以自行查阅相关文档了解，这里我主要说一下我们可以利用getEntriesByName()这个方法来计算首屏时间：</p>
+<blockquote>
+<p>首屏时间：performance.getEntriesByName(“first-contentful-paint”)[0].startTime - navigationStart</p>
+</blockquote>
+<blockquote>
+<p>欢迎关注我的微信公众号：<strong>前端极客技术(FrontGeek)</strong></p>
+</blockquote>
+<h2 id="我该计算首屏时间还是白屏时间？"><a href="#我该计算首屏时间还是白屏时间？" class="headerlink" title="我该计算首屏时间还是白屏时间？"></a>我该计算首屏时间还是白屏时间？</h2><p>在评估页面是否开始渲染方面，首屏时间会比白屏时间更精确，但是二者的结束时间往往很接近。所以要根据自己的业务场景去决定到底该用哪种计算方式。</p>
+<p>对于交互性比较少的简单网页，由于加载比较快，所以二者区别不大，因此，可以根据喜好任选一种计算方式。</p>
+<p>对于大型的复杂页面，你会发现由于需要处理更多复杂的元素，白屏时间和首屏时间相隔比较远，这时候，计算首屏时间会更有用。</p>
+<h2 id="白屏和首屏的优化"><a href="#白屏和首屏的优化" class="headerlink" title="白屏和首屏的优化"></a>白屏和首屏的优化</h2><p>目前白屏常见的优化方案有：</p>
+<ul>
+<li>SSR</li>
+<li>预渲染</li>
+<li>骨架屏</li>
+</ul>
+<p>优化首屏加载时间的方法：</p>
+<ul>
+<li>CDN分发（减少传输距离）</li>
+<li>后端在业务层的缓存</li>
+<li>静态文件缓存方案</li>
+<li>前端的资源动态加载</li>
+<li>减少请求的数量</li>
+<li>利用好HTTP压缩</li>
+</ul>
+<p>白屏时间和首屏时间的优化方法不止上面这些，感兴趣的小伙伴可以自行查找相关内容。</p>
+
+    </div>
+    <div class="wechat">
+        
+            <strong> 欢迎关注微信公众号： 『前端极客技术』『代码视界』 </strong>
+            <img class="wechat-image" src="https://image.chenhanpeng.com/static/images/web_static_image/article-gzh-qrcode.png" />
+        
+    </div>
+    
+    <div class="reward" ontouchstart>
+    <div class="reward-wrap">赏
+        <div class="reward-box">
+            
+            <span class="reward-type">
+                <img class="alipay" src="https://image.chenhanpeng.com/static/images/web_static_image/donate/alipay_qrcode.png"><b>支付宝打赏</b>
+            </span>
+            
+            
+            <span class="reward-type">
+                <img class="wechat" src="https://image.chenhanpeng.com/static/images/web_static_image/donate/weixin_pay_qrcode.png"><b>微信打赏</b>
+            </span>
+            
+        </div>
+    </div>
+    <p class="reward-tip">
+        赞赏是不耍流氓的鼓励
+    </p>
+</div>
+    
+    <div class="post-footer">
+        <div>
+            
+            转载声明：
+            商业转载请联系作者获得授权,非商业转载请注明出处 © <a href="" target="_blank">代码视界</a>
+            
+            
+        </div>
+        <div>
+            
+        </div>
+    </div>
+</article>
+<div class="article-nav prev-next-wrap clearfix">
+    
+    <a href="/javascript-factory-pattern/" class="pre-post btn btn-default" title='JavaScript设计模式——工厂模式'>
+        <i class="fa fa-angle-left fa-fw"></i><span class="hidden-lg">上一篇</span>
+        <span class="hidden-xs">
+            JavaScript设计模式——工厂模式</span>
+    </a>
+    
+    
+    <a href="/http-cache/" class="next-post btn btn-default" title='一文彻底掌握HTTP缓存'>
+        <span class="hidden-lg">下一篇</span>
+        <span class="hidden-xs">
+            一文彻底掌握HTTP缓存</span><i class="fa fa-angle-right fa-fw"></i>
+    </a>
+    
+</div>
+
+<!-- google广告 -->
+<!-- <ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-1437849089810081"
+     data-ad-slot="9946365914"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script> -->
+
+
+    <div id="comments">
+        
+<link rel="stylesheet" href="https://cdn.bootcss.com/gitalk/1.7.2/gitalk.min.css">
+<script src="//cdn.bootcss.com/gitalk/1.7.2/gitalk.min.js"></script>
+<script src="//cdn.bootcss.com/blueimp-md5/2.9.0/js/md5.min.js"></script>
+<div id="gitalk-container"></div>
+<script type="text/javascript">
+var gitalk = new Gitalk({
+    // Gitalk配置
+    language: "zh-CN",
+    clientID: "fb80658382dee5240195",
+    clientSecret: "66663a08264192222ba993f20dd7c0a27c1e6fa5",
+    repo: "blog-comments",
+    owner: "Hanpeng-Chen",
+    admin: ["Hanpeng-Chen"],
+    id: md5(location.pathname),
+    distractionFreeMode: true,
+    proxy: "https://cloudflare-cors-anywhere.hanpengchen.workers.dev/?https://github.com/login/oauth/access_token"
+});
+gitalk.render('gitalk-container');
+</script>
+
+    </div>
+
+                </main>
+                
+                    <div class="col-md-4">
+<!-- 方形 -->
+<!-- <ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-1437849089810081"
+     data-ad-slot="2426112279"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script> -->
+</div>
+<aside id="article-toc" role="navigation" class="col-md-4">
+    <div class="widget">
+        <h3 class="title">
+            文章目录
+        </h3>
+        
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是白屏和首屏时间"><span class="toc-text">什么是白屏和首屏时间</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#白屏时间-FP"><span class="toc-text">白屏时间(FP)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#首屏时间-FCP"><span class="toc-text">首屏时间(FCP)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#常规计算方式"><span class="toc-text">常规计算方式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#白屏时间"><span class="toc-text">白屏时间</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#首屏时间"><span class="toc-text">首屏时间</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#标记首屏标签模块"><span class="toc-text">标记首屏标签模块</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#统计首屏最慢图片加载时间"><span class="toc-text">统计首屏最慢图片加载时间</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#自定义模块计算法"><span class="toc-text">自定义模块计算法</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#window-performance"><span class="toc-text">window.performance</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#performance属性"><span class="toc-text">performance属性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#timing中的时间点"><span class="toc-text">timing中的时间点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#资源性能API"><span class="toc-text">资源性能API</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#我该计算首屏时间还是白屏时间？"><span class="toc-text">我该计算首屏时间还是白屏时间？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#白屏和首屏的优化"><span class="toc-text">白屏和首屏的优化</span></a></li></ol>
+        
+    </div>
+</aside>
+                
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+<a id="back-to-top" class="icon-btn hide">
+    <i class="fa fa-chevron-up"></i>
+</a>
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="busuanzi">
+    
+</div>
+            </div>
+            <div class="col-sm-12">
+                <span>Copyright &copy;
+                    2019
+                    
+                </span> |
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> |
+                <span>
+                    Theme by <a href="//github.com/shenliyang/hexo-theme-snippet.git" class="copyright-links" target="_blank" rel="nofollow">Snippet</a>
+                </span>
+                
+                    <span> | </span>
+                    <span>
+                        <a href="//beian.miit.gov.cn/" target="_blank" rel="nofollow">
+                            闽ICP备19010134号-1
+                        </a>
+                    </span>
+                
+                
+                    <span> | </span>
+                    <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=35020302033449" rel="nofollow">
+                        <img src="https://image.chenhanpeng.com/static/images/web_static_image/beian_icon.png" width="20">
+                        <span>闽公网安备 35020302033449号</span>
+                    </a>
+                         
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<script src="/js/app.js?rev=@@hash"></script>
+</body>
+</html>

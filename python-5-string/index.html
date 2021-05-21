@@ -1,0 +1,458 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="代码视界">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="theme-version" content="1.2.3">
+    <meta name="root" content="/">
+    <link rel="dns-prefetch" href="http://www.chenhanpeng.com">
+    <script data-ad-client="ca-pub-1437849089810081" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <!--SEO-->
+
+<meta name="keywords" content="python教程,字符串">
+
+
+<meta name="description" content="在《Python从小白到攻城狮（2）：数据类型和变量》中，我们简单介绍过字符串，今天这篇文章，我们将一起学习字符串的更多知识。
+字符串基础
+字符串(string)是Python中很常见的一种数据...">
+
+
+<meta name="robots" content="all">
+<meta name="google" content="all">
+<meta name="googlebot" content="all">
+<meta name="verify" content="all">
+    <!--Title-->
+
+<title>
+    
+    Python从小白到攻城狮(5)——深入浅出字符串 |
+    
+    代码视界
+</title>
+
+<link rel="alternate" href="/atom.xml" title="代码视界" type="application/atom+xml">
+
+
+<link rel="icon" href="/img/site_logo.jpg">
+
+    
+
+<link rel="stylesheet" href="/css/bootstrap.min.css?rev=3.3.7">
+<link rel="stylesheet" href="/css/font-awesome.min.css?rev=4.7.0">
+<link rel="stylesheet" href="/css/style.css?rev=@@hash">
+    
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?494af80fa01e8939bec179cfddf660d5";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+<script>
+(function(i, s, o, g, r, a, m) {
+    i['GoogleAnalyticsObject'] = r;
+    i[r] = i[r] || function() {
+        (i[r].q = i[r].q || []).push(arguments)
+    }, i[r].l = 1 * new Date();
+    a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0];
+    a.async = 1;
+    a.src = g;
+    m.parentNode.insertBefore(a, m)
+})(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+ga('create', 'UA-142577364-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+
+    
+<meta name="baidu-site-verification" content="rGeweWgWoh">
+
+
+<script>
+(function() {
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    } else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+</head></html>
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+<body>
+    <header class="main-header"  style="background-image:url(
+    https://image.chenhanpeng.com/static/images/web_static_image/banner.jpg)"
+     >
+    <div class="main-header-box">
+        <!-- <a class="header-avatar" href="/" title='Hanpeng Chen'>
+            <img src="/img/avatar.jpg" alt="logo头像" class="img-responsive center-block">
+        </a> -->
+        <a href="/" class="header-title">
+            <h1> 代码视界 </h1>
+        </a>
+        <div class="branding">
+            <!--<h2 class="text-hide">Snippet主题,从未如此简单有趣</h2>-->
+            
+            <h2>
+                Hanpeng Chen的个人博客
+            </h2>
+            
+        </div>
+    </div>
+</header>
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="navbar-header"><span class="nav-toggle-button collapsed pull-right" data-toggle="collapse" data-target="#main-menu" id="mnav">
+                        <span class="sr-only"></span>
+                        <i class="fa fa-bars"></i>
+                    </span>
+                    <a class="navbar-brand" href="http://www.chenhanpeng.com">
+                        代码视界</a>
+                </div>
+                <div class="collapse navbar-collapse" id="main-menu">
+                    <ul class="menu">
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/"><i class="fa "></i>
+                                首页</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/archives/"><i class="fa "></i>
+                                文章列表</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/"><i class="fa "></i>
+                                文章分类</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/tags/"><i class="fa "></i>
+                                文章标签</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/links/"><i class="fa "></i>
+                                友链</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/about/"><i class="fa "></i>
+                                关于作者</a>
+                        </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+                    <p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="Python从小白到攻城狮(5)——深入浅出字符串">
+            
+            Python从小白到攻城狮(5)——深入浅出字符串
+            
+        </h1>
+        <div class="post-meta">
+    
+    <span class="categories-meta fa-wrap">
+        <i class="fa fa-folder-open-o"></i>
+        <a class="category-link" href="/categories/Python/">Python</a>
+    </span>
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-tags"></i>
+        <span class="tags-meta">
+            
+            <a class="tag-link" href="/tags/python教程/">python教程</a> <a class="tag-link" href="/tags/字符串/">字符串</a>
+            
+        </span>
+    </span>
+    
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-clock-o"></i>
+        <span class="date-meta">
+            2019/08/25</span>
+    </span>
+    
+    <span class="fa-wrap">
+        <i class="fa fa-eye"></i>
+        <span id="busuanzi_value_page_pv"></span>
+    </span>
+    
+    
+</div>
+        
+        
+        <p class="fa fa-exclamation-triangle warning">
+            本文于<strong>
+                634</strong>
+            天之前发表，文中内容可能已经过时。
+        </p>
+        
+    </div>
+    
+    
+    <div class="post-body post-content">
+        <p>在<a href="http://www.chenhanpeng.com/2019/08/06/python_series/Python从小白到攻城狮（2）：数据类型和变量/">《Python从小白到攻城狮（2）：数据类型和变量》</a>中，我们简单介绍过字符串，今天这篇文章，我们将一起学习字符串的更多知识。</p>
+<h1 id="字符串基础"><a href="#字符串基础" class="headerlink" title="字符串基础"></a>字符串基础</h1><hr>
+<p>字符串(string)是Python中很常见的一种数据类型，在日志的打印、函数的注释、数据库的访问、变量的基本操作等等中都用到了字符串。</p>
+<p>字符串是以单引号(<code>&#39;</code>) 、双引号(<code>&quot;</code>) 或者三引号(<code>&#39;&#39;&#39;</code> 或 <code>&quot;&quot;&quot;</code>)括起来的任意文本。</p>
+<p>在python中单引号、双引号、三引号的字符串是一模一样的，没有区别。</p>
+<p>我们来看一下字符串的几种写法：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">name = <span class="string">'zhang san'</span></span><br><span class="line">city = <span class="string">"Fujian"</span></span><br><span class="line"></span><br><span class="line">s1 = <span class="string">'hello world'</span></span><br><span class="line">s2 = <span class="string">"hello world"</span></span><br><span class="line">s3 = <span class="string">"""hello world"""</span></span><br><span class="line">print(s1 == s2 == s3) <span class="comment"># 返回True说明s1 s2 s3完全一样</span></span><br></pre></td></tr></table></figure></p>
+<p>Python的字符串同时支持三种表达方式，主要是方便我们在字符串中，内嵌带引号的字符串。比如：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"I'm a coder"</span></span><br><span class="line"><span class="string">"hello 'world'"</span></span><br></pre></td></tr></table></figure></p>
+<p>三引号字符串，主要应用于多行字符串的情境，比如函数的注释等等。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">function_notes</span><span class="params">(value1, value2)</span>:</span></span><br><span class="line">  <span class="string">"""</span></span><br><span class="line"><span class="string">  args:</span></span><br><span class="line"><span class="string">    value1: number</span></span><br><span class="line"><span class="string">    value2: number</span></span><br><span class="line"><span class="string">  return</span></span><br><span class="line"><span class="string">    value1 + value2</span></span><br><span class="line"><span class="string">  """</span></span><br><span class="line">  <span class="keyword">return</span> value1 + value2</span><br></pre></td></tr></table></figure></p>
+<p>Python也支持转义字符。</p>
+<p>转义字符：用反斜杠开头的字符串，来表示一些特定意义的字符。常见的转义字符见下表：</p>
+<!-- ![](/images/articles/2019/python_series/5-1.png) -->
+<img src="http://image.chenhanpeng.com/static/images/python_series/5-1.png">
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>s = <span class="string">'a\nb\tc\''</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>print(s)</span><br><span class="line">a</span><br><span class="line">b       c<span class="string">'</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">&gt;&gt;&gt; print(len(s))</span></span><br><span class="line"><span class="string">6</span></span><br></pre></td></tr></table></figure>
+<p>虽然字符串s打印的输出横跨了两行，但是整个字符串s仍然只有6个元素。</p>
+<p>在转义字符中，最常见的是换行符<code>\n</code>的使用。在文件读取时，如果我们一行一行读取，那么每行字符串的末尾，都会包含换行符<code>\n</code>。在最后进行数据处理时，我们往往会去掉每一行的末尾的换行符。</p>
+<h1 id="字符串的常用操作"><a href="#字符串的常用操作" class="headerlink" title="字符串的常用操作"></a>字符串的常用操作</h1><hr>
+<p>Python的字符串支持索引、切片和遍历等操作。</p>
+<p>和其他数据结构一样，字符串的索引也是从0开始，index=0表示第一个元素（字符），[index:index+2]表示第index个元素到index+1个元素组成的子字符串。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">text = <span class="string">'welcom to china'</span></span><br><span class="line">print(text[<span class="number">0</span>])</span><br><span class="line">print(text[<span class="number">1</span>:<span class="number">4</span>])</span><br></pre></td></tr></table></figure></p>
+<p>遍历字符串同样很简单，相当于遍历字符串中的每个字符<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">text = <span class="string">'welcom to china'</span></span><br><span class="line"><span class="keyword">for</span> char <span class="keyword">in</span> text:</span><br><span class="line">  print(char)</span><br></pre></td></tr></table></figure></p>
+<p>特别要注意，Python的字符串是不可变的（immutable）。Python中字符串的改变，通常只能通过创建新的字符串来完成。比如：我们想把<code>&#39;hello&#39;</code>的第一个字符<code>&#39;h&#39;</code>，改为大写的<code>&#39;H&#39;</code>，可以采用下面的做法：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">s = <span class="string">'H'</span> + s[<span class="number">1</span>:]</span><br><span class="line">s = s.replace(<span class="string">'h'</span>, <span class="string">'H'</span>)</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>第一种方法，是直接用大写的<code>&#39;H&#39;</code>，通过加号<code>&#39;+&#39;</code>操作符，与原字符串切片操作的子字符串拼接而成新的字符串。</li>
+<li>第二种方法，是直接扫描原字符串，把小写的<code>&#39;h&#39;</code>替换成大写的<code>&#39;H&#39;</code>，得到新的字符串。</li>
+</ul>
+<p>字符串常用的函数还有下面几个：</p>
+<ul>
+<li><strong>string.strip(str)</strong>：表示去掉首尾的str字符串</li>
+<li><strong>string.lstrip(str)</strong>：表示只去掉开头的str字符串</li>
+<li><strong>string.rstrip(str)</strong>：表示只去掉尾部的str字符串</li>
+<li><strong>string.find(sub, start, end)</strong>：表示从start到end查找字符串中子字符串sub的位置等等</li>
+<li><strong>string.split(separator)</strong>：表示把字符串按照separator分割成子字符串，并返回一个分割后子字符串组合的列表</li>
+</ul>
+<p>下面我们通过一些练习来熟悉字符串的操作：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">str1 = <span class="string">"hello World!"</span></span><br><span class="line"><span class="comment"># 利用len函数计算字符串长度</span></span><br><span class="line">print(len(str1)) <span class="comment"># 12</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取字符串首字母大写的拷贝</span></span><br><span class="line">print(str1.capitalize()) <span class="comment"># Hello world!</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取字符串变大写后的拷贝</span></span><br><span class="line">print(str1.upper()) <span class="comment"># HELLO WORLD!</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># find函数查找子串的位置</span></span><br><span class="line">print(str1.find(<span class="string">'llo'</span>)) <span class="comment"># 2</span></span><br><span class="line">print(str1.find(<span class="string">'hot'</span>)) <span class="comment"># -1</span></span><br><span class="line"><span class="comment"># # index查找子串，但找不到子串或报错</span></span><br><span class="line"><span class="comment"># print(str1.index('llo'))</span></span><br><span class="line"><span class="comment"># print(str1.index('hot'))</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 判断字符串是否以指定的字符串开头</span></span><br><span class="line">print(str1.startswith(<span class="string">'he'</span>)) <span class="comment"># True</span></span><br><span class="line">print(str1.startswith(<span class="string">'ha'</span>)) <span class="comment"># False</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 判断字符串是否以指定的字符串结尾</span></span><br><span class="line">print(str1.endswith(<span class="string">'d!'</span>)) <span class="comment"># True</span></span><br><span class="line">print(str1.endswith(<span class="string">'ld'</span>)) <span class="comment"># False</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 将字符串以指定的宽度居中并在两侧填充指定的字符</span></span><br><span class="line">print(str1.center(<span class="number">50</span>, <span class="string">'='</span>))</span><br><span class="line"><span class="comment"># 将字符串以指定的宽度靠右放置左侧填充指定的字符</span></span><br><span class="line">print(str1.rjust(<span class="number">50</span>, <span class="string">'-'</span>))</span><br><span class="line"></span><br><span class="line">str2 = <span class="string">'1234abcd'</span></span><br><span class="line"><span class="comment"># 索引操作</span></span><br><span class="line">print(str2[<span class="number">3</span>]) <span class="comment"># 4</span></span><br><span class="line"><span class="comment"># 字符串切片操作(从指定的位置开始索引)</span></span><br><span class="line">print(str2[<span class="number">2</span>:<span class="number">5</span>])  <span class="comment"># 34a</span></span><br><span class="line">print(str2[<span class="number">2</span>:])  <span class="comment"># 34abcd</span></span><br><span class="line">print(str2[<span class="number">2</span>::<span class="number">2</span>])  <span class="comment"># 3ac</span></span><br><span class="line">print(str2[::<span class="number">2</span>])  <span class="comment"># 13ac</span></span><br><span class="line">print(str2[::<span class="number">-1</span>])  <span class="comment"># dcba4321</span></span><br><span class="line">print(str2[<span class="number">-3</span>:<span class="number">-1</span>])  <span class="comment"># bc</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 检查字符串是否由数字构成</span></span><br><span class="line">print(str2.isdigit())  <span class="comment"># False</span></span><br><span class="line"><span class="comment"># 检查字符串是否以字母构成</span></span><br><span class="line">print(str2.isalpha())  <span class="comment"># False</span></span><br><span class="line"><span class="comment"># 检查字符串是否以数字和字母构成</span></span><br><span class="line">print(str2.isalnum())  <span class="comment"># True</span></span><br><span class="line"></span><br><span class="line">str3 = <span class="string">'  my name is zhangsan  '</span></span><br><span class="line"><span class="comment"># 获得字符串修剪头尾空格后的拷贝</span></span><br><span class="line">print(str3.strip())  <span class="comment"># my name is zhangsan</span></span><br></pre></td></tr></table></figure></p>
+<h1 id="字符串的格式化"><a href="#字符串的格式化" class="headerlink" title="字符串的格式化"></a>字符串的格式化</h1><hr>
+<h2 id="什么是字符串的格式化？"><a href="#什么是字符串的格式化？" class="headerlink" title="什么是字符串的格式化？"></a>什么是字符串的格式化？</h2><p>通常，我们使用一个字符串作为模板，模板中会有格式符。这些格式符为后续真实值预留位置，以呈现出真实值应该呈现的样式。<br>字符串的格式化，通常会用在程序的输出、logging等场景。</p>
+<p>比如：我们有一个任务，给定一个用户的userid，要去数据库中查询该用户的一些信息，并返回。如果数据库中没有此人的信息，我们通常会记录下来，这样有利于往后的日志分析，或者是线上bug的调试等。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">id = 123456</span><br><span class="line">nanme = &apos;zhangsan&apos;</span><br><span class="line">print(&apos;no data available for person with id: &#123;&#125;, name: &#123;&#125;&apos;.format(id, name))</span><br></pre></td></tr></table></figure></p>
+<p>其中<code>string.format()</code>就是格式化函数，大括号{}就是所谓的格式符，用来为后面的真实值————变量id、name预留位置。</p>
+<p>不过要注意，string.format()是最新的字符串格式函数与规范。自然，我们还有其他的表示方法，比如在Python之前版本中，字符串格式化通常用%来表示，那么上述的例子，就可以写成下面这样：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">print(<span class="string">'no data available for person with id: %s, name: %s'</span> % (id, name))</span><br></pre></td></tr></table></figure></p>
+<p>其中%s表示字符串型，%d表示整型等等，这些属于常识，你应该都了解。</p>
+<p>当然，现在你写程序时，我还是推荐使用format函数，毕竟这是最新规范，也是官方文档推荐的规范。</p>
+<p>也许有人会问，为什么非要使用格式化函数，上述例子用字符串的拼接不也能完成吗？没错，在很多情况下，字符串拼接确实能满足格式化函数的需求。但是使用格式化函数，更加清晰、易读，并且更加规范，不易出错。</p>
+<p><strong>文中示例代码</strong>： <a href="https://github.com/Hanpeng-Chen/python-learning" target="_blank" rel="noopener">python-learning</a></p>
+<p>未完待续，持续更新中……</p>
+
+    </div>
+    <div class="wechat">
+        
+            <strong> 欢迎关注微信公众号： 『前端极客技术』『代码视界』 </strong>
+            <img class="wechat-image" src="https://image.chenhanpeng.com/static/images/web_static_image/article-gzh-qrcode.png" />
+        
+    </div>
+    
+    <div class="reward" ontouchstart>
+    <div class="reward-wrap">赏
+        <div class="reward-box">
+            
+            <span class="reward-type">
+                <img class="alipay" src="https://image.chenhanpeng.com/static/images/web_static_image/donate/alipay_qrcode.png"><b>支付宝打赏</b>
+            </span>
+            
+            
+            <span class="reward-type">
+                <img class="wechat" src="https://image.chenhanpeng.com/static/images/web_static_image/donate/weixin_pay_qrcode.png"><b>微信打赏</b>
+            </span>
+            
+        </div>
+    </div>
+    <p class="reward-tip">
+        赞赏是不耍流氓的鼓励
+    </p>
+</div>
+    
+    <div class="post-footer">
+        <div>
+            
+            转载声明：
+            商业转载请联系作者获得授权,非商业转载请注明出处 © <a href="" target="_blank">代码视界</a>
+            
+            
+        </div>
+        <div>
+            
+        </div>
+    </div>
+</article>
+<div class="article-nav prev-next-wrap clearfix">
+    
+    <a href="/python-6-condition-and-loop/" class="pre-post btn btn-default" title='Python从小白到攻城狮(6)——条件与循环'>
+        <i class="fa fa-angle-left fa-fw"></i><span class="hidden-lg">上一篇</span>
+        <span class="hidden-xs">
+            Python从小白到攻城狮(6)——条件与循环</span>
+    </a>
+    
+    
+    <a href="/python-4-dict-and-set/" class="next-post btn btn-default" title='Python从小白到攻城狮(4)——字典和集合'>
+        <span class="hidden-lg">下一篇</span>
+        <span class="hidden-xs">
+            Python从小白到攻城狮(4)——字典和集合</span><i class="fa fa-angle-right fa-fw"></i>
+    </a>
+    
+</div>
+
+<!-- google广告 -->
+<!-- <ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-1437849089810081"
+     data-ad-slot="9946365914"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script> -->
+
+
+    <div id="comments">
+        
+<link rel="stylesheet" href="https://cdn.bootcss.com/gitalk/1.7.2/gitalk.min.css">
+<script src="//cdn.bootcss.com/gitalk/1.7.2/gitalk.min.js"></script>
+<script src="//cdn.bootcss.com/blueimp-md5/2.9.0/js/md5.min.js"></script>
+<div id="gitalk-container"></div>
+<script type="text/javascript">
+var gitalk = new Gitalk({
+    // Gitalk配置
+    language: "zh-CN",
+    clientID: "fb80658382dee5240195",
+    clientSecret: "66663a08264192222ba993f20dd7c0a27c1e6fa5",
+    repo: "blog-comments",
+    owner: "Hanpeng-Chen",
+    admin: ["Hanpeng-Chen"],
+    id: md5(location.pathname),
+    distractionFreeMode: true,
+    proxy: "https://cloudflare-cors-anywhere.hanpengchen.workers.dev/?https://github.com/login/oauth/access_token"
+});
+gitalk.render('gitalk-container');
+</script>
+
+    </div>
+
+                </main>
+                
+                    <div class="col-md-4">
+<!-- 方形 -->
+<!-- <ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-1437849089810081"
+     data-ad-slot="2426112279"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script> -->
+</div>
+<aside id="article-toc" role="navigation" class="col-md-4">
+    <div class="widget">
+        <h3 class="title">
+            文章目录
+        </h3>
+        
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#字符串基础"><span class="toc-text">字符串基础</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#字符串的常用操作"><span class="toc-text">字符串的常用操作</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#字符串的格式化"><span class="toc-text">字符串的格式化</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是字符串的格式化？"><span class="toc-text">什么是字符串的格式化？</span></a></li></ol></li></ol>
+        
+    </div>
+</aside>
+                
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+<a id="back-to-top" class="icon-btn hide">
+    <i class="fa fa-chevron-up"></i>
+</a>
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="busuanzi">
+    
+</div>
+            </div>
+            <div class="col-sm-12">
+                <span>Copyright &copy;
+                    2019
+                    
+                </span> |
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> |
+                <span>
+                    Theme by <a href="//github.com/shenliyang/hexo-theme-snippet.git" class="copyright-links" target="_blank" rel="nofollow">Snippet</a>
+                </span>
+                
+                    <span> | </span>
+                    <span>
+                        <a href="//beian.miit.gov.cn/" target="_blank" rel="nofollow">
+                            闽ICP备19010134号-1
+                        </a>
+                    </span>
+                
+                
+                    <span> | </span>
+                    <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=35020302033449" rel="nofollow">
+                        <img src="https://image.chenhanpeng.com/static/images/web_static_image/beian_icon.png" width="20">
+                        <span>闽公网安备 35020302033449号</span>
+                    </a>
+                         
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<script src="/js/app.js?rev=@@hash"></script>
+</body>
+</html>

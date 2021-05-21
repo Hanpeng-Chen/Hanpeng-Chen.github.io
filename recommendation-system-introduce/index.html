@@ -1,0 +1,438 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="代码视界">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="theme-version" content="1.2.3">
+    <meta name="root" content="/">
+    <link rel="dns-prefetch" href="http://www.chenhanpeng.com">
+    <script data-ad-client="ca-pub-1437849089810081" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <!--SEO-->
+
+<meta name="keywords" content="大数据,推荐系统">
+
+
+<meta name="description" content="一、背景随着互联网的快速发展，我们进入一个信息爆炸的时代。互联网的发展，为我们提供了越来越多的服务平台，比如购物平台、视频播放网站、音乐播放器、社交网婚恋网等等，提供的物品种类也越来越多样。如何...">
+
+
+<meta name="robots" content="all">
+<meta name="google" content="all">
+<meta name="googlebot" content="all">
+<meta name="verify" content="all">
+    <!--Title-->
+
+<title>
+    
+    推荐系统介绍 |
+    
+    代码视界
+</title>
+
+<link rel="alternate" href="/atom.xml" title="代码视界" type="application/atom+xml">
+
+
+<link rel="icon" href="/img/site_logo.jpg">
+
+    
+
+<link rel="stylesheet" href="/css/bootstrap.min.css?rev=3.3.7">
+<link rel="stylesheet" href="/css/font-awesome.min.css?rev=4.7.0">
+<link rel="stylesheet" href="/css/style.css?rev=@@hash">
+    
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?494af80fa01e8939bec179cfddf660d5";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+<script>
+(function(i, s, o, g, r, a, m) {
+    i['GoogleAnalyticsObject'] = r;
+    i[r] = i[r] || function() {
+        (i[r].q = i[r].q || []).push(arguments)
+    }, i[r].l = 1 * new Date();
+    a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0];
+    a.async = 1;
+    a.src = g;
+    m.parentNode.insertBefore(a, m)
+})(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+ga('create', 'UA-142577364-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+
+    
+<meta name="baidu-site-verification" content="rGeweWgWoh">
+
+
+<script>
+(function() {
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    } else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+</head></html>
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+<body>
+    <header class="main-header"  style="background-image:url(
+    https://image.chenhanpeng.com/static/images/web_static_image/banner.jpg)"
+     >
+    <div class="main-header-box">
+        <!-- <a class="header-avatar" href="/" title='Hanpeng Chen'>
+            <img src="/img/avatar.jpg" alt="logo头像" class="img-responsive center-block">
+        </a> -->
+        <a href="/" class="header-title">
+            <h1> 代码视界 </h1>
+        </a>
+        <div class="branding">
+            <!--<h2 class="text-hide">Snippet主题,从未如此简单有趣</h2>-->
+            
+            <h2>
+                Hanpeng Chen的个人博客
+            </h2>
+            
+        </div>
+    </div>
+</header>
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="navbar-header"><span class="nav-toggle-button collapsed pull-right" data-toggle="collapse" data-target="#main-menu" id="mnav">
+                        <span class="sr-only"></span>
+                        <i class="fa fa-bars"></i>
+                    </span>
+                    <a class="navbar-brand" href="http://www.chenhanpeng.com">
+                        代码视界</a>
+                </div>
+                <div class="collapse navbar-collapse" id="main-menu">
+                    <ul class="menu">
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/"><i class="fa "></i>
+                                首页</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/archives/"><i class="fa "></i>
+                                文章列表</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/"><i class="fa "></i>
+                                文章分类</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/tags/"><i class="fa "></i>
+                                文章标签</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/links/"><i class="fa "></i>
+                                友链</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/about/"><i class="fa "></i>
+                                关于作者</a>
+                        </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+                    <p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="推荐系统介绍">
+            
+            推荐系统介绍
+            
+        </h1>
+        <div class="post-meta">
+    
+    <span class="categories-meta fa-wrap">
+        <i class="fa fa-folder-open-o"></i>
+        <a class="category-link" href="/categories/大数据/">大数据</a>
+    </span>
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-tags"></i>
+        <span class="tags-meta">
+            
+            <a class="tag-link" href="/tags/大数据/">大数据</a> <a class="tag-link" href="/tags/推荐系统/">推荐系统</a>
+            
+        </span>
+    </span>
+    
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-clock-o"></i>
+        <span class="date-meta">
+            2019/04/16</span>
+    </span>
+    
+    <span class="fa-wrap">
+        <i class="fa fa-eye"></i>
+        <span id="busuanzi_value_page_pv"></span>
+    </span>
+    
+    
+</div>
+        
+        
+        <p class="fa fa-exclamation-triangle warning">
+            本文于<strong>
+                766</strong>
+            天之前发表，文中内容可能已经过时。
+        </p>
+        
+    </div>
+    
+    
+    <div class="post-body post-content">
+        <h2 id="一、背景"><a href="#一、背景" class="headerlink" title="一、背景"></a>一、背景</h2><p>随着互联网的快速发展，我们进入一个信息爆炸的时代。互联网的发展，为我们提供了越来越多的服务平台，比如购物平台、视频播放网站、音乐播放器、社交网婚恋网等等，提供的物品种类也越来越多样。如何更好地满足客户的需求，成了企业的难题。</p>
+<p>在这个信息爆炸的时代，无论是消费者还是信息生产者都遇到了很大的挑战：作为消费者，如何从大量信息中找到自己感兴趣的信息是一件非常困难的事情；作为信息生产者，如何让自己生产的信息脱颖而出，受到广大用户的关注，也是一件非常困难的事情。推荐系统就是解决这一矛盾的重要工具。</p>
+<h2 id="二、什么是推荐系统"><a href="#二、什么是推荐系统" class="headerlink" title="二、什么是推荐系统"></a>二、什么是推荐系统</h2><p>推荐系统是一项工程技术解决方案，通过利用机器学习等技术，在用户使用产品进行浏览交互的过程中，系统主动用户展示可能会喜欢的物品，从而促进物品的消费，节省用户时间，提升用户体验，做到资源的优化配置。</p>
+<p>要将推荐系统落地到业务上需要大量的工程开发：涉及到日志打点、日志收集、ETL、分布式计算、特征工程、推荐算法建模、数据存储、提供接口服务、UI展示和交互、推荐效果评估等。</p>
+<p>推荐系统的本质是在用户需求不明确的情况下，从海量的信息中为用户寻找其感兴趣的信息的技术手段。</p>
+<p>推荐系统的任务就是联系用户和信息(物品)，一方面帮助用户发现对自己有价值的信息，另一方面让信息能够展现在对它感兴趣的用户面前，从而实现信息消费者和信息生产者的双赢。</p>
+<p>推荐系统很好满足了用户、平台、内容提供商三方的需求。以淘宝为例：用户及在淘宝上购物的买家，平台即淘宝网站，网站上众多的店主就是内容提供方。通过推荐系统可以更好将商品曝光给要购买的用户，提升社会资源的配置效率。</p>
+<h2 id="三、推荐系统应用领域"><a href="#三、推荐系统应用领域" class="headerlink" title="三、推荐系统应用领域"></a>三、推荐系统应用领域</h2><p>推荐系统应用场景正在不断被挖掘和创造，只要存在大量供用户消费的产品，就有推荐系统发挥价值的地方。</p>
+<p>推荐系统主要应用的领域有如下几类：</p>
+<ul>
+<li>电子商务：淘宝、京东、苏宁易购、亚马逊等</li>
+<li>视频：腾讯视频、优酷、抖音等</li>
+<li>音乐：网易云音乐、QQ音乐等</li>
+<li>生活服务类：美团、携程</li>
+<li>资讯类：头条、一点资讯等</li>
+<li>社交类：陌陌、珍爱网等</li>
+</ul>
+<h2 id="四、常用推荐算法"><a href="#四、常用推荐算法" class="headerlink" title="四、常用推荐算法"></a>四、常用推荐算法</h2><p>接下来我们简单介绍一些推荐系统常用的算法：</p>
+<h4 id="1、基于内容的推荐"><a href="#1、基于内容的推荐" class="headerlink" title="1、基于内容的推荐"></a>1、基于内容的推荐</h4><p>前面我们提到过推荐系统通过技术将用户和物品关联起来，物品本身包含很多属性，用户通过与物品的交互产生行为日志，这些日志可以作为衡量用户对物品偏好的标签，通过这些标签为用户做推荐，这就是基于内容的推荐算法。以音乐播放器推荐歌曲为例，歌曲有歌名、演唱者、类型、年代等标签信息，假设某个用户经常听张杰的歌，或者用户收藏的歌单中大部分都是张杰的歌曲，那么我们可以根据这些兴趣特征为用户推荐张杰的歌。</p>
+<h4 id="2、基于协同过滤的推荐"><a href="#2、基于协同过滤的推荐" class="headerlink" title="2、基于协同过滤的推荐"></a>2、基于协同过滤的推荐</h4><p>用户与物品的交互留下了用户的标记，我们可以通过“物以类聚，人以群分”的思想为用户提供个性化推荐。</p>
+<p>“物以类聚”具体来说就是：如果有许多用户对两个物品有相似的偏好，说明这两个物品是“相似”的，通过推荐与用户喜欢过的物品相似的物品的方法为用户提供个性化推荐，这就是基于物品的协同过滤推荐算法。</p>
+<p>“人以群分”简单来说就是：找到与用户兴趣相同的人，将这些兴趣相同的用户浏览过的物品推荐给用户，这就是基于用户的协同过滤推荐算法。</p>
+<h2 id="五、推荐系统的价值"><a href="#五、推荐系统的价值" class="headerlink" title="五、推荐系统的价值"></a>五、推荐系统的价值</h2><p>接下来我们简单介绍一下推荐系统的价值：</p>
+<p>从<strong>用户</strong>角度来说，推荐系统可以让用户快速从海量信息中找到自己感兴趣的物品，节省了用户时间，提升用户的使用体验。<br>从<strong>平台</strong>角度来看：精准的推荐可以提升用户对平台的粘性，让用户喜欢上平台。平台整体营销收入提升，发现用户更多需求，满足其需求销售更多相关服务，获取更多利润。<br>从<strong>内容提供商</strong>角度来看，提升物品被卖出去的概率，提升提供商的销量。</p>
+<p>文章参考来源：<a href="https://mp.weixin.qq.com/s/DofYtvZCe-7RTicLqYtL4A" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/DofYtvZCe-7RTicLqYtL4A</a></p>
+
+    </div>
+    <div class="wechat">
+        
+            <strong> 欢迎关注微信公众号： 『前端极客技术』『代码视界』 </strong>
+            <img class="wechat-image" src="https://image.chenhanpeng.com/static/images/web_static_image/article-gzh-qrcode.png" />
+        
+    </div>
+    
+    <div class="reward" ontouchstart>
+    <div class="reward-wrap">赏
+        <div class="reward-box">
+            
+            <span class="reward-type">
+                <img class="alipay" src="https://image.chenhanpeng.com/static/images/web_static_image/donate/alipay_qrcode.png"><b>支付宝打赏</b>
+            </span>
+            
+            
+            <span class="reward-type">
+                <img class="wechat" src="https://image.chenhanpeng.com/static/images/web_static_image/donate/weixin_pay_qrcode.png"><b>微信打赏</b>
+            </span>
+            
+        </div>
+    </div>
+    <p class="reward-tip">
+        赞赏是不耍流氓的鼓励
+    </p>
+</div>
+    
+    <div class="post-footer">
+        <div>
+            
+            转载声明：
+            商业转载请联系作者获得授权,非商业转载请注明出处 © <a href="" target="_blank">代码视界</a>
+            
+            
+        </div>
+        <div>
+            
+        </div>
+    </div>
+</article>
+<div class="article-nav prev-next-wrap clearfix">
+    
+    <a href="/python-packages-for-Chinese-word-segmentation/" class="pre-post btn btn-default" title='中文分词Python库介绍'>
+        <i class="fa fa-angle-left fa-fw"></i><span class="hidden-lg">上一篇</span>
+        <span class="hidden-xs">
+            中文分词Python库介绍</span>
+    </a>
+    
+    
+    <a href="/Chinese-word-segmentation/" class="next-post btn btn-default" title='中文分词'>
+        <span class="hidden-lg">下一篇</span>
+        <span class="hidden-xs">
+            中文分词</span><i class="fa fa-angle-right fa-fw"></i>
+    </a>
+    
+</div>
+
+<!-- google广告 -->
+<!-- <ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-1437849089810081"
+     data-ad-slot="9946365914"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script> -->
+
+
+    <div id="comments">
+        
+<link rel="stylesheet" href="https://cdn.bootcss.com/gitalk/1.7.2/gitalk.min.css">
+<script src="//cdn.bootcss.com/gitalk/1.7.2/gitalk.min.js"></script>
+<script src="//cdn.bootcss.com/blueimp-md5/2.9.0/js/md5.min.js"></script>
+<div id="gitalk-container"></div>
+<script type="text/javascript">
+var gitalk = new Gitalk({
+    // Gitalk配置
+    language: "zh-CN",
+    clientID: "fb80658382dee5240195",
+    clientSecret: "66663a08264192222ba993f20dd7c0a27c1e6fa5",
+    repo: "blog-comments",
+    owner: "Hanpeng-Chen",
+    admin: ["Hanpeng-Chen"],
+    id: md5(location.pathname),
+    distractionFreeMode: true,
+    proxy: "https://cloudflare-cors-anywhere.hanpengchen.workers.dev/?https://github.com/login/oauth/access_token"
+});
+gitalk.render('gitalk-container');
+</script>
+
+    </div>
+
+                </main>
+                
+                    <div class="col-md-4">
+<!-- 方形 -->
+<!-- <ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-1437849089810081"
+     data-ad-slot="2426112279"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script> -->
+</div>
+<aside id="article-toc" role="navigation" class="col-md-4">
+    <div class="widget">
+        <h3 class="title">
+            文章目录
+        </h3>
+        
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一、背景"><span class="toc-text">一、背景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二、什么是推荐系统"><span class="toc-text">二、什么是推荐系统</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#三、推荐系统应用领域"><span class="toc-text">三、推荐系统应用领域</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#四、常用推荐算法"><span class="toc-text">四、常用推荐算法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1、基于内容的推荐"><span class="toc-text">1、基于内容的推荐</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2、基于协同过滤的推荐"><span class="toc-text">2、基于协同过滤的推荐</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#五、推荐系统的价值"><span class="toc-text">五、推荐系统的价值</span></a></li></ol>
+        
+    </div>
+</aside>
+                
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+<a id="back-to-top" class="icon-btn hide">
+    <i class="fa fa-chevron-up"></i>
+</a>
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="busuanzi">
+    
+</div>
+            </div>
+            <div class="col-sm-12">
+                <span>Copyright &copy;
+                    2019
+                    
+                </span> |
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> |
+                <span>
+                    Theme by <a href="//github.com/shenliyang/hexo-theme-snippet.git" class="copyright-links" target="_blank" rel="nofollow">Snippet</a>
+                </span>
+                
+                    <span> | </span>
+                    <span>
+                        <a href="//beian.miit.gov.cn/" target="_blank" rel="nofollow">
+                            闽ICP备19010134号-1
+                        </a>
+                    </span>
+                
+                
+                    <span> | </span>
+                    <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=35020302033449" rel="nofollow">
+                        <img src="https://image.chenhanpeng.com/static/images/web_static_image/beian_icon.png" width="20">
+                        <span>闽公网安备 35020302033449号</span>
+                    </a>
+                         
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<script src="/js/app.js?rev=@@hash"></script>
+</body>
+</html>

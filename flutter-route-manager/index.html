@@ -1,0 +1,467 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="代码视界">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="theme-version" content="1.2.3">
+    <meta name="root" content="/">
+    <link rel="dns-prefetch" href="http://www.chenhanpeng.com">
+    <script data-ad-client="ca-pub-1437849089810081" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <!--SEO-->
+
+<meta name="keywords" content="Flutter,路由">
+
+
+<meta name="description" content="路由（Route）：在移动开发中通常指页面（page）,这跟web开发中单页面应用的Route概念意义是相同的，Route在Android中通常指一个Activity，在iOS中指一个ViewC...">
+
+
+<meta name="robots" content="all">
+<meta name="google" content="all">
+<meta name="googlebot" content="all">
+<meta name="verify" content="all">
+    <!--Title-->
+
+<title>
+    
+    Flutter | 6-路由管理 |
+    
+    代码视界
+</title>
+
+<link rel="alternate" href="/atom.xml" title="代码视界" type="application/atom+xml">
+
+
+<link rel="icon" href="/img/site_logo.jpg">
+
+    
+
+<link rel="stylesheet" href="/css/bootstrap.min.css?rev=3.3.7">
+<link rel="stylesheet" href="/css/font-awesome.min.css?rev=4.7.0">
+<link rel="stylesheet" href="/css/style.css?rev=@@hash">
+    
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?494af80fa01e8939bec179cfddf660d5";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+<script>
+(function(i, s, o, g, r, a, m) {
+    i['GoogleAnalyticsObject'] = r;
+    i[r] = i[r] || function() {
+        (i[r].q = i[r].q || []).push(arguments)
+    }, i[r].l = 1 * new Date();
+    a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0];
+    a.async = 1;
+    a.src = g;
+    m.parentNode.insertBefore(a, m)
+})(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+ga('create', 'UA-142577364-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+
+    
+<meta name="baidu-site-verification" content="rGeweWgWoh">
+
+
+<script>
+(function() {
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    } else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+</head></html>
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+<body>
+    <header class="main-header"  style="background-image:url(
+    https://image.chenhanpeng.com/static/images/web_static_image/banner.jpg)"
+     >
+    <div class="main-header-box">
+        <!-- <a class="header-avatar" href="/" title='Hanpeng Chen'>
+            <img src="/img/avatar.jpg" alt="logo头像" class="img-responsive center-block">
+        </a> -->
+        <a href="/" class="header-title">
+            <h1> 代码视界 </h1>
+        </a>
+        <div class="branding">
+            <!--<h2 class="text-hide">Snippet主题,从未如此简单有趣</h2>-->
+            
+            <h2>
+                Hanpeng Chen的个人博客
+            </h2>
+            
+        </div>
+    </div>
+</header>
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="navbar-header"><span class="nav-toggle-button collapsed pull-right" data-toggle="collapse" data-target="#main-menu" id="mnav">
+                        <span class="sr-only"></span>
+                        <i class="fa fa-bars"></i>
+                    </span>
+                    <a class="navbar-brand" href="http://www.chenhanpeng.com">
+                        代码视界</a>
+                </div>
+                <div class="collapse navbar-collapse" id="main-menu">
+                    <ul class="menu">
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/"><i class="fa "></i>
+                                首页</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/archives/"><i class="fa "></i>
+                                文章列表</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/"><i class="fa "></i>
+                                文章分类</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/tags/"><i class="fa "></i>
+                                文章标签</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/links/"><i class="fa "></i>
+                                友链</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/about/"><i class="fa "></i>
+                                关于作者</a>
+                        </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+                    <p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="Flutter | 6-路由管理">
+            
+            Flutter | 6-路由管理
+            
+        </h1>
+        <div class="post-meta">
+    
+    <span class="categories-meta fa-wrap">
+        <i class="fa fa-folder-open-o"></i>
+        <a class="category-link" href="/categories/前端/">前端</a> <a class="category-link" href="/categories/前端/Flutter/">Flutter</a>
+    </span>
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-tags"></i>
+        <span class="tags-meta">
+            
+            <a class="tag-link" href="/tags/Flutter/">Flutter</a> <a class="tag-link" href="/tags/路由/">路由</a>
+            
+        </span>
+    </span>
+    
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-clock-o"></i>
+        <span class="date-meta">
+            2020/01/29</span>
+    </span>
+    
+    <span class="fa-wrap">
+        <i class="fa fa-eye"></i>
+        <span id="busuanzi_value_page_pv"></span>
+    </span>
+    
+    
+</div>
+        
+        
+        <p class="fa fa-exclamation-triangle warning">
+            本文于<strong>
+                478</strong>
+            天之前发表，文中内容可能已经过时。
+        </p>
+        
+    </div>
+    
+    
+    <div class="post-body post-content">
+        <p>路由（Route）：在移动开发中通常指页面（page）,这跟web开发中单页面应用的Route概念意义是相同的，Route在Android中通常指一个Activity，在iOS中指一个ViewController。</p>
+<p>路由管理：就是管理页面之间如何跳转，通常也可被称为导航管理。Flutter中的路由管理和原生开发类似，无论是Android还是iOS，导航管理都会维护一个路由栈，路由入栈（push）操作对应打开一个新页面，路由出栈（pop）操作对应页面关闭操作，而路由管理主要是指如何来管理路由栈。</p>
+<h1 id="1、简单示例"><a href="#1、简单示例" class="headerlink" title="1、简单示例"></a>1、简单示例</h1><p>我们在计数器的基础上，创建一个新的路由，命名为“NewRoute”，并在_MyHomePageState.build方法中添加一个跳转到该路由的按钮，具体代码如下：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">NewRoute</span> <span class="keyword">extends</span> <span class="title">StatelessWidget</span> </span>&#123;</span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  Widget build(BuildContext context) &#123;</span><br><span class="line">    <span class="keyword">return</span> Scaffold(</span><br><span class="line">      appBar: AppBar(</span><br><span class="line">        title: Text(<span class="string">'new route'</span>),</span><br><span class="line">      ),</span><br><span class="line">      body: Center(</span><br><span class="line">        child: Text(<span class="string">'这是一个新的route'</span>),</span><br><span class="line">      ),</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">_MyHomePageState</span> <span class="keyword">extends</span> <span class="title">State</span>&lt;<span class="title">MyHomePage</span>&gt; </span>&#123;</span><br><span class="line">  ...</span><br><span class="line"></span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  Widget build(BuildContext context) &#123;</span><br><span class="line">    <span class="keyword">return</span> Scaffold(</span><br><span class="line">      appBar: AppBar(</span><br><span class="line">        title: Text(widget.title),</span><br><span class="line">      ),</span><br><span class="line">      body: Center(</span><br><span class="line">        </span><br><span class="line">        child: Column(</span><br><span class="line">          mainAxisAlignment: MainAxisAlignment.center,</span><br><span class="line">          children: &lt;Widget&gt;[</span><br><span class="line">            ...</span><br><span class="line">            FlatButton(</span><br><span class="line">              child: Text(<span class="string">'open new route'</span>),</span><br><span class="line">              textColor: Colors.red,</span><br><span class="line">              color: Colors.blue,</span><br><span class="line">              onPressed: () &#123;</span><br><span class="line">                Navigator.push(context, </span><br><span class="line">                  MaterialPageRoute(builder: (context) &#123;</span><br><span class="line">                    <span class="keyword">return</span> NewRoute();</span><br><span class="line">                  &#125;)</span><br><span class="line">                );</span><br><span class="line">              &#125;,</span><br><span class="line">            )</span><br><span class="line">          ],</span><br><span class="line">        ),</span><br><span class="line">      ),</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行应用结果，点击跳转按钮，如下图所示：<br><img src="http://image.chenhanpeng.com/static/images/flutter/6-1.png"></p>
+<h1 id="2、MaterialPageRoute"><a href="#2、MaterialPageRoute" class="headerlink" title="2、MaterialPageRoute"></a>2、MaterialPageRoute</h1><p><code>MaterialPageRoute</code>继承自<code>PageRoute</code>类，PageRoute类是一个抽象类，表示占有整个屏幕空间的一个模态路由页面，它还定义了路由构建及切换时过渡动画的相关接口及属性。MaterialPageRoute是Material组件库提供的组件，它可以针对不同平台，实现与平台页面切换动画风格一致的路由切换动画：</p>
+<ul>
+<li><p>对于Android，当打开新页面时，新的页面会从屏幕底部滑动到屏幕顶部；当关闭页面时，当前页面会从屏幕顶部滑动到屏幕底部后消失，同时上一个页面会显示到屏幕上。</p>
+</li>
+<li><p>对于iOS，当打开新页面时，新页面会从屏幕右侧边缘一致滑动到屏幕左边，直到新页面全部显示到屏幕上，而上一个页面则会从当前屏幕滑动到屏幕左侧消失；当关闭页面时，正好与打开新页面相反，当前页面会从屏幕右侧滑出，同时上一个页面从左侧滑入。</p>
+</li>
+</ul>
+<p>接下来我们来了解一下<code>MaterialPageRoute</code> 构造函数的各个参数的意义：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">MaterialPageRoute(&#123;</span><br><span class="line">    WidgetBuilder builder,</span><br><span class="line">    RouteSettings settings,</span><br><span class="line">    bool maintainState = true,</span><br><span class="line">    bool fullscreenDialog = false,</span><br><span class="line">  &#125;)</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li><code>builder</code> 是一个WidgetBuilder类型的回调函数，它的作用是构建路由页面的具体内容，返回值是一个widget。我们通常要实现此回调，返回新路由的实例。</li>
+<li><code>settings</code> 包含路由的配置信息，如路由名称、是否初始路由（首页）。</li>
+<li><code>maintainState</code>：默认情况下，当入栈一个新路由时，原来的路由仍然会被保存在内存中，如果想在路由没用的时候释放其所占用的所有资源，可以设置maintainState为false。</li>
+<li><code>fullscreenDialog</code>表示新的路由页面是否是一个全屏的模态对话框，在iOS中，如果fullscreenDialog为true，新页面将会从屏幕底部滑入（而不是水平方向）。</li>
+</ul>
+<blockquote>
+<p>如果想自定义路由切换动画，可以自己继承PageRoute来实现，我们将在后面介绍动画时，实现一个自定义的路由组件。</p>
+</blockquote>
+<h1 id="3、Navigator"><a href="#3、Navigator" class="headerlink" title="3、Navigator"></a>3、Navigator</h1><p><code>Navigator</code>是一个路由管理的组件，它提供了打开和退出路由页方法。Navigator通过一个栈来管理活动路由集合。通常当前屏幕显示的页面就是栈顶的路由。Navigator提供了一系列方法来管理路由栈，在此我们只介绍其最常用的两个方法：</p>
+<h2 id="Future-push-BuildContext-context-Route-route"><a href="#Future-push-BuildContext-context-Route-route" class="headerlink" title="Future push(BuildContext context, Route route)"></a>Future push(BuildContext context, Route route)</h2><p>将给定的路由入栈，返回值是一个Future对象，用以接收新路由出栈时的返回数据。</p>
+<h2 id="bool-pop-BuildContext-context-result"><a href="#bool-pop-BuildContext-context-result" class="headerlink" title="bool pop(BuildContext context, [result])"></a>bool pop(BuildContext context, [result])</h2><p>将栈顶路由出栈，result为页面关闭时返回给上一个页面的数据。</p>
+<p>Navigator 还有很多其他方法，比如： Navigator.replace 、 Navigator.popUntil等等。</p>
+<p>Navigator类中第一个参数为context的静态方法都对应一个Navigator的实例方法， 比如Navigator.push(BuildContext context, Route route)等价于Navigator.of(context).push(Route route) ，下面命名路由相关的方法也是一样的。</p>
+<h1 id="4、路由传值"><a href="#4、路由传值" class="headerlink" title="4、路由传值"></a>4、路由传值</h1><p>很多时候，在路由跳转时我们需要传递一些参数，比如要打开一个物品详情页，我们需要带一个物品id过去，这样详情页才知道要显示那个物品信息。下面我们通过简单的例子来演示新旧路由如何传参。</p>
+<p>创建一个 Detail 路由，它接受一个id参数，并将这个id显示到页面上，另外在 Detail中我们添加一个返回按钮，在返回上一个路由的同时会带上一个返回参数，代码如下：<br><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">'package:flutter/cupertino.dart'</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">'package:flutter/material.dart'</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Detail</span> <span class="keyword">extends</span> <span class="title">StatelessWidget</span> </span>&#123;</span><br><span class="line">  Detail(&#123;</span><br><span class="line">    Key key,</span><br><span class="line">    <span class="meta">@required</span> <span class="keyword">this</span>.id</span><br><span class="line">  &#125;) : <span class="keyword">super</span>(key: key);</span><br><span class="line">  <span class="keyword">final</span> id;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  Widget build(BuildContext context) &#123;</span><br><span class="line">    <span class="keyword">return</span> Scaffold(</span><br><span class="line">      appBar: AppBar(</span><br><span class="line">        title: Text(<span class="string">'详情页'</span>),</span><br><span class="line">      ),</span><br><span class="line">      body: Center(</span><br><span class="line">        child: Column(</span><br><span class="line">          children: &lt;Widget&gt;[</span><br><span class="line">            Text(<span class="string">'参数id: <span class="subst">$id</span>'</span>),</span><br><span class="line">            FlatButton(</span><br><span class="line">              child: Text(<span class="string">'返回'</span>),</span><br><span class="line">              onPressed: () &#123;</span><br><span class="line">                Navigator.pop(context, <span class="string">'ID: <span class="subst">$id</span>'</span>);</span><br><span class="line">              &#125;,</span><br><span class="line">            )</span><br><span class="line">          ],</span><br><span class="line">        ),</span><br><span class="line">      ),</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">FlatButton(</span><br><span class="line">  child: Text(<span class="string">'跳转到详情页'</span>),</span><br><span class="line">  textColor: Colors.red[<span class="number">300</span>],</span><br><span class="line">  color: Colors.blue[<span class="number">100</span>],</span><br><span class="line">  onPressed: () <span class="keyword">async</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> result = <span class="keyword">await</span> Navigator.push(context, </span><br><span class="line">      MaterialPageRoute(builder: (context) &#123;</span><br><span class="line">        <span class="keyword">return</span> Detail(id: <span class="number">123</span>);</span><br><span class="line">      &#125;)</span><br><span class="line">    );</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">'路由返回值：<span class="subst">$result</span>'</span>);</span><br><span class="line">  &#125;,</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>需要说明：</p>
+<p>1、提示文案“参数id: $id”中的id是通过Detail的id参数传递给新路由页的。我们可以通过等待Navigator.push(…)返回的Future来获取新路由的返回数据。</p>
+<p>2、在Detail中有两种方式可以返回到上一页；第一种方式时直接点击导航栏返回箭头，第二种方式是点击页面中的“返回”按钮。这两种返回方式的区别是前者不会返回数据给上一个路由，而后者会。下面是分别点击页面中的返回按钮和导航栏返回箭头后，RouterTestRoute页中print方法在控制台输出的内容：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">I/flutter (22361): 路由返回值：ID: 123</span><br><span class="line">I/flutter (22361): 路由返回值：null</span><br></pre></td></tr></table></figure></p>
+<p>上面介绍的是非命名路由的传值方式，命名路由的传值方式会有所不同，我们会在下面介绍命名路由时介绍。</p>
+<h1 id="5、命名路由"><a href="#5、命名路由" class="headerlink" title="5、命名路由"></a>5、命名路由</h1><p>所谓命名路由（Named Route）即有名字的路由，我们可以先给路由起一个名字，然后就可以通过路由名字直接打开新的路由，这为路由管理带来了一种直观、简单的方式。</p>
+<h2 id="路由表"><a href="#路由表" class="headerlink" title="路由表"></a>路由表</h2><p>要使用命名路由，必须先提供并注册一个路由表（routing table），这样应用程序才知道哪个名字对应哪个路由组件。其实注册路由表就是给路由起名字，路由表的定义如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Map&lt;String, WidgetBuilder&gt; routes;</span><br></pre></td></tr></table></figure></p>
+<p>路由表是一个Map，key为路由的名字，是个字符串；value是个builder回调函数，用于生成相应的路由widget。我们在通过路由名字打开新路由时，应用会根据路由名字在路由表中查找到相应的WidgetBuilder回调函数，然后调用该回调函数生成路由widget并返回。</p>
+<h2 id="注册路由表"><a href="#注册路由表" class="headerlink" title="注册路由表"></a>注册路由表</h2><p>路由表的注册方式很简单，回到前面用到的例子，找到MaterialApp，添加routes属性，代码如下：<br><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyApp</span> <span class="keyword">extends</span> <span class="title">StatelessWidget</span> </span>&#123;</span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  Widget build(BuildContext context) &#123;</span><br><span class="line">    <span class="keyword">return</span> MaterialApp(</span><br><span class="line">      title: <span class="string">'Flutter Demo'</span>,</span><br><span class="line">      theme: ThemeData(</span><br><span class="line">        primarySwatch: Colors.blue,</span><br><span class="line">      ),</span><br><span class="line">      <span class="comment">// home: MyHomePage(title: 'Flutter Demo Home Page'),</span></span><br><span class="line"></span><br><span class="line">      initialRoute:<span class="string">"/"</span>, <span class="comment">//名为"/"的路由作为应用的home(首页)</span></span><br><span class="line">      <span class="comment">//注册路由表</span></span><br><span class="line">      routes:&#123;</span><br><span class="line">        <span class="string">"new_route"</span>:(context) =&gt; NewRoute(),</span><br><span class="line">        <span class="string">"detail"</span>:(context) =&gt; Detail(id: <span class="number">1111</span>,),</span><br><span class="line">        <span class="string">"/"</span>:(context) =&gt; MyHomePage(title: <span class="string">'Flutter Demo Home Page'</span>), <span class="comment">//注册首页路由</span></span><br><span class="line">      &#125; </span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="通过路由名打开新路由页"><a href="#通过路由名打开新路由页" class="headerlink" title="通过路由名打开新路由页"></a>通过路由名打开新路由页</h2><p>要通过路由名称来打开新路由，可以使用 Navigator 的 pushNamed 方法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Future pushNamed(BuildContext context, String routeName,&#123;Object arguments&#125;)</span><br></pre></td></tr></table></figure></p>
+<p>Navigator 除了<code>pushNamed</code> 方法，还有 <code>pushReplacementNamed</code>等其他管理命名路由的方法。</p>
+<p>下面我们修改前面两个按钮的onPressed回调函数，通过路由名打开页面：<br><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">FlatButton(</span><br><span class="line">  child: Text(<span class="string">'open new route'</span>),</span><br><span class="line">  textColor: Colors.red,</span><br><span class="line">  color: Colors.blue,</span><br><span class="line">  onPressed: () &#123;</span><br><span class="line">    Navigator.pushReplacementNamed(context, <span class="string">"new_route"</span>);</span><br><span class="line">  &#125;,</span><br><span class="line">),</span><br><span class="line">FlatButton(</span><br><span class="line">  child: Text(<span class="string">'跳转到详情页'</span>),</span><br><span class="line">  textColor: Colors.red[<span class="number">300</span>],</span><br><span class="line">  color: Colors.blue[<span class="number">100</span>],</span><br><span class="line">  onPressed: () <span class="keyword">async</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> result = <span class="keyword">await</span> Navigator.pushNamed(context, <span class="string">"detail"</span>);</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">'路由返回值：<span class="subst">$result</span>'</span>);</span><br><span class="line">  &#125;,</span><br><span class="line">)</span><br></pre></td></tr></table></figure></p>
+<h2 id="命名路由参数传递"><a href="#命名路由参数传递" class="headerlink" title="命名路由参数传递"></a>命名路由参数传递</h2><p>在Flutter最初的版本中，命名路由是不能传递参数的，后来才支持了参数；下面展示命名路由如何传递并获取路由参数：</p>
+<p>我们先注册一个路由：<br><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">routes:&#123;</span><br><span class="line">  <span class="string">"new_page"</span>:(context) =&gt; NewPage(),</span><br><span class="line"> &#125; ,</span><br></pre></td></tr></table></figure></p>
+<p>在路由页通过RouteSetting对象获取路由参数：<br><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">NewPage</span> <span class="keyword">extends</span> <span class="title">StatelessWidget</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  Widget build(BuildContext context) &#123;</span><br><span class="line">    <span class="comment">//获取路由参数  </span></span><br><span class="line">    <span class="keyword">var</span> args=ModalRoute.of(context).settings.arguments;</span><br><span class="line">    <span class="comment">//...省略无关代码</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>在打开路由时传递参数<br><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Navigator.of(context).pushNamed(<span class="string">"new_page"</span>, arguments: <span class="string">"hello world"</span>);</span><br></pre></td></tr></table></figure></p>
+<h1 id="6、路由生成钩子"><a href="#6、路由生成钩子" class="headerlink" title="6、路由生成钩子"></a>6、路由生成钩子</h1><p>假设我们要开发一个电商APP，当用户没有登录时可以看店铺、商品等信息，但交易记录、购物车、用户个人信息等页面需要登录后才能看。为了实现上述功能，我们需要在打开每一个路由页前判断用户登录状态！如果每次打开路由前我们都需要去判断一下将会非常麻烦，那有什么更好的办法吗？答案是有！</p>
+<p><code>MaterialApp</code>有一个<code>onGenerateRoute</code>属性，它在打开命名路由时可能会被调用，之所以说可能，是因为当调用<code>Navigator.pushNamed(...)</code>打开命名路由时，如果指定的路由名在路由表中已注册，则会调用路由表中的builder函数来生成路由组件；如果路由表中没有注册，才会调用<code>onGenerateRoute</code>来生成路由。<code>onGenerateRoute</code>回调签名如下：<br><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Route&lt;<span class="keyword">dynamic</span>&gt; <span class="built_in">Function</span>(RouteSettings settings)</span><br></pre></td></tr></table></figure></p>
+<p>有了<code>onGenerateRoute</code>回调，要实现上面控制页面权限的功能就非常容易：我们放弃使用路由表，取而代之的是提供一个<code>onGenerateRoute</code>回调，然后在该回调中进行统一的权限控制，如：<br><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">MaterialApp(</span><br><span class="line">  ... <span class="comment">//省略无关代码</span></span><br><span class="line">  onGenerateRoute:(RouteSettings settings)&#123;</span><br><span class="line">      <span class="keyword">return</span> MaterialPageRoute(builder: (context)&#123;</span><br><span class="line">           <span class="built_in">String</span> routeName = settings.name;</span><br><span class="line">       <span class="comment">// 如果访问的路由页需要登录，但当前未登录，则直接返回登录页路由，</span></span><br><span class="line">       <span class="comment">// 引导用户登录；其它情况则正常打开路由。</span></span><br><span class="line">     &#125;</span><br><span class="line">   );</span><br><span class="line">  &#125;</span><br><span class="line">);</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>注意，onGenerateRoute只会对命名路由生效。</p>
+</blockquote>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>命名路由只是一种可选的路由管理方式，在实际开发中，还有其他方式供开发者自行选择。</p>
+<p>另外，还有一些关于路由管理的内容我们没有介绍，比如路由MaterialApp中还有<code>navigatorObservers</code>和<code>onUnknownRoute</code>两个回调属性，前者可以监听所有路由跳转动作，后者在打开一个不存在的命名路由时会被调用，由于这些功能并不常用，而且也比较简单，我们便不再花费篇幅来介绍了，读者可以自行查看API文档。</p>
+
+    </div>
+    <div class="wechat">
+        
+            <strong> 欢迎关注微信公众号： 『前端极客技术』『代码视界』 </strong>
+            <img class="wechat-image" src="https://image.chenhanpeng.com/static/images/web_static_image/article-gzh-qrcode.png" />
+        
+    </div>
+    
+    <div class="reward" ontouchstart>
+    <div class="reward-wrap">赏
+        <div class="reward-box">
+            
+            <span class="reward-type">
+                <img class="alipay" src="https://image.chenhanpeng.com/static/images/web_static_image/donate/alipay_qrcode.png"><b>支付宝打赏</b>
+            </span>
+            
+            
+            <span class="reward-type">
+                <img class="wechat" src="https://image.chenhanpeng.com/static/images/web_static_image/donate/weixin_pay_qrcode.png"><b>微信打赏</b>
+            </span>
+            
+        </div>
+    </div>
+    <p class="reward-tip">
+        赞赏是不耍流氓的鼓励
+    </p>
+</div>
+    
+    <div class="post-footer">
+        <div>
+            
+            转载声明：
+            商业转载请联系作者获得授权,非商业转载请注明出处 © <a href="" target="_blank">代码视界</a>
+            
+            
+        </div>
+        <div>
+            
+        </div>
+    </div>
+</article>
+<div class="article-nav prev-next-wrap clearfix">
+    
+    <a href="/2020-Tencent-HUAWEI-interview-share/" class="pre-post btn btn-default" title='2020年腾讯华为前端面经分享'>
+        <i class="fa fa-angle-left fa-fw"></i><span class="hidden-lg">上一篇</span>
+        <span class="hidden-xs">
+            2020年腾讯华为前端面经分享</span>
+    </a>
+    
+    
+    <a href="/python-pillow-deal-images/" class="next-post btn btn-default" title='Python从小白到攻城狮(21)——使用Pillow库进行图像处理'>
+        <span class="hidden-lg">下一篇</span>
+        <span class="hidden-xs">
+            Python从小白到攻城狮(21)——使用Pillow库进行图像处理</span><i class="fa fa-angle-right fa-fw"></i>
+    </a>
+    
+</div>
+
+<!-- google广告 -->
+<!-- <ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-1437849089810081"
+     data-ad-slot="9946365914"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script> -->
+
+
+    <div id="comments">
+        
+<link rel="stylesheet" href="https://cdn.bootcss.com/gitalk/1.7.2/gitalk.min.css">
+<script src="//cdn.bootcss.com/gitalk/1.7.2/gitalk.min.js"></script>
+<script src="//cdn.bootcss.com/blueimp-md5/2.9.0/js/md5.min.js"></script>
+<div id="gitalk-container"></div>
+<script type="text/javascript">
+var gitalk = new Gitalk({
+    // Gitalk配置
+    language: "zh-CN",
+    clientID: "fb80658382dee5240195",
+    clientSecret: "66663a08264192222ba993f20dd7c0a27c1e6fa5",
+    repo: "blog-comments",
+    owner: "Hanpeng-Chen",
+    admin: ["Hanpeng-Chen"],
+    id: md5(location.pathname),
+    distractionFreeMode: true,
+    proxy: "https://cloudflare-cors-anywhere.hanpengchen.workers.dev/?https://github.com/login/oauth/access_token"
+});
+gitalk.render('gitalk-container');
+</script>
+
+    </div>
+
+                </main>
+                
+                    <div class="col-md-4">
+<!-- 方形 -->
+<!-- <ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-1437849089810081"
+     data-ad-slot="2426112279"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script> -->
+</div>
+<aside id="article-toc" role="navigation" class="col-md-4">
+    <div class="widget">
+        <h3 class="title">
+            文章目录
+        </h3>
+        
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1、简单示例"><span class="toc-text">1、简单示例</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2、MaterialPageRoute"><span class="toc-text">2、MaterialPageRoute</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3、Navigator"><span class="toc-text">3、Navigator</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Future-push-BuildContext-context-Route-route"><span class="toc-text">Future push(BuildContext context, Route route)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#bool-pop-BuildContext-context-result"><span class="toc-text">bool pop(BuildContext context, [result])</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4、路由传值"><span class="toc-text">4、路由传值</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5、命名路由"><span class="toc-text">5、命名路由</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#路由表"><span class="toc-text">路由表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#注册路由表"><span class="toc-text">注册路由表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#通过路由名打开新路由页"><span class="toc-text">通过路由名打开新路由页</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#命名路由参数传递"><span class="toc-text">命名路由参数传递</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#6、路由生成钩子"><span class="toc-text">6、路由生成钩子</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li></ol>
+        
+    </div>
+</aside>
+                
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+<a id="back-to-top" class="icon-btn hide">
+    <i class="fa fa-chevron-up"></i>
+</a>
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="busuanzi">
+    
+</div>
+            </div>
+            <div class="col-sm-12">
+                <span>Copyright &copy;
+                    2019
+                    
+                </span> |
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> |
+                <span>
+                    Theme by <a href="//github.com/shenliyang/hexo-theme-snippet.git" class="copyright-links" target="_blank" rel="nofollow">Snippet</a>
+                </span>
+                
+                    <span> | </span>
+                    <span>
+                        <a href="//beian.miit.gov.cn/" target="_blank" rel="nofollow">
+                            闽ICP备19010134号-1
+                        </a>
+                    </span>
+                
+                
+                    <span> | </span>
+                    <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=35020302033449" rel="nofollow">
+                        <img src="https://image.chenhanpeng.com/static/images/web_static_image/beian_icon.png" width="20">
+                        <span>闽公网安备 35020302033449号</span>
+                    </a>
+                         
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<script src="/js/app.js?rev=@@hash"></script>
+</body>
+</html>

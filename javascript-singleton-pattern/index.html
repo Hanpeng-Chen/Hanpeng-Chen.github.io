@@ -1,0 +1,462 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="代码视界">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="theme-version" content="1.2.3">
+    <meta name="root" content="/">
+    <link rel="dns-prefetch" href="http://www.chenhanpeng.com">
+    <script data-ad-client="ca-pub-1437849089810081" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <!--SEO-->
+
+<meta name="keywords" content="设计模式,单例模式">
+
+
+<meta name="description" content="在上一篇文章《JavaScript设计模式——工厂模式》中我们一起学习了工厂模式，接下来我们一起来学习另一种设计模式——单例模式。
+定义单例模式：保证一个类只有一个实例，并提供一个访问它的全局访...">
+
+
+<meta name="robots" content="all">
+<meta name="google" content="all">
+<meta name="googlebot" content="all">
+<meta name="verify" content="all">
+    <!--Title-->
+
+<title>
+    
+    JavaScript设计模式—单例模式 |
+    
+    代码视界
+</title>
+
+<link rel="alternate" href="/atom.xml" title="代码视界" type="application/atom+xml">
+
+
+<link rel="icon" href="/img/site_logo.jpg">
+
+    
+
+<link rel="stylesheet" href="/css/bootstrap.min.css?rev=3.3.7">
+<link rel="stylesheet" href="/css/font-awesome.min.css?rev=4.7.0">
+<link rel="stylesheet" href="/css/style.css?rev=@@hash">
+    
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?494af80fa01e8939bec179cfddf660d5";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+<script>
+(function(i, s, o, g, r, a, m) {
+    i['GoogleAnalyticsObject'] = r;
+    i[r] = i[r] || function() {
+        (i[r].q = i[r].q || []).push(arguments)
+    }, i[r].l = 1 * new Date();
+    a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0];
+    a.async = 1;
+    a.src = g;
+    m.parentNode.insertBefore(a, m)
+})(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+ga('create', 'UA-142577364-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+
+    
+<meta name="baidu-site-verification" content="rGeweWgWoh">
+
+
+<script>
+(function() {
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    } else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+</head></html>
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+<body>
+    <header class="main-header"  style="background-image:url(
+    https://image.chenhanpeng.com/static/images/web_static_image/banner.jpg)"
+     >
+    <div class="main-header-box">
+        <!-- <a class="header-avatar" href="/" title='Hanpeng Chen'>
+            <img src="/img/avatar.jpg" alt="logo头像" class="img-responsive center-block">
+        </a> -->
+        <a href="/" class="header-title">
+            <h1> 代码视界 </h1>
+        </a>
+        <div class="branding">
+            <!--<h2 class="text-hide">Snippet主题,从未如此简单有趣</h2>-->
+            
+            <h2>
+                Hanpeng Chen的个人博客
+            </h2>
+            
+        </div>
+    </div>
+</header>
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="navbar-header"><span class="nav-toggle-button collapsed pull-right" data-toggle="collapse" data-target="#main-menu" id="mnav">
+                        <span class="sr-only"></span>
+                        <i class="fa fa-bars"></i>
+                    </span>
+                    <a class="navbar-brand" href="http://www.chenhanpeng.com">
+                        代码视界</a>
+                </div>
+                <div class="collapse navbar-collapse" id="main-menu">
+                    <ul class="menu">
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/"><i class="fa "></i>
+                                首页</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/archives/"><i class="fa "></i>
+                                文章列表</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/"><i class="fa "></i>
+                                文章分类</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/tags/"><i class="fa "></i>
+                                文章标签</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/links/"><i class="fa "></i>
+                                友链</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/about/"><i class="fa "></i>
+                                关于作者</a>
+                        </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+                    <p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="JavaScript设计模式—单例模式">
+            
+            JavaScript设计模式—单例模式
+            
+        </h1>
+        <div class="post-meta">
+    
+    <span class="categories-meta fa-wrap">
+        <i class="fa fa-folder-open-o"></i>
+        <a class="category-link" href="/categories/设计模式/">设计模式</a>
+    </span>
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-tags"></i>
+        <span class="tags-meta">
+            
+            <a class="tag-link" href="/tags/单例模式/">单例模式</a> <a class="tag-link" href="/tags/设计模式/">设计模式</a>
+            
+        </span>
+    </span>
+    
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-clock-o"></i>
+        <span class="date-meta">
+            2021/01/17</span>
+    </span>
+    
+    <span class="fa-wrap">
+        <i class="fa fa-eye"></i>
+        <span id="busuanzi_value_page_pv"></span>
+    </span>
+    
+    
+</div>
+        
+        
+    </div>
+    
+    
+    <div class="post-body post-content">
+        <p>在上一篇文章<a href="https://juejin.cn/post/6916894964110589966" target="_blank" rel="noopener">《JavaScript设计模式——工厂模式》</a>中我们一起学习了工厂模式，接下来我们一起来学习另一种设计模式——单例模式。</p>
+<h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>单例模式：保证一个类只有一个实例，并提供一个访问它的全局访问点。无论创建多少次，都只返回第一次所创建的那唯一的一个实例。</p>
+<p>单例模式是创建型设计模式的一种。针对全局仅需一个对象的场景。</p>
+<blockquote>
+<p>欢迎关注我的微信公众号：<strong>前端极客技术(FrontGeek)</strong></p>
+</blockquote>
+<h2 id="实现思路"><a href="#实现思路" class="headerlink" title="实现思路"></a>实现思路</h2><p>在JavaScript中，我们如何才能保证一个类只有一个实例？</p>
+<p>正常情况下，我们创建了一个类（本质上是构造函数），可以通过<code>new</code>关键字调用构造函数进而生成任意多个实例对象，例如：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SingleLoading</span> </span>&#123;</span><br><span class="line">  show () &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'这是一个单例Loading'</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> loading1 = <span class="keyword">new</span> SingleLoading()</span><br><span class="line"><span class="keyword">let</span> loading2 = <span class="keyword">new</span> SingleLoading()</span><br><span class="line"><span class="built_in">console</span>.log(loading1 === loading2) <span class="comment">// false</span></span><br></pre></td></tr></table></figure>
+<p>上述代码中，我们先后new了loading1和loading2两个实例对象，两者是相互独立的对象，各占一块内存空间。</p>
+<p>而单例模式想要做的，<strong>是不论我们创建多少次，它都只返回第一次创建的那唯一一个实例给你</strong>。</p>
+<p>要实现上面的这一点，就需要<strong>构造函数具备判断自己是否已经创建过实例的能力</strong>。</p>
+<p>现在我们将判断逻辑写成一个静态方法或直接写入构造函数的函数体内。</p>
+<h2 id="实现方式"><a href="#实现方式" class="headerlink" title="实现方式"></a>实现方式</h2><p>单例模式的实现方式主要有两种：静态方法和闭包。</p>
+<h3 id="静态方法实现"><a href="#静态方法实现" class="headerlink" title="静态方法实现"></a>静态方法实现</h3><p>下面我们用静态方法将上面的例子改造成单例模式：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 静态方法的实现</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SingleLoading</span> </span>&#123;</span><br><span class="line">  show () &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'这是一个单例Loading'</span>)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">static</span> getInstance()&#123;</span><br><span class="line">    <span class="comment">// 判断是否已经创建过实例</span></span><br><span class="line">    <span class="keyword">if</span> (!SingleLoading.instance) &#123;</span><br><span class="line">      <span class="comment">// 将创建的实例对象保持下来</span></span><br><span class="line">      SingleLoading.instance = <span class="keyword">new</span> SingleLoading()</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> SingleLoading.instance</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> loading1 = SingleLoading.getInstance()</span><br><span class="line"><span class="keyword">const</span> loading2 = SingleLoading.getInstance()</span><br><span class="line"><span class="built_in">console</span>.log(loading1 === loading2) <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+<p>上面代码中有一个<code>static</code>关键字，在getInstance方法前加上static，表示该方法不会被实例继承，而是直接通过类来调用，这就称为“静态方法”。</p>
+<h3 id="闭包"><a href="#闭包" class="headerlink" title="闭包"></a>闭包</h3><p>getInstance的逻辑还可以用闭包的方式实现：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 闭包</span></span><br><span class="line"><span class="comment">// 闭包</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SingleLoading</span> </span>&#123;</span><br><span class="line">  show () &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'这是一个单例Loading'</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">SingleLoading.getInstance = (<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="comment">// 定义自由变量instance，模拟私有变量</span></span><br><span class="line">  <span class="keyword">let</span> instance = <span class="literal">null</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(!instance) &#123;</span><br><span class="line">       <span class="comment">// 如果为null则new出唯一实例</span></span><br><span class="line">      instance = <span class="keyword">new</span> SingleLoading()</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> instance</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)();</span><br><span class="line"><span class="keyword">const</span> loading3 = <span class="keyword">new</span> SingleLoading().getInstance()</span><br><span class="line"><span class="keyword">const</span> loading4 = <span class="keyword">new</span> SingleLoading().getInstance()</span><br><span class="line"><span class="built_in">console</span>.log(loading3 === loading4)</span><br></pre></td></tr></table></figure>
+<p>借助闭包，在内存中保留了 instance 变量，不会被垃圾回收，用来保存唯一的实例，多次调用 new 的时候，只返回第一次创建的实例。</p>
+<h2 id="真题练习"><a href="#真题练习" class="headerlink" title="真题练习"></a>真题练习</h2><p>我们已经学习了用静态方法和闭包来实现单例模式，接下来我们通过一道经典的面试题来巩固。</p>
+<blockquote>
+<p>实现一个全局唯一的模态框（Modal弹框）</p>
+</blockquote>
+<p>代码实现如下：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"width=device-width, initial-scale=1.0"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">title</span>&gt;</span>单例模式弹框<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined">  #modal &#123;</span></span><br><span class="line"><span class="undefined">    height: 200px;</span></span><br><span class="line"><span class="undefined">    width: 200px;</span></span><br><span class="line"><span class="undefined">    line-height: 200px;</span></span><br><span class="line"><span class="undefined">    position: fixed;</span></span><br><span class="line"><span class="undefined">    left: 50%;</span></span><br><span class="line"><span class="undefined">    top: 50%;</span></span><br><span class="line"><span class="undefined">    transform: translate(-50%, -50%);</span></span><br><span class="line"><span class="undefined">    border: 1px solid #999;</span></span><br><span class="line"><span class="undefined">    text-align: center;</span></span><br><span class="line"><span class="undefined">  &#125;</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">"open"</span>&gt;</span>打开弹窗<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">"close"</span>&gt;</span>关闭弹窗<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="javascript">  <span class="keyword">const</span> Modal = (<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span></span><br><span class="line"><span class="javascript">    <span class="keyword">let</span> modal = <span class="literal">null</span>;</span></span><br><span class="line"><span class="javascript">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">      <span class="keyword">if</span> (!modal) &#123;</span></span><br><span class="line"><span class="javascript">        modal = <span class="built_in">document</span>.createElement(<span class="string">'div'</span>)</span></span><br><span class="line"><span class="javascript">        modal.innerHTML = <span class="string">'全局唯一的modal弹窗'</span></span></span><br><span class="line"><span class="javascript">        modal.id = <span class="string">'modal'</span></span></span><br><span class="line"><span class="javascript">        modal.style.display = <span class="string">'none'</span></span></span><br><span class="line"><span class="javascript">        <span class="built_in">document</span>.body.appendChild(modal)</span></span><br><span class="line"><span class="undefined">      &#125;</span></span><br><span class="line"><span class="javascript">      <span class="keyword">return</span> modal</span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="undefined">  &#125;)()</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="javascript">  <span class="built_in">document</span>.getElementById(<span class="string">'open'</span>).addEventListener(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>)</span>&#123;</span></span><br><span class="line"><span class="javascript">    <span class="keyword">const</span> modal = <span class="keyword">new</span> Modal()</span></span><br><span class="line"><span class="javascript">    modal.style.display = <span class="string">'block'</span></span></span><br><span class="line"><span class="undefined">  &#125;)</span></span><br><span class="line"><span class="javascript">  <span class="built_in">document</span>.getElementById(<span class="string">'close'</span>).addEventListener(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>)</span>&#123;</span></span><br><span class="line"><span class="javascript">    <span class="keyword">const</span> modal = <span class="keyword">new</span> Modal()</span></span><br><span class="line"><span class="javascript">    modal.style.display = <span class="string">'none'</span></span></span><br><span class="line"><span class="undefined">  &#125;)</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>上面采用的是闭包的方法实现的，你也可以自己尝试用静态方法来实现。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>单例模式的核心：确保一个类只有一个实例。</p>
+<p>对于单例模式的实现，如果采用class来实现，记住getInstance静态方法；如果采用闭包来实现，记住instance变量。</p>
+<p>在许多优秀的前端库里，我们都能看到单例模式的身影。比如：Vuex和Redux这两个状态管理的库，它们都实现了一个全局的Store用于存储应用的所有状态。这个Store的实现，就是单例模式的典型应用。感兴趣的可以自己下载相应的源码研究一下。</p>
+<p>最后，总结一下单例模式的优缺点：</p>
+<ul>
+<li>优点：适用于单一对象，只生成一个对象实例，避免频繁创建和销毁实例，减少内存占用。</li>
+<li>缺点：不适用动态扩展对象，或需创建多个相似对象的场景。</li>
+</ul>
+<blockquote>
+<p>文章示例代码见：<a href="https://github.com/Hanpeng-Chen/html-js-demo-code/tree/main/design-pattern/singleton-pattern" target="_blank" rel="noopener">singleton-pattern</a></p>
+</blockquote>
+<h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><ul>
+<li><a href="https://juejin.cn/post/6844903874210299912#heading-6" target="_blank" rel="noopener">JavaScript 设计模式（一）：单例模式</a></li>
+<li><a href="https://juejin.cn/book/6844733790204461070/section/6844733790267375624" target="_blank" rel="noopener">JavaScript 设计模式核⼼原理与应⽤实践</a></li>
+</ul>
+<blockquote>
+<p>如果你觉得这篇内容对你有帮助的话：</p>
+<p>1、<strong>点赞</strong>支持下吧，让更多的人也能看到这篇内容</p>
+<p>2、关注公众号：<strong>前端极客技术(FrontGeek)</strong>，我们一起学习一起进步。</p>
+</blockquote>
+<h3 id="实现一个Storage"><a href="#实现一个Storage" class="headerlink" title="实现一个Storage"></a>实现一个Storage</h3><blockquote>
+<p>实现Storage，使得该对象为单例，基于 localStorage 进行封装。实现方法 setItem(key,value) 和 getItem(key)。</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 静态方法</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Storage</span> </span>&#123;</span><br><span class="line">  <span class="keyword">static</span> getInstance ()&#123;</span><br><span class="line">    <span class="keyword">if</span> (!Storage.instance) &#123;</span><br><span class="line">      Storage.instance = <span class="keyword">new</span> Storage()</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> Storage.instance</span><br><span class="line">  &#125;</span><br><span class="line">  getItem(key) &#123;</span><br><span class="line">    <span class="keyword">return</span> localStorage.getItem(key)</span><br><span class="line">  &#125;</span><br><span class="line">  setItem(key, value) &#123;</span><br><span class="line">    <span class="keyword">return</span> localStorage.setItem(key, value)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// 闭包</span></span><br><span class="line"><span class="comment">// 先实现一个基础的StorageBase类，将getItem和setItem放在它的原型上</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">StorageBase</span>(<span class="params"></span>)</span>&#123;&#125;</span><br><span class="line">StorageBase.prototype.getItem = <span class="function"><span class="keyword">function</span> (<span class="params">key</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> localStorage.getItem(key)</span><br><span class="line">&#125;</span><br><span class="line">StorageBase.prototype.setItem = <span class="function"><span class="keyword">function</span> (<span class="params">key, value</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> localStorage.setItem(key, value)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 以闭包的形式创建一个引用自由变量的构造函数</span></span><br><span class="line"><span class="keyword">const</span> Storage = (<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="keyword">let</span> instance = <span class="literal">null</span>;</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(!instance) &#123;</span><br><span class="line">      instance = <span class="keyword">new</span> StorageBase()</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> instance</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)()</span><br><span class="line"><span class="keyword">const</span> s1 = <span class="keyword">new</span> Storage()</span><br><span class="line"><span class="keyword">const</span> s2 = <span class="keyword">new</span> Storage()</span><br><span class="line">s1.setItem(<span class="string">'name'</span>, <span class="string">'zhangsan'</span>)</span><br><span class="line">s1.getItem(<span class="string">'name'</span>)</span><br><span class="line">s2.getItem(<span class="string">'name'</span>)</span><br><span class="line"><span class="built_in">console</span>.log(s1 === s2)</span><br></pre></td></tr></table></figure>
+<h2 id="Vuex中的单例模式"><a href="#Vuex中的单例模式" class="headerlink" title="Vuex中的单例模式"></a>Vuex中的单例模式</h2><p>Vuex：实现了一个全局的store用来存储应用的所有状态。这个store的实现就是单例模式的典型应用。</p>
+<h4 id="Vuex中如何确保store的唯一性"><a href="#Vuex中如何确保store的唯一性" class="headerlink" title="Vuex中如何确保store的唯一性"></a>Vuex中如何确保store的唯一性</h4><p>项目引入vuex的方式：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 安装插件</span></span><br><span class="line">Vue.use(Vuex)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 将store注入到vue实例</span></span><br><span class="line"><span class="keyword">new</span> Vue(&#123;</span><br><span class="line">  el: <span class="string">'#app'</span>,</span><br><span class="line">  store</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
+<p>vuex内部的install方法：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> Vue <span class="comment">// 这个Vue的作用和楼上的instance作用一样</span></span><br><span class="line">...</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">install</span> (<span class="params">_Vue</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 判断传入的Vue实例对象是否已经被install过Vuex插件（是否有了唯一的state）</span></span><br><span class="line">  <span class="keyword">if</span> (Vue &amp;&amp; _Vue === Vue) &#123;</span><br><span class="line">    <span class="keyword">if</span> (process.env.NODE_ENV !== <span class="string">'production'</span>) &#123;</span><br><span class="line">      <span class="built_in">console</span>.error(</span><br><span class="line">        <span class="string">'[vuex] already installed. Vue.use(Vuex) should be called only once.'</span></span><br><span class="line">      )</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 若没有，则为这个Vue实例对象install一个唯一的Vuex</span></span><br><span class="line">  Vue = _Vue</span><br><span class="line">  <span class="comment">// 将Vuex的初始化逻辑写进Vue的钩子函数里</span></span><br><span class="line">  applyMixin(Vue)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>如果vuex的install没有实现单例，假如中途重新install，会为当前的Vue实例重新注入一个新的store，前面操作的数据全部没了。</p>
+
+    </div>
+    <div class="wechat">
+        
+            <strong> 欢迎关注微信公众号： 『前端极客技术』『代码视界』 </strong>
+            <img class="wechat-image" src="https://image.chenhanpeng.com/static/images/web_static_image/article-gzh-qrcode.png" />
+        
+    </div>
+    
+    <div class="reward" ontouchstart>
+    <div class="reward-wrap">赏
+        <div class="reward-box">
+            
+            <span class="reward-type">
+                <img class="alipay" src="https://image.chenhanpeng.com/static/images/web_static_image/donate/alipay_qrcode.png"><b>支付宝打赏</b>
+            </span>
+            
+            
+            <span class="reward-type">
+                <img class="wechat" src="https://image.chenhanpeng.com/static/images/web_static_image/donate/weixin_pay_qrcode.png"><b>微信打赏</b>
+            </span>
+            
+        </div>
+    </div>
+    <p class="reward-tip">
+        赞赏是不耍流氓的鼓励
+    </p>
+</div>
+    
+    <div class="post-footer">
+        <div>
+            
+            转载声明：
+            商业转载请联系作者获得授权,非商业转载请注明出处 © <a href="" target="_blank">代码视界</a>
+            
+            
+        </div>
+        <div>
+            
+        </div>
+    </div>
+</article>
+<div class="article-nav prev-next-wrap clearfix">
+    
+    <a href="/local-storage-of-browser/" class="pre-post btn btn-default" title='聊一聊浏览器本地存储'>
+        <i class="fa fa-angle-left fa-fw"></i><span class="hidden-lg">上一篇</span>
+        <span class="hidden-xs">
+            聊一聊浏览器本地存储</span>
+    </a>
+    
+    
+    <a href="/javascript-factory-pattern/" class="next-post btn btn-default" title='JavaScript设计模式——工厂模式'>
+        <span class="hidden-lg">下一篇</span>
+        <span class="hidden-xs">
+            JavaScript设计模式——工厂模式</span><i class="fa fa-angle-right fa-fw"></i>
+    </a>
+    
+</div>
+
+<!-- google广告 -->
+<!-- <ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-1437849089810081"
+     data-ad-slot="9946365914"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script> -->
+
+
+    <div id="comments">
+        
+<link rel="stylesheet" href="https://cdn.bootcss.com/gitalk/1.7.2/gitalk.min.css">
+<script src="//cdn.bootcss.com/gitalk/1.7.2/gitalk.min.js"></script>
+<script src="//cdn.bootcss.com/blueimp-md5/2.9.0/js/md5.min.js"></script>
+<div id="gitalk-container"></div>
+<script type="text/javascript">
+var gitalk = new Gitalk({
+    // Gitalk配置
+    language: "zh-CN",
+    clientID: "fb80658382dee5240195",
+    clientSecret: "66663a08264192222ba993f20dd7c0a27c1e6fa5",
+    repo: "blog-comments",
+    owner: "Hanpeng-Chen",
+    admin: ["Hanpeng-Chen"],
+    id: md5(location.pathname),
+    distractionFreeMode: true,
+    proxy: "https://cloudflare-cors-anywhere.hanpengchen.workers.dev/?https://github.com/login/oauth/access_token"
+});
+gitalk.render('gitalk-container');
+</script>
+
+    </div>
+
+                </main>
+                
+                    <div class="col-md-4">
+<!-- 方形 -->
+<!-- <ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-1437849089810081"
+     data-ad-slot="2426112279"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script> -->
+</div>
+<aside id="article-toc" role="navigation" class="col-md-4">
+    <div class="widget">
+        <h3 class="title">
+            文章目录
+        </h3>
+        
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#定义"><span class="toc-text">定义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#实现思路"><span class="toc-text">实现思路</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#实现方式"><span class="toc-text">实现方式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#静态方法实现"><span class="toc-text">静态方法实现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#闭包"><span class="toc-text">闭包</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#真题练习"><span class="toc-text">真题练习</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考文章"><span class="toc-text">参考文章</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#实现一个Storage"><span class="toc-text">实现一个Storage</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Vuex中的单例模式"><span class="toc-text">Vuex中的单例模式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Vuex中如何确保store的唯一性"><span class="toc-text">Vuex中如何确保store的唯一性</span></a></li></ol></li></ol></li></ol>
+        
+    </div>
+</aside>
+                
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+<a id="back-to-top" class="icon-btn hide">
+    <i class="fa fa-chevron-up"></i>
+</a>
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="busuanzi">
+    
+</div>
+            </div>
+            <div class="col-sm-12">
+                <span>Copyright &copy;
+                    2019
+                    
+                </span> |
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> |
+                <span>
+                    Theme by <a href="//github.com/shenliyang/hexo-theme-snippet.git" class="copyright-links" target="_blank" rel="nofollow">Snippet</a>
+                </span>
+                
+                    <span> | </span>
+                    <span>
+                        <a href="//beian.miit.gov.cn/" target="_blank" rel="nofollow">
+                            闽ICP备19010134号-1
+                        </a>
+                    </span>
+                
+                
+                    <span> | </span>
+                    <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=35020302033449" rel="nofollow">
+                        <img src="https://image.chenhanpeng.com/static/images/web_static_image/beian_icon.png" width="20">
+                        <span>闽公网安备 35020302033449号</span>
+                    </a>
+                         
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<script src="/js/app.js?rev=@@hash"></script>
+</body>
+</html>

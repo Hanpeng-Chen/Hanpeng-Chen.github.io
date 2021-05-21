@@ -1,0 +1,709 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="代码视界">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="theme-version" content="1.2.3">
+    <meta name="root" content="/">
+    <link rel="dns-prefetch" href="http://www.chenhanpeng.com">
+    <script data-ad-client="ca-pub-1437849089810081" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <!--SEO-->
+
+<meta name="keywords" content="Python教程,os 文件目录方法">
+
+
+<meta name="description" content="os模块常用方法Python内置的os模块提供了非常丰富的方法用来处理文件和目录。常用的方法如下：
+
+
+
+模式
+描述
+
+
+
+
+os.access(path, mode)
+检验权限模式
+
+
+os....">
+
+
+<meta name="robots" content="all">
+<meta name="google" content="all">
+<meta name="googlebot" content="all">
+<meta name="verify" content="all">
+    <!--Title-->
+
+<title>
+    
+    Python从小白到攻城狮(17)——os 文件目录方法 |
+    
+    代码视界
+</title>
+
+<link rel="alternate" href="/atom.xml" title="代码视界" type="application/atom+xml">
+
+
+<link rel="icon" href="/img/site_logo.jpg">
+
+    
+
+<link rel="stylesheet" href="/css/bootstrap.min.css?rev=3.3.7">
+<link rel="stylesheet" href="/css/font-awesome.min.css?rev=4.7.0">
+<link rel="stylesheet" href="/css/style.css?rev=@@hash">
+    
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?494af80fa01e8939bec179cfddf660d5";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+<script>
+(function(i, s, o, g, r, a, m) {
+    i['GoogleAnalyticsObject'] = r;
+    i[r] = i[r] || function() {
+        (i[r].q = i[r].q || []).push(arguments)
+    }, i[r].l = 1 * new Date();
+    a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0];
+    a.async = 1;
+    a.src = g;
+    m.parentNode.insertBefore(a, m)
+})(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+ga('create', 'UA-142577364-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+
+    
+<meta name="baidu-site-verification" content="rGeweWgWoh">
+
+
+<script>
+(function() {
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    } else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+</head></html>
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+<body>
+    <header class="main-header"  style="background-image:url(
+    https://image.chenhanpeng.com/static/images/web_static_image/banner.jpg)"
+     >
+    <div class="main-header-box">
+        <!-- <a class="header-avatar" href="/" title='Hanpeng Chen'>
+            <img src="/img/avatar.jpg" alt="logo头像" class="img-responsive center-block">
+        </a> -->
+        <a href="/" class="header-title">
+            <h1> 代码视界 </h1>
+        </a>
+        <div class="branding">
+            <!--<h2 class="text-hide">Snippet主题,从未如此简单有趣</h2>-->
+            
+            <h2>
+                Hanpeng Chen的个人博客
+            </h2>
+            
+        </div>
+    </div>
+</header>
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="navbar-header"><span class="nav-toggle-button collapsed pull-right" data-toggle="collapse" data-target="#main-menu" id="mnav">
+                        <span class="sr-only"></span>
+                        <i class="fa fa-bars"></i>
+                    </span>
+                    <a class="navbar-brand" href="http://www.chenhanpeng.com">
+                        代码视界</a>
+                </div>
+                <div class="collapse navbar-collapse" id="main-menu">
+                    <ul class="menu">
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/"><i class="fa "></i>
+                                首页</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/archives/"><i class="fa "></i>
+                                文章列表</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/"><i class="fa "></i>
+                                文章分类</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/tags/"><i class="fa "></i>
+                                文章标签</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/links/"><i class="fa "></i>
+                                友链</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/about/"><i class="fa "></i>
+                                关于作者</a>
+                        </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+                    <p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="Python从小白到攻城狮(17)——os 文件目录方法">
+            
+            Python从小白到攻城狮(17)——os 文件目录方法
+            
+        </h1>
+        <div class="post-meta">
+    
+    <span class="categories-meta fa-wrap">
+        <i class="fa fa-folder-open-o"></i>
+        <a class="category-link" href="/categories/Python/">Python</a>
+    </span>
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-tags"></i>
+        <span class="tags-meta">
+            
+            <a class="tag-link" href="/tags/Python教程/">Python教程</a> <a class="tag-link" href="/tags/os-文件目录方法/">os 文件目录方法</a>
+            
+        </span>
+    </span>
+    
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-clock-o"></i>
+        <span class="date-meta">
+            2019/11/13</span>
+    </span>
+    
+    <span class="fa-wrap">
+        <i class="fa fa-eye"></i>
+        <span id="busuanzi_value_page_pv"></span>
+    </span>
+    
+    
+</div>
+        
+        
+        <p class="fa fa-exclamation-triangle warning">
+            本文于<strong>
+                554</strong>
+            天之前发表，文中内容可能已经过时。
+        </p>
+        
+    </div>
+    
+    
+    <div class="post-body post-content">
+        <h1 id="os模块常用方法"><a href="#os模块常用方法" class="headerlink" title="os模块常用方法"></a>os模块常用方法</h1><p>Python内置的os模块提供了非常丰富的方法用来处理文件和目录。常用的方法如下：</p>
+<table>
+<thead>
+<tr>
+<th>模式</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>os.access(path, mode)</td>
+<td>检验权限模式</td>
+</tr>
+<tr>
+<td>os.chdir(path)</td>
+<td>改变当前工作目录</td>
+</tr>
+<tr>
+<td>os.chflags(path, flags)</td>
+<td>设置路径的标记为数字标记</td>
+</tr>
+<tr>
+<td>os.chmod(path, mode)</td>
+<td>更改权限</td>
+</tr>
+<tr>
+<td>os.chown(path, uid, gid)</td>
+<td>更改文件所有者</td>
+</tr>
+<tr>
+<td>os.chroot(path)</td>
+<td>改变当前进程的根目录</td>
+</tr>
+<tr>
+<td>os.close(fd)</td>
+<td>关闭文件描述符fd</td>
+</tr>
+<tr>
+<td>os.closerange(fd_low, fd_high)</td>
+<td>关闭所有文件描述符，从 fd_low (包含) 到 fd_high (不包含), 错误会忽略</td>
+</tr>
+<tr>
+<td>os.dup(fd)</td>
+<td>复制文件描述符id</td>
+</tr>
+<tr>
+<td>os.dup2(fd, fd2)</td>
+<td>将一个文件描述符fd复制到另一个fd2</td>
+</tr>
+<tr>
+<td>os.fchdir(fd)</td>
+<td>通过文件描述符改变当前工作目录</td>
+</tr>
+<tr>
+<td>os.fchmod(fd, mode)</td>
+<td>改变一个文件的访问权限，该文件由参数fd指定，参数mode是Unix下的文件访问权限。</td>
+</tr>
+<tr>
+<td>os.fchown(fd, uid, gid)</td>
+<td>修改一个文件的所有权，这个函数修改一个文件的用户ID和用户组ID，该文件由文件描述符fd指定。</td>
+</tr>
+<tr>
+<td>os.fdatasync(fd)</td>
+<td>强制将文件写入磁盘，该文件由文件描述符fd指定，但是不强制更新文件的状态信息。</td>
+</tr>
+<tr>
+<td>os.fdopen(fd[, mode[, bufsize]])</td>
+<td>通过文件描述符 fd 创建一个文件对象，并返回这个文件对象</td>
+</tr>
+<tr>
+<td>os.fpathconf(fd, name)</td>
+<td>返回一个打开的文件的系统配置信息。name为检索的系统配置的值，它也许是一个定义系统值的字符串，这些名字在很多标准中指定（POSIX.1, Unix 95, Unix 98, 和其它）。</td>
+</tr>
+<tr>
+<td>os.fstat(fd)</td>
+<td>返回文件描述符fd的状态，像stat()。</td>
+</tr>
+<tr>
+<td>os.fstatvfs(fd)</td>
+<td>返回包含文件描述符fd的文件的文件系统的信息，Python 3.3 相等于 statvfs()。</td>
+</tr>
+<tr>
+<td>os.fsync(fd)</td>
+<td>强制将文件描述符为fd的文件写入硬盘。</td>
+</tr>
+<tr>
+<td>os.ftruncate(fd, length)</td>
+<td>裁剪文件描述符fd对应的文件, 所以它最大不能超过文件大小。</td>
+</tr>
+<tr>
+<td>os.getcwd()</td>
+<td>返回当前工作目录</td>
+</tr>
+<tr>
+<td>os.getcwdu()</td>
+<td>返回一个当前工作目录的Unicode对象</td>
+</tr>
+<tr>
+<td>os.isatty(fd)</td>
+<td>如果文件描述符fd是打开的，同时与tty(-like)设备相连，则返回true, 否则False。</td>
+</tr>
+<tr>
+<td>os.lchflags(path, flags)</td>
+<td>设置路径的标记为数字标记，类似 chflags()，但是没有软链接</td>
+</tr>
+<tr>
+<td>os.lchmod(path, mode)</td>
+<td>修改连接文件权限</td>
+</tr>
+<tr>
+<td>os.lchown(path, uid, gid)</td>
+<td>更改文件所有者，类似 chown，但是不追踪链接。</td>
+</tr>
+<tr>
+<td>os.link(src, dst)</td>
+<td>创建硬链接，名为参数 dst，指向参数 src</td>
+</tr>
+<tr>
+<td>os.listdir(path)</td>
+<td>返回path指定的文件夹包含的文件或文件夹的名字的列表。</td>
+</tr>
+<tr>
+<td>os.lseek(fd, pos, how)</td>
+<td>设置文件描述符 fd当前位置为pos, how方式修改: SEEK_SET 或者 0 设置从文件开始的计算的pos; SEEK_CUR或者 1 则从当前位置计算; os.SEEK_END或者2则从文件尾部开始. 在unix，Windows中有效</td>
+</tr>
+<tr>
+<td>os.lstat(path)</td>
+<td>像stat(),但是没有软链接</td>
+</tr>
+<tr>
+<td>os.major(device)</td>
+<td>从原始的设备号中提取设备major号码 (使用stat中的st_dev或者st_rdev field)。</td>
+</tr>
+<tr>
+<td>os.makedev(major, minor)</td>
+<td>以major和minor设备号组成一个原始设备号</td>
+</tr>
+<tr>
+<td>os.makedirs(path[, mode])</td>
+<td>递归文件夹创建函数。像mkdir(), 但创建的所有intermediate-level文件夹需要包含子文件夹。</td>
+</tr>
+<tr>
+<td>os.minor(device)</td>
+<td>从原始的设备号中提取设备minor号码 (使用stat中的st_dev或者st_rdev field )。</td>
+</tr>
+<tr>
+<td>os.mkdir(path[, mode])</td>
+<td>以数字mode的mode创建一个名为path的文件夹.默认的 mode 是 0777 (八进制)。</td>
+</tr>
+<tr>
+<td>os.mkfifo(path[, mode])</td>
+<td>创建命名管道，mode 为数字，默认为 0666 (八进制)</td>
+</tr>
+<tr>
+<td>os.mknod(filename[, mode=0600, device])</td>
+<td>创建一个名为filename文件系统节点（文件，设备特别文件或者命名pipe）。</td>
+</tr>
+<tr>
+<td>os.open(file, flags[, mode])</td>
+<td>打开一个文件，并且设置需要的打开选项，mode参数是可选的</td>
+</tr>
+<tr>
+<td>os.openpty()</td>
+<td>打开一个新的伪终端对。返回 pty 和 tty的文件描述符。</td>
+</tr>
+<tr>
+<td>os.pathconf(path, name)</td>
+<td>返回相关文件的系统配置信息。</td>
+</tr>
+<tr>
+<td>os.pipe()</td>
+<td>创建一个管道. 返回一对文件描述符(r, w) 分别为读和写</td>
+</tr>
+<tr>
+<td>os.popen(command[, mode[, bufsize]])</td>
+<td>从一个 command 打开一个管道</td>
+</tr>
+<tr>
+<td>os.read(fd, n)</td>
+<td>从文件描述符 fd 中读取最多 n 个字节，返回包含读取字节的字符串，文件描述符 fd对应文件已达到结尾, 返回一个空字符串。</td>
+</tr>
+<tr>
+<td>os.readlink(path)</td>
+<td>返回软链接所指向的文件</td>
+</tr>
+<tr>
+<td>os.remove(path)</td>
+<td>删除路径为path的文件。如果path 是一个文件夹，将抛出OSError; 查看下面的rmdir()删除一个 directory。</td>
+</tr>
+<tr>
+<td>os.removedirs(path)</td>
+<td>递归删除目录。</td>
+</tr>
+<tr>
+<td>os.rename(src, dst)</td>
+<td>重命名文件或目录，从 src 到 dst</td>
+</tr>
+<tr>
+<td>os.renames(old, new)</td>
+<td>递归地对目录进行更名，也可以对文件进行更名。</td>
+</tr>
+<tr>
+<td>os.rmdir(path)</td>
+<td>删除path指定的空目录，如果目录非空，则抛出一个OSError异常。</td>
+</tr>
+<tr>
+<td>os.stat(path)</td>
+<td>获取path指定的路径的信息，功能等同于C API中的stat()系统调用。</td>
+</tr>
+<tr>
+<td>os.stat_float_times([newvalue])</td>
+<td>决定stat_result是否以float对象显示时间戳</td>
+</tr>
+<tr>
+<td>os.statvfs(path)</td>
+<td>获取指定路径的文件系统统计信息</td>
+</tr>
+<tr>
+<td>os.symlink(src, dst)</td>
+<td>创建一个软链接</td>
+</tr>
+<tr>
+<td>os.tcgetpgrp(fd)</td>
+<td>返回与终端fd（一个由os.open()返回的打开的文件描述符）关联的进程组</td>
+</tr>
+<tr>
+<td>os.tcsetpgrp(fd, pg)</td>
+<td>设置与终端fd（一个由os.open()返回的打开的文件描述符）关联的进程组为pg。</td>
+</tr>
+<tr>
+<td>os.ttyname(fd)</td>
+<td>返回一个字符串，它表示与文件描述符fd 关联的终端设备。如果fd 没有与终端设备关联，则引发一个异常。</td>
+</tr>
+<tr>
+<td>os.unlink(path)</td>
+<td>删除文件路径</td>
+</tr>
+<tr>
+<td>os.utime(path, times)</td>
+<td>返回指定的path文件的访问和修改的时间。</td>
+</tr>
+<tr>
+<td>os.walk(top[, topdown=True[, onerror=None[, followlinks=False]]])</td>
+<td>输出在文件夹中的文件名通过在树中游走，向上或者向下。</td>
+</tr>
+<tr>
+<td>os.write(fd, str)</td>
+<td>写入字符串到文件描述符 fd中. 返回实际写入的字符串长度</td>
+</tr>
+<tr>
+<td>os.path 模块</td>
+<td>获取文件的属性信息。</td>
+</tr>
+</tbody>
+</table>
+<h1 id="os-path模块常用方法"><a href="#os-path模块常用方法" class="headerlink" title="os.path模块常用方法"></a>os.path模块常用方法</h1><p>操作文件和目录的函数一部分放在os模块中，一部分放在os.path模块中，这一点要注意一下。查看、创建和删除目录可以这么调用：</p>
+<ul>
+<li><p>查看当前目录的绝对路径</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">print(os.path.abspath(<span class="string">'./'</span>))</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在某个目录下创建一个新目录</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">new_dir = os.path.join(<span class="string">'./'</span>, <span class="string">'newdir'</span>)</span><br><span class="line">os.mkdir(new_dir)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>删除一个目录<br>os.rmdir(new_dir)</p>
+</li>
+</ul>
+<ul>
+<li><p>把两个路径合成一个时，不要直接拼字符串，而要通过os.path.join()函数，这样可以正确处理不同操作系统的路径分隔符。在Linux/Unix/Mac下，os.path.join()返回这样的字符串：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">path1 = os.path.abspath(<span class="string">'./'</span>)</span><br><span class="line">path2 = <span class="string">'demo.py'</span></span><br><span class="line">path = os.path.join(path1, path2)</span><br><span class="line">print(path)  <span class="comment"># E:/workspace/python-learning/demo.py</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>同样的道理，要拆分路径时，也不要直接去拆字符串，而要通过os.path.split()函数，这样可以把一个路径拆分为两部分，后一部分总是最后级别的目录或文件名：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">print(os.path.split(<span class="string">'E:/workspace/python-learning/demo.py'</span>))  <span class="comment"># ('E:/workspace/python-learning', 'demo.py')</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>os.path.splitext()可以直接让你得到文件扩展名，很多时候非常方便：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">print(os.path.splitext(<span class="string">'E:/workspace/python-learning/demo.py'</span>)) <span class="comment"># ('E:/workspace/python-learning/demo', '.py')</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<blockquote>
+<p>这些合并、拆分路径的函数并不要求目录和文件要真实存在，它们只对字符串进行操作。</p>
+</blockquote>
+<p><strong>文中示例代码</strong>： <a href="https://github.com/Hanpeng-Chen/python-learning" target="_blank" rel="noopener">python-learning</a></p>
+<p>未完待续，持续更新中……</p>
+
+    </div>
+    <div class="wechat">
+        
+            <strong> 欢迎关注微信公众号： 『前端极客技术』『代码视界』 </strong>
+            <img class="wechat-image" src="https://image.chenhanpeng.com/static/images/web_static_image/article-gzh-qrcode.png" />
+        
+    </div>
+    
+    <div class="reward" ontouchstart>
+    <div class="reward-wrap">赏
+        <div class="reward-box">
+            
+            <span class="reward-type">
+                <img class="alipay" src="https://image.chenhanpeng.com/static/images/web_static_image/donate/alipay_qrcode.png"><b>支付宝打赏</b>
+            </span>
+            
+            
+            <span class="reward-type">
+                <img class="wechat" src="https://image.chenhanpeng.com/static/images/web_static_image/donate/weixin_pay_qrcode.png"><b>微信打赏</b>
+            </span>
+            
+        </div>
+    </div>
+    <p class="reward-tip">
+        赞赏是不耍流氓的鼓励
+    </p>
+</div>
+    
+    <div class="post-footer">
+        <div>
+            
+            转载声明：
+            商业转载请联系作者获得授权,非商业转载请注明出处 © <a href="" target="_blank">代码视界</a>
+            
+            
+        </div>
+        <div>
+            
+        </div>
+    </div>
+</article>
+<div class="article-nav prev-next-wrap clearfix">
+    
+    <a href="/python-18-process-and-thread/" class="pre-post btn btn-default" title='Python从小白到攻城狮(18)——进程和线程'>
+        <i class="fa fa-angle-left fa-fw"></i><span class="hidden-lg">上一篇</span>
+        <span class="hidden-xs">
+            Python从小白到攻城狮(18)——进程和线程</span>
+    </a>
+    
+    
+    <a href="/python-16-regular-expression/" class="next-post btn btn-default" title='Python从小白到攻城狮(16)——正则表达式'>
+        <span class="hidden-lg">下一篇</span>
+        <span class="hidden-xs">
+            Python从小白到攻城狮(16)——正则表达式</span><i class="fa fa-angle-right fa-fw"></i>
+    </a>
+    
+</div>
+
+<!-- google广告 -->
+<!-- <ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-1437849089810081"
+     data-ad-slot="9946365914"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script> -->
+
+
+    <div id="comments">
+        
+<link rel="stylesheet" href="https://cdn.bootcss.com/gitalk/1.7.2/gitalk.min.css">
+<script src="//cdn.bootcss.com/gitalk/1.7.2/gitalk.min.js"></script>
+<script src="//cdn.bootcss.com/blueimp-md5/2.9.0/js/md5.min.js"></script>
+<div id="gitalk-container"></div>
+<script type="text/javascript">
+var gitalk = new Gitalk({
+    // Gitalk配置
+    language: "zh-CN",
+    clientID: "fb80658382dee5240195",
+    clientSecret: "66663a08264192222ba993f20dd7c0a27c1e6fa5",
+    repo: "blog-comments",
+    owner: "Hanpeng-Chen",
+    admin: ["Hanpeng-Chen"],
+    id: md5(location.pathname),
+    distractionFreeMode: true,
+    proxy: "https://cloudflare-cors-anywhere.hanpengchen.workers.dev/?https://github.com/login/oauth/access_token"
+});
+gitalk.render('gitalk-container');
+</script>
+
+    </div>
+
+                </main>
+                
+                    <div class="col-md-4">
+<!-- 方形 -->
+<!-- <ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-1437849089810081"
+     data-ad-slot="2426112279"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script> -->
+</div>
+<aside id="article-toc" role="navigation" class="col-md-4">
+    <div class="widget">
+        <h3 class="title">
+            文章目录
+        </h3>
+        
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#os模块常用方法"><span class="toc-text">os模块常用方法</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#os-path模块常用方法"><span class="toc-text">os.path模块常用方法</span></a></li></ol>
+        
+    </div>
+</aside>
+                
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+<a id="back-to-top" class="icon-btn hide">
+    <i class="fa fa-chevron-up"></i>
+</a>
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="busuanzi">
+    
+</div>
+            </div>
+            <div class="col-sm-12">
+                <span>Copyright &copy;
+                    2019
+                    
+                </span> |
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> |
+                <span>
+                    Theme by <a href="//github.com/shenliyang/hexo-theme-snippet.git" class="copyright-links" target="_blank" rel="nofollow">Snippet</a>
+                </span>
+                
+                    <span> | </span>
+                    <span>
+                        <a href="//beian.miit.gov.cn/" target="_blank" rel="nofollow">
+                            闽ICP备19010134号-1
+                        </a>
+                    </span>
+                
+                
+                    <span> | </span>
+                    <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=35020302033449" rel="nofollow">
+                        <img src="https://image.chenhanpeng.com/static/images/web_static_image/beian_icon.png" width="20">
+                        <span>闽公网安备 35020302033449号</span>
+                    </a>
+                         
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<script src="/js/app.js?rev=@@hash"></script>
+</body>
+</html>

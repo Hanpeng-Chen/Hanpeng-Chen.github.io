@@ -1,0 +1,433 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="代码视界">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="theme-version" content="1.2.3">
+    <meta name="root" content="/">
+    <link rel="dns-prefetch" href="http://www.chenhanpeng.com">
+    <script data-ad-client="ca-pub-1437849089810081" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <!--SEO-->
+
+<meta name="keywords" content="TF-IDF">
+
+
+<meta name="description" content="TF-IDF（Term Frequency-Inverse Document Frequency）即“词频-反文档频率”，主要由TF和IDF两部分组成。TF-IDF是一种用于资讯检索与资讯探勘的...">
+
+
+<meta name="robots" content="all">
+<meta name="google" content="all">
+<meta name="googlebot" content="all">
+<meta name="verify" content="all">
+    <!--Title-->
+
+<title>
+    
+    文本挖掘预处理之TF-IDF |
+    
+    代码视界
+</title>
+
+<link rel="alternate" href="/atom.xml" title="代码视界" type="application/atom+xml">
+
+
+<link rel="icon" href="/img/site_logo.jpg">
+
+    
+
+<link rel="stylesheet" href="/css/bootstrap.min.css?rev=3.3.7">
+<link rel="stylesheet" href="/css/font-awesome.min.css?rev=4.7.0">
+<link rel="stylesheet" href="/css/style.css?rev=@@hash">
+    
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?494af80fa01e8939bec179cfddf660d5";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+<script>
+(function(i, s, o, g, r, a, m) {
+    i['GoogleAnalyticsObject'] = r;
+    i[r] = i[r] || function() {
+        (i[r].q = i[r].q || []).push(arguments)
+    }, i[r].l = 1 * new Date();
+    a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0];
+    a.async = 1;
+    a.src = g;
+    m.parentNode.insertBefore(a, m)
+})(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+ga('create', 'UA-142577364-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+
+    
+<meta name="baidu-site-verification" content="rGeweWgWoh">
+
+
+<script>
+(function() {
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    } else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+</head></html>
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+<body>
+    <header class="main-header"  style="background-image:url(
+    https://image.chenhanpeng.com/static/images/web_static_image/banner.jpg)"
+     >
+    <div class="main-header-box">
+        <!-- <a class="header-avatar" href="/" title='Hanpeng Chen'>
+            <img src="/img/avatar.jpg" alt="logo头像" class="img-responsive center-block">
+        </a> -->
+        <a href="/" class="header-title">
+            <h1> 代码视界 </h1>
+        </a>
+        <div class="branding">
+            <!--<h2 class="text-hide">Snippet主题,从未如此简单有趣</h2>-->
+            
+            <h2>
+                Hanpeng Chen的个人博客
+            </h2>
+            
+        </div>
+    </div>
+</header>
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="navbar-header"><span class="nav-toggle-button collapsed pull-right" data-toggle="collapse" data-target="#main-menu" id="mnav">
+                        <span class="sr-only"></span>
+                        <i class="fa fa-bars"></i>
+                    </span>
+                    <a class="navbar-brand" href="http://www.chenhanpeng.com">
+                        代码视界</a>
+                </div>
+                <div class="collapse navbar-collapse" id="main-menu">
+                    <ul class="menu">
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/"><i class="fa "></i>
+                                首页</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/archives/"><i class="fa "></i>
+                                文章列表</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/"><i class="fa "></i>
+                                文章分类</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/tags/"><i class="fa "></i>
+                                文章标签</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/links/"><i class="fa "></i>
+                                友链</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/about/"><i class="fa "></i>
+                                关于作者</a>
+                        </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+                    <p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="文本挖掘预处理之TF-IDF">
+            
+            文本挖掘预处理之TF-IDF
+            
+        </h1>
+        <div class="post-meta">
+    
+    <span class="categories-meta fa-wrap">
+        <i class="fa fa-folder-open-o"></i>
+        <a class="category-link" href="/categories/机器学习/">机器学习</a>
+    </span>
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-tags"></i>
+        <span class="tags-meta">
+            
+            <a class="tag-link" href="/tags/TF-IDF/">TF-IDF</a>
+            
+        </span>
+    </span>
+    
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-clock-o"></i>
+        <span class="date-meta">
+            2019/03/25</span>
+    </span>
+    
+    <span class="fa-wrap">
+        <i class="fa fa-eye"></i>
+        <span id="busuanzi_value_page_pv"></span>
+    </span>
+    
+    
+</div>
+        
+        
+        <p class="fa fa-exclamation-triangle warning">
+            本文于<strong>
+                787</strong>
+            天之前发表，文中内容可能已经过时。
+        </p>
+        
+    </div>
+    
+    
+    <div class="post-body post-content">
+        <p>TF-IDF（Term Frequency-Inverse Document Frequency）即“词频-反文档频率”，主要由TF和IDF两部分组成。TF-IDF是一种用于资讯检索与资讯探勘的常用加权技术，是一种统计方法，用于评估一个词对于一个文件集或一个语料库中的其中一份文件的重要程度。字词的重要程度与它在文件中出现的次数成正比，但同时与它在语料库中出现的频率成反比。</p>
+<p><strong>TF——词频：</strong>一个词在文章中出现的次数。</p>
+<p>在计算词频时，需要注意停用词的过滤。什么是停用词：在文章中出现次数最多的“的”、“是”、“在”等最常用词，但对结果毫无帮助，必须过滤的词。</p>
+<p>TF计算有两种方式，具体公式如下：<br><!-- ![Alt](/images/articles/2019/20190325TF-IDF-1.png#pic_center) --><br><!-- ![Alt](/images/articles/2019/20190325TF-IDF-2.png#pic_center) --><br><img src="http://image.chenhanpeng.com/static/images/machine_learning/20190325TF-IDF-1.png"><br><img src="http://image.chenhanpeng.com/static/images/machine_learning/20190325TF-IDF-2.png"></p>
+<p><strong>IDF——反文档频率：</strong>一个词在所有文章中出现的频率。如果包含这个词的文章越少，IDF越大，则说明词具有很好的类别区分能力。计算公式如下：<br><!-- ![Alt](/images/articles/2019/20190325TF-IDF-3.png#pic_center) --><br><img src="http://image.chenhanpeng.com/static/images/machine_learning/20190325TF-IDF-3.png"></p>
+<p>将TF和IDF相乘，就得到一个词的TF-IDF值，某个词对文章的重要性越高，该值越大，于是排在前面的几个词，就是这篇文章的关键词。<br><!-- ![Alt](/images/articles/2019/20190325TF-IDF-4.png#pic_center) --><br><img src="http://image.chenhanpeng.com/static/images/machine_learning/20190325TF-IDF-4.png"></p>
+<h2 id="TF-IDF总结："><a href="#TF-IDF总结：" class="headerlink" title="TF-IDF总结："></a>TF-IDF总结：</h2><p><strong>优点：</strong>简单快速，结果比较符合实际情况。</p>
+<p><strong>缺点：</strong>单纯以“词频”做衡量标准，不够全面，有时重要的词可能出现的次数不多。</p>
+<h2 id="用python实现TF-IDF的计算"><a href="#用python实现TF-IDF的计算" class="headerlink" title="用python实现TF-IDF的计算"></a>用python实现TF-IDF的计算</h2><p>将下图所示的已经分好词的文章作为语料库，计算101it.seg.cln.txt中的TF-IDF。<br><!-- ![Alt](/images/articles/2019/20190325TF-IDF-5.png#pic_center) --><br><img src="http://image.chenhanpeng.com/static/images/machine_learning/20190325TF-IDF-5.png"></p>
+<p>具体python代码实现如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> math</span><br><span class="line"> </span><br><span class="line"><span class="comment"># 要计算TF-IDF的文章路径</span></span><br><span class="line">file_path = <span class="string">'./data/101it.seg.cln.txt'</span></span><br><span class="line"><span class="comment"># 语料库目录路径</span></span><br><span class="line">data_dir_path = <span class="string">'./data'</span></span><br><span class="line"> </span><br><span class="line"><span class="comment"># 获取文章内容</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">read_content</span><span class="params">(file)</span>:</span></span><br><span class="line">    content = open(file, <span class="string">'r'</span>, encoding=<span class="string">'UTF-8'</span>)</span><br><span class="line">    <span class="keyword">return</span> content</span><br><span class="line"> </span><br><span class="line"><span class="comment"># 计算IDF</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">calculate_idf</span><span class="params">(dir_path)</span>:</span></span><br><span class="line">    all_word_set = set()</span><br><span class="line">    article_list = []</span><br><span class="line">    article_count = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> fd <span class="keyword">in</span> os.listdir(dir_path):</span><br><span class="line">        article_count += <span class="number">1</span></span><br><span class="line">        file = dir_path + <span class="string">'/'</span> + fd</span><br><span class="line">        content = read_content(file)</span><br><span class="line">        content_set = set()</span><br><span class="line">        <span class="keyword">for</span> line <span class="keyword">in</span> content:</span><br><span class="line">            word_tmp = line.strip().split(<span class="string">' '</span>)</span><br><span class="line">            <span class="keyword">for</span> word <span class="keyword">in</span> word_tmp:</span><br><span class="line">                word = word.strip()</span><br><span class="line">                all_word_set.add(word)</span><br><span class="line">                content_set.add(word)</span><br><span class="line">        article_list.append(content_set)</span><br><span class="line"> </span><br><span class="line">    idf_dict = &#123;&#125;</span><br><span class="line">    <span class="keyword">for</span> word <span class="keyword">in</span> all_word_set:</span><br><span class="line">        count = <span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> article <span class="keyword">in</span> article_list:</span><br><span class="line">            <span class="keyword">if</span> word <span class="keyword">in</span> article:</span><br><span class="line">                count += <span class="number">1</span></span><br><span class="line">        idf_dict[word] = math.log(float(article_count)/(float(count) + <span class="number">1.0</span>))</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">return</span> idf_dict</span><br><span class="line"> </span><br><span class="line"><span class="comment"># 计算TF</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">calculate_tf</span><span class="params">(file)</span>:</span></span><br><span class="line">    content = read_content(file)</span><br><span class="line">    word_set = set()</span><br><span class="line">    word_dict = &#123;&#125;</span><br><span class="line">    word_count = <span class="number">0</span></span><br><span class="line">    <span class="comment"># 计算词频和文章总词数</span></span><br><span class="line">    <span class="keyword">for</span> line <span class="keyword">in</span> content:</span><br><span class="line">        word_tmp = line.strip().split(<span class="string">' '</span>)</span><br><span class="line">        <span class="keyword">for</span> word <span class="keyword">in</span> word_tmp:</span><br><span class="line">            word = word.strip()</span><br><span class="line">            <span class="keyword">if</span> word <span class="keyword">not</span> <span class="keyword">in</span> word_dict:</span><br><span class="line">                word_dict[word] = <span class="number">1</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                word_dict[word] += <span class="number">1</span></span><br><span class="line">            word_count += <span class="number">1</span></span><br><span class="line">            word_set.add(word)</span><br><span class="line">    <span class="comment"># 计算TF</span></span><br><span class="line">    <span class="keyword">for</span> tmp <span class="keyword">in</span> word_set:</span><br><span class="line">        word_dict[tmp] = float(word_dict[tmp])/float(word_count)</span><br><span class="line">    <span class="keyword">return</span> word_dict</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">    idf_dict = calculate_idf(data_dir_path)</span><br><span class="line">    tf_dict = calculate_tf(file_path)</span><br><span class="line">    tfidf_dict = &#123;&#125;</span><br><span class="line">    <span class="keyword">for</span> key <span class="keyword">in</span> tf_dict:</span><br><span class="line">        tfidf_dict[key] = tf_dict[key] * idf_dict[key]</span><br><span class="line">    print(tfidf_dict)</span><br></pre></td></tr></table></figure>
+<h2 id="TF-IDF应用："><a href="#TF-IDF应用：" class="headerlink" title="TF-IDF应用："></a>TF-IDF应用：</h2><p>TF-IDF有下面几个应用，具体的实现后续文章再给大家介绍：</p>
+<ul>
+<li><p>提取文章的关键词</p>
+</li>
+<li><p>TF-IDF结合余弦相似度找相似文章</p>
+</li>
+<li><p>给文章自动生成摘要</p>
+</li>
+</ul>
+
+    </div>
+    <div class="wechat">
+        
+            <strong> 欢迎关注微信公众号： 『前端极客技术』『代码视界』 </strong>
+            <img class="wechat-image" src="https://image.chenhanpeng.com/static/images/web_static_image/article-gzh-qrcode.png" />
+        
+    </div>
+    
+    <div class="reward" ontouchstart>
+    <div class="reward-wrap">赏
+        <div class="reward-box">
+            
+            <span class="reward-type">
+                <img class="alipay" src="https://image.chenhanpeng.com/static/images/web_static_image/donate/alipay_qrcode.png"><b>支付宝打赏</b>
+            </span>
+            
+            
+            <span class="reward-type">
+                <img class="wechat" src="https://image.chenhanpeng.com/static/images/web_static_image/donate/weixin_pay_qrcode.png"><b>微信打赏</b>
+            </span>
+            
+        </div>
+    </div>
+    <p class="reward-tip">
+        赞赏是不耍流氓的鼓励
+    </p>
+</div>
+    
+    <div class="post-footer">
+        <div>
+            
+            转载声明：
+            商业转载请联系作者获得授权,非商业转载请注明出处 © <a href="" target="_blank">代码视界</a>
+            
+            
+        </div>
+        <div>
+            
+        </div>
+    </div>
+</article>
+<div class="article-nav prev-next-wrap clearfix">
+    
+    <a href="/Chinese-word-segmentation/" class="pre-post btn btn-default" title='中文分词'>
+        <i class="fa fa-angle-left fa-fw"></i><span class="hidden-lg">上一篇</span>
+        <span class="hidden-xs">
+            中文分词</span>
+    </a>
+    
+    
+    <a href="/knn/" class="next-post btn btn-default" title='K-近邻(KNN)算法'>
+        <span class="hidden-lg">下一篇</span>
+        <span class="hidden-xs">
+            K-近邻(KNN)算法</span><i class="fa fa-angle-right fa-fw"></i>
+    </a>
+    
+</div>
+
+<!-- google广告 -->
+<!-- <ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-1437849089810081"
+     data-ad-slot="9946365914"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script> -->
+
+
+    <div id="comments">
+        
+<link rel="stylesheet" href="https://cdn.bootcss.com/gitalk/1.7.2/gitalk.min.css">
+<script src="//cdn.bootcss.com/gitalk/1.7.2/gitalk.min.js"></script>
+<script src="//cdn.bootcss.com/blueimp-md5/2.9.0/js/md5.min.js"></script>
+<div id="gitalk-container"></div>
+<script type="text/javascript">
+var gitalk = new Gitalk({
+    // Gitalk配置
+    language: "zh-CN",
+    clientID: "fb80658382dee5240195",
+    clientSecret: "66663a08264192222ba993f20dd7c0a27c1e6fa5",
+    repo: "blog-comments",
+    owner: "Hanpeng-Chen",
+    admin: ["Hanpeng-Chen"],
+    id: md5(location.pathname),
+    distractionFreeMode: true,
+    proxy: "https://cloudflare-cors-anywhere.hanpengchen.workers.dev/?https://github.com/login/oauth/access_token"
+});
+gitalk.render('gitalk-container');
+</script>
+
+    </div>
+
+                </main>
+                
+                    <div class="col-md-4">
+<!-- 方形 -->
+<!-- <ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-1437849089810081"
+     data-ad-slot="2426112279"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script> -->
+</div>
+<aside id="article-toc" role="navigation" class="col-md-4">
+    <div class="widget">
+        <h3 class="title">
+            文章目录
+        </h3>
+        
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#TF-IDF总结："><span class="toc-text">TF-IDF总结：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#用python实现TF-IDF的计算"><span class="toc-text">用python实现TF-IDF的计算</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TF-IDF应用："><span class="toc-text">TF-IDF应用：</span></a></li></ol>
+        
+    </div>
+</aside>
+                
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+<a id="back-to-top" class="icon-btn hide">
+    <i class="fa fa-chevron-up"></i>
+</a>
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="busuanzi">
+    
+</div>
+            </div>
+            <div class="col-sm-12">
+                <span>Copyright &copy;
+                    2019
+                    
+                </span> |
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> |
+                <span>
+                    Theme by <a href="//github.com/shenliyang/hexo-theme-snippet.git" class="copyright-links" target="_blank" rel="nofollow">Snippet</a>
+                </span>
+                
+                    <span> | </span>
+                    <span>
+                        <a href="//beian.miit.gov.cn/" target="_blank" rel="nofollow">
+                            闽ICP备19010134号-1
+                        </a>
+                    </span>
+                
+                
+                    <span> | </span>
+                    <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=35020302033449" rel="nofollow">
+                        <img src="https://image.chenhanpeng.com/static/images/web_static_image/beian_icon.png" width="20">
+                        <span>闽公网安备 35020302033449号</span>
+                    </a>
+                         
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<script src="/js/app.js?rev=@@hash"></script>
+</body>
+</html>

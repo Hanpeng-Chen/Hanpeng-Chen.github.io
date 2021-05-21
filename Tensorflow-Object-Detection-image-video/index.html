@@ -1,0 +1,435 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="代码视界">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="theme-version" content="1.2.3">
+    <meta name="root" content="/">
+    <link rel="dns-prefetch" href="http://www.chenhanpeng.com">
+    <script data-ad-client="ca-pub-1437849089810081" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <!--SEO-->
+
+<meta name="keywords" content="TensorFlow,物体检测">
+
+
+<meta name="description" content="TensorFlow Object Detection API介绍物体检测是检测图片或视频中所出现的全部物体，并用矩形进行标注，物体的类别可以包括多种，比如：人、车、动物等等，即正确的答案可以是...">
+
+
+<meta name="robots" content="all">
+<meta name="google" content="all">
+<meta name="googlebot" content="all">
+<meta name="verify" content="all">
+    <!--Title-->
+
+<title>
+    
+    利用TensorFlow Object Detection API实现图片和视频物体检测 |
+    
+    代码视界
+</title>
+
+<link rel="alternate" href="/atom.xml" title="代码视界" type="application/atom+xml">
+
+
+<link rel="icon" href="/img/site_logo.jpg">
+
+    
+
+<link rel="stylesheet" href="/css/bootstrap.min.css?rev=3.3.7">
+<link rel="stylesheet" href="/css/font-awesome.min.css?rev=4.7.0">
+<link rel="stylesheet" href="/css/style.css?rev=@@hash">
+    
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?494af80fa01e8939bec179cfddf660d5";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+<script>
+(function(i, s, o, g, r, a, m) {
+    i['GoogleAnalyticsObject'] = r;
+    i[r] = i[r] || function() {
+        (i[r].q = i[r].q || []).push(arguments)
+    }, i[r].l = 1 * new Date();
+    a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0];
+    a.async = 1;
+    a.src = g;
+    m.parentNode.insertBefore(a, m)
+})(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+ga('create', 'UA-142577364-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+
+    
+<meta name="baidu-site-verification" content="rGeweWgWoh">
+
+
+<script>
+(function() {
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    } else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+</head></html>
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+<body>
+    <header class="main-header"  style="background-image:url(
+    https://image.chenhanpeng.com/static/images/web_static_image/banner.jpg)"
+     >
+    <div class="main-header-box">
+        <!-- <a class="header-avatar" href="/" title='Hanpeng Chen'>
+            <img src="/img/avatar.jpg" alt="logo头像" class="img-responsive center-block">
+        </a> -->
+        <a href="/" class="header-title">
+            <h1> 代码视界 </h1>
+        </a>
+        <div class="branding">
+            <!--<h2 class="text-hide">Snippet主题,从未如此简单有趣</h2>-->
+            
+            <h2>
+                Hanpeng Chen的个人博客
+            </h2>
+            
+        </div>
+    </div>
+</header>
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="navbar-header"><span class="nav-toggle-button collapsed pull-right" data-toggle="collapse" data-target="#main-menu" id="mnav">
+                        <span class="sr-only"></span>
+                        <i class="fa fa-bars"></i>
+                    </span>
+                    <a class="navbar-brand" href="http://www.chenhanpeng.com">
+                        代码视界</a>
+                </div>
+                <div class="collapse navbar-collapse" id="main-menu">
+                    <ul class="menu">
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/"><i class="fa "></i>
+                                首页</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/archives/"><i class="fa "></i>
+                                文章列表</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/"><i class="fa "></i>
+                                文章分类</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/tags/"><i class="fa "></i>
+                                文章标签</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/links/"><i class="fa "></i>
+                                友链</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/about/"><i class="fa "></i>
+                                关于作者</a>
+                        </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+                    <p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="利用TensorFlow Object Detection API实现图片和视频物体检测">
+            
+            利用TensorFlow Object Detection API实现图片和视频物体检测
+            
+        </h1>
+        <div class="post-meta">
+    
+    <span class="categories-meta fa-wrap">
+        <i class="fa fa-folder-open-o"></i>
+        <a class="category-link" href="/categories/机器学习/">机器学习</a>
+    </span>
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-tags"></i>
+        <span class="tags-meta">
+            
+            <a class="tag-link" href="/tags/TensorFlow/">TensorFlow</a> <a class="tag-link" href="/tags/物体检测/">物体检测</a>
+            
+        </span>
+    </span>
+    
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-clock-o"></i>
+        <span class="date-meta">
+            2019/06/21</span>
+    </span>
+    
+    <span class="fa-wrap">
+        <i class="fa fa-eye"></i>
+        <span id="busuanzi_value_page_pv"></span>
+    </span>
+    
+    
+</div>
+        
+        
+        <p class="fa fa-exclamation-triangle warning">
+            本文于<strong>
+                699</strong>
+            天之前发表，文中内容可能已经过时。
+        </p>
+        
+    </div>
+    
+    
+    <div class="post-body post-content">
+        <h1 id="TensorFlow-Object-Detection-API介绍"><a href="#TensorFlow-Object-Detection-API介绍" class="headerlink" title="TensorFlow Object Detection API介绍"></a>TensorFlow Object Detection API介绍</h1><p>物体检测是检测图片或视频中所出现的全部物体，并用矩形进行标注，物体的类别可以包括多种，比如：人、车、动物等等，即正确的答案可以是多个。</p>
+<p>TensorFlow提供了用于检测图片或视频中所包含物体的接口(Object Detection API)，具体详情可参考下面链接：<br><a href="https://github.com/tensorflow/models/tree/master/research/object_detection" target="_blank" rel="noopener">https://github.com/tensorflow/models/tree/master/research/object_detection</a></p>
+<p>这个API是用COCO数据集 (<a href="http://cocodataset.org/#home" target="_blank" rel="noopener">http://cocodataset.org/#home</a>) 训练出来的，是一个大型的、丰富的物体检测，分割和字幕数据集,大约有30万张图像、90种最常见物体。</p>
+<p>这个API提供了多种不同的，使用者可以通过设置不同检测边界范围来平衡运行速度和准确率。</p>
+<!-- ![Alt](/images/articles/2019/TensorFlow/tensorflow-object-detection-1.png) -->
+<img src="http://image.chenhanpeng.com/static/images/TensorFlow/tensorflow-object-detection-1.png">
+<p>图中的mAP（平均精度）是检测边界框的准确率和召回率的乘积。这是一个很好的混合测度，在评价模型对目标物体的敏锐度和它是否能很好避免虚假目标中非常好用。mAP值越高，模型的准确度越高，但运行速度会相应下降。</p>
+<h1 id="实现物体检测"><a href="#实现物体检测" class="headerlink" title="实现物体检测"></a>实现物体检测</h1><h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><p>本文代码运行环境：Python3.6、jupyter notebook</p>
+<p>首先安装相关依赖包<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">pip install jupyter</span><br><span class="line">pip install tensorflow</span><br><span class="line">pip install pillow  </span><br><span class="line">pip install lxml</span><br><span class="line">pip install matplotlib</span><br><span class="line">pip install numpy</span><br><span class="line">pip install opencv-python</span><br></pre></td></tr></table></figure></p>
+<h2 id="图片物体检测"><a href="#图片物体检测" class="headerlink" title="图片物体检测:"></a>图片物体检测:</h2><h3 id="1、加载库"><a href="#1、加载库" class="headerlink" title="1、加载库"></a>1、加载库</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">import numpy as np</span><br><span class="line">import tensorflow as tf</span><br><span class="line">import matplotlib.pyplot as plt</span><br><span class="line">from PIL import Image</span><br></pre></td></tr></table></figure>
+<h3 id="2、从utils模块引入label-map-util和visualization-utils"><a href="#2、从utils模块引入label-map-util和visualization-utils" class="headerlink" title="2、从utils模块引入label_map_util和visualization_utils"></a>2、从utils模块引入label_map_util和visualization_utils</h3><p>label_map_util用于后面获取图像标签和类别，visualization_utils用于可视化<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">from utils import label_map_util</span><br><span class="line">from utils import visualization_utils as vis_util</span><br></pre></td></tr></table></figure></p>
+<h3 id="3、加载预训练好的模型"><a href="#3、加载预训练好的模型" class="headerlink" title="3、加载预训练好的模型"></a>3、加载预训练好的模型</h3><p>模型下载地址：<br><a href="https://github.com/tensorflow/models/blob/master/research/object_detection/g3doc/detection_model_zoo.md" target="_blank" rel="noopener">https://github.com/tensorflow/models/blob/master/research/object_detection/g3doc/detection_model_zoo.md</a><br>这里我们选用最轻量级的模型(ssd_mobilenet_v1_coco)。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">PATH_TO_CKPT = &apos;ssd_mobilenet_v1_coco_2018_01_28/frozen_inference_graph.pb&apos;</span><br><span class="line">PATH_TO_LABELS = &apos;data/mscoco_label_map.pbtxt&apos;</span><br><span class="line">NUM_CLASSES = 90</span><br><span class="line"></span><br><span class="line">detection_graph = tf.Graph()</span><br><span class="line"></span><br><span class="line">with detection_graph.as_default():</span><br><span class="line">    od_graph_def = tf.GraphDef()</span><br><span class="line">    with tf.gfile.GFile(PATH_TO_CKPT, &apos;rb&apos;) as fid:</span><br><span class="line">        od_graph_def.ParseFromString(fid.read())</span><br><span class="line">        tf.import_graph_def(od_graph_def, name=&apos;&apos;)</span><br></pre></td></tr></table></figure></p>
+<h3 id="4、加载分类标签数据"><a href="#4、加载分类标签数据" class="headerlink" title="4、加载分类标签数据"></a>4、加载分类标签数据</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">label_map = label_map_util.load_labelmap(PATH_TO_LABELS)</span><br><span class="line">categories = label_map_util.convert_label_map_to_categories(label_map, max_num_classes=NUM_CLASSES, use_display_name=True)</span><br><span class="line">category_index = label_map_util.create_category_index(categories)</span><br></pre></td></tr></table></figure>
+<h3 id="5、核心代码：一个将图片转为数组的辅助函数，以及测试图片路径，使用模型进行物体检测："><a href="#5、核心代码：一个将图片转为数组的辅助函数，以及测试图片路径，使用模型进行物体检测：" class="headerlink" title="5、核心代码：一个将图片转为数组的辅助函数，以及测试图片路径，使用模型进行物体检测："></a>5、核心代码：一个将图片转为数组的辅助函数，以及测试图片路径，使用模型进行物体检测：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">def load_image_into_numpy_array(image):</span><br><span class="line">    (im_width, im_height) = image.size</span><br><span class="line">    return np.array(image.getdata()).reshape((im_height, im_width, 3)).astype(np.uint8)</span><br><span class="line"></span><br><span class="line">TEST_IMAGE_PATHS = [&apos;test_data/image1.jpg&apos;]</span><br><span class="line"></span><br><span class="line">with detection_graph.as_default():</span><br><span class="line">    with tf.Session(graph=detection_graph) as sess:</span><br><span class="line">        image_tensor = detection_graph.get_tensor_by_name(&apos;image_tensor:0&apos;)</span><br><span class="line">        detection_boxes = detection_graph.get_tensor_by_name(&apos;detection_boxes:0&apos;)</span><br><span class="line">        detection_scores = detection_graph.get_tensor_by_name(&apos;detection_scores:0&apos;)</span><br><span class="line">        detection_classes = detection_graph.get_tensor_by_name(&apos;detection_classes:0&apos;)</span><br><span class="line">        num_detections = detection_graph.get_tensor_by_name(&apos;num_detections:0&apos;)</span><br><span class="line">        for image_path in TEST_IMAGE_PATHS:</span><br><span class="line">            image = Image.open(image_path)</span><br><span class="line">            image_np = load_image_into_numpy_array(image)</span><br><span class="line">            image_np_expanded = np.expand_dims(image_np, axis=0)</span><br><span class="line">            (boxes, scores, classes, num) = sess.run(</span><br><span class="line">                [detection_boxes, detection_scores, detection_classes, num_detections], </span><br><span class="line">                feed_dict=&#123;image_tensor: image_np_expanded&#125;)</span><br><span class="line">            vis_util.visualize_boxes_and_labels_on_image_array(image_np, np.squeeze(boxes), np.squeeze(classes).astype(np.int32), np.squeeze(scores), category_index, use_normalized_coordinates=True, line_thickness=8)</span><br><span class="line">            plt.figure(figsize=[12, 8])</span><br><span class="line">            plt.imshow(image_np)</span><br><span class="line">            plt.show()</span><br></pre></td></tr></table></figure>
+<h3 id="检测结果如下："><a href="#检测结果如下：" class="headerlink" title="检测结果如下："></a>检测结果如下：</h3><!-- ![Alt](/images/articles/2019/TensorFlow/output_image1.png) -->
+<img src="http://image.chenhanpeng.com/static/images/TensorFlow/output_image1.png">
+<h2 id="视频物体检测"><a href="#视频物体检测" class="headerlink" title="视频物体检测"></a>视频物体检测</h2><p>使用cv2读取视频并获取每一帧图片，然后将检测后的每一帧写入新的视频文件。</p>
+<h3 id="实现代码"><a href="#实现代码" class="headerlink" title="实现代码"></a>实现代码</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">import numpy as np</span><br><span class="line">import tensorflow as tf</span><br><span class="line">import cv2</span><br><span class="line"></span><br><span class="line">from utils import label_map_util</span><br><span class="line">from utils import visualization_utils as vis_util</span><br><span class="line"></span><br><span class="line">cap = cv2.VideoCapture(&apos;test_data/test_video.mp4&apos;)</span><br><span class="line">ret, image_np = cap.read()</span><br><span class="line">out = cv2.VideoWriter(&apos;output_video.mp4&apos;, -1, cap.get(cv2.CAP_PROP_FPS), (image_np.shape[1], image_np.shape[0]))</span><br><span class="line"></span><br><span class="line">PATH_TO_CKPT = &apos;ssd_mobilenet_v1_coco_2018_01_28/frozen_inference_graph.pb&apos;</span><br><span class="line">PATH_TO_LABELS = &apos;data/mscoco_label_map.pbtxt&apos;</span><br><span class="line">NUM_CLASSES = 90</span><br><span class="line"></span><br><span class="line">detection_graph = tf.Graph()</span><br><span class="line">with detection_graph.as_default():</span><br><span class="line">    od_graph_def = tf.GraphDef()</span><br><span class="line">    with tf.gfile.GFile(PATH_TO_CKPT, &apos;rb&apos;) as fid:</span><br><span class="line">        od_graph_def.ParseFromString(fid.read())</span><br><span class="line">        tf.import_graph_def(od_graph_def, name=&apos;&apos;)</span><br><span class="line">        </span><br><span class="line">label_map = label_map_util.load_labelmap(PATH_TO_LABELS)</span><br><span class="line">categories = label_map_util.convert_label_map_to_categories(label_map, max_num_classes=NUM_CLASSES, use_display_name=True)</span><br><span class="line">category_index = label_map_util.create_category_index(categories)</span><br><span class="line"></span><br><span class="line">with detection_graph.as_default():</span><br><span class="line">    with tf.Session(graph=detection_graph) as sess:</span><br><span class="line">        image_tensor = detection_graph.get_tensor_by_name(&apos;image_tensor:0&apos;)</span><br><span class="line">        detection_boxes = detection_graph.get_tensor_by_name(&apos;detection_boxes:0&apos;)</span><br><span class="line">        detection_scores = detection_graph.get_tensor_by_name(&apos;detection_scores:0&apos;)</span><br><span class="line">        detection_classes = detection_graph.get_tensor_by_name(&apos;detection_classes:0&apos;)</span><br><span class="line">        num_detections = detection_graph.get_tensor_by_name(&apos;num_detections:0&apos;)</span><br><span class="line">        while cap.isOpened():</span><br><span class="line">            ret, image_np = cap.read()</span><br><span class="line">            if len((np.array(image_np)).shape) == 0:</span><br><span class="line">                break</span><br><span class="line">            </span><br><span class="line">            image_np = cv2.cvtColor(image_np, cv2.COLOR_BGR2RGB)</span><br><span class="line">            image_np_expanded = np.expand_dims(image_np, axis=0)</span><br><span class="line">            </span><br><span class="line">            (boxes, scores, classes, num) = sess.run([detection_boxes, detection_scores, detection_classes, num_detections], feed_dict=&#123;image_tensor: image_np_expanded&#125;)</span><br><span class="line">            </span><br><span class="line">            vis_util.visualize_boxes_and_labels_on_image_array(image_np, np.squeeze(boxes), np.squeeze(classes).astype(np.int32), np.squeeze(scores), category_index, use_normalized_coordinates=True, line_thickness=8)</span><br><span class="line">            out.write(cv2.cvtColor(image_np, cv2.COLOR_RGB2BGR))</span><br><span class="line">            </span><br><span class="line">cap.release()</span><br><span class="line">out.release()</span><br><span class="line">cv2.destroyAllWindows()</span><br></pre></td></tr></table></figure>
+<h3 id="检测效果"><a href="#检测效果" class="headerlink" title="检测效果"></a>检测效果</h3><!-- ![Alt](/images/articles/2019/TensorFlow/video_output_image.png) -->
+<img src="http://image.chenhanpeng.com/static/images/TensorFlow/video_output_image.png">
+<p>至此我们利用tensorflow提供的物体检测API，实现了图片和视频的物体检测。</p>
+<p>完整的代码和检测后的视频，请至github查看：<br><a href="https://github.com/Hanpeng-Chen/tensorflow-learning" target="_blank" rel="noopener">https://github.com/Hanpeng-Chen/tensorflow-learning</a></p>
+
+    </div>
+    <div class="wechat">
+        
+            <strong> 欢迎关注微信公众号： 『前端极客技术』『代码视界』 </strong>
+            <img class="wechat-image" src="https://image.chenhanpeng.com/static/images/web_static_image/article-gzh-qrcode.png" />
+        
+    </div>
+    
+    <div class="reward" ontouchstart>
+    <div class="reward-wrap">赏
+        <div class="reward-box">
+            
+            <span class="reward-type">
+                <img class="alipay" src="https://image.chenhanpeng.com/static/images/web_static_image/donate/alipay_qrcode.png"><b>支付宝打赏</b>
+            </span>
+            
+            
+            <span class="reward-type">
+                <img class="wechat" src="https://image.chenhanpeng.com/static/images/web_static_image/donate/weixin_pay_qrcode.png"><b>微信打赏</b>
+            </span>
+            
+        </div>
+    </div>
+    <p class="reward-tip">
+        赞赏是不耍流氓的鼓励
+    </p>
+</div>
+    
+    <div class="post-footer">
+        <div>
+            
+            转载声明：
+            商业转载请联系作者获得授权,非商业转载请注明出处 © <a href="" target="_blank">代码视界</a>
+            
+            
+        </div>
+        <div>
+            
+        </div>
+    </div>
+</article>
+<div class="article-nav prev-next-wrap clearfix">
+    
+    <a href="/PDF.js-use/" class="pre-post btn btn-default" title='PDF.js实现在线展示pdf文件'>
+        <i class="fa fa-angle-left fa-fw"></i><span class="hidden-lg">上一篇</span>
+        <span class="hidden-xs">
+            PDF.js实现在线展示pdf文件</span>
+    </a>
+    
+    
+    <a href="/Basic-concepts-of-TensorFlow/" class="next-post btn btn-default" title='TensorFlow基础概念'>
+        <span class="hidden-lg">下一篇</span>
+        <span class="hidden-xs">
+            TensorFlow基础概念</span><i class="fa fa-angle-right fa-fw"></i>
+    </a>
+    
+</div>
+
+<!-- google广告 -->
+<!-- <ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-1437849089810081"
+     data-ad-slot="9946365914"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script> -->
+
+
+    <div id="comments">
+        
+<link rel="stylesheet" href="https://cdn.bootcss.com/gitalk/1.7.2/gitalk.min.css">
+<script src="//cdn.bootcss.com/gitalk/1.7.2/gitalk.min.js"></script>
+<script src="//cdn.bootcss.com/blueimp-md5/2.9.0/js/md5.min.js"></script>
+<div id="gitalk-container"></div>
+<script type="text/javascript">
+var gitalk = new Gitalk({
+    // Gitalk配置
+    language: "zh-CN",
+    clientID: "fb80658382dee5240195",
+    clientSecret: "66663a08264192222ba993f20dd7c0a27c1e6fa5",
+    repo: "blog-comments",
+    owner: "Hanpeng-Chen",
+    admin: ["Hanpeng-Chen"],
+    id: md5(location.pathname),
+    distractionFreeMode: true,
+    proxy: "https://cloudflare-cors-anywhere.hanpengchen.workers.dev/?https://github.com/login/oauth/access_token"
+});
+gitalk.render('gitalk-container');
+</script>
+
+    </div>
+
+                </main>
+                
+                    <div class="col-md-4">
+<!-- 方形 -->
+<!-- <ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-1437849089810081"
+     data-ad-slot="2426112279"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script> -->
+</div>
+<aside id="article-toc" role="navigation" class="col-md-4">
+    <div class="widget">
+        <h3 class="title">
+            文章目录
+        </h3>
+        
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#TensorFlow-Object-Detection-API介绍"><span class="toc-text">TensorFlow Object Detection API介绍</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#实现物体检测"><span class="toc-text">实现物体检测</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#环境"><span class="toc-text">环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#图片物体检测"><span class="toc-text">图片物体检测:</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1、加载库"><span class="toc-text">1、加载库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2、从utils模块引入label-map-util和visualization-utils"><span class="toc-text">2、从utils模块引入label_map_util和visualization_utils</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3、加载预训练好的模型"><span class="toc-text">3、加载预训练好的模型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4、加载分类标签数据"><span class="toc-text">4、加载分类标签数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5、核心代码：一个将图片转为数组的辅助函数，以及测试图片路径，使用模型进行物体检测："><span class="toc-text">5、核心代码：一个将图片转为数组的辅助函数，以及测试图片路径，使用模型进行物体检测：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#检测结果如下："><span class="toc-text">检测结果如下：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#视频物体检测"><span class="toc-text">视频物体检测</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#实现代码"><span class="toc-text">实现代码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#检测效果"><span class="toc-text">检测效果</span></a></li></ol></li></ol></li></ol>
+        
+    </div>
+</aside>
+                
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+<a id="back-to-top" class="icon-btn hide">
+    <i class="fa fa-chevron-up"></i>
+</a>
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="busuanzi">
+    
+</div>
+            </div>
+            <div class="col-sm-12">
+                <span>Copyright &copy;
+                    2019
+                    
+                </span> |
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> |
+                <span>
+                    Theme by <a href="//github.com/shenliyang/hexo-theme-snippet.git" class="copyright-links" target="_blank" rel="nofollow">Snippet</a>
+                </span>
+                
+                    <span> | </span>
+                    <span>
+                        <a href="//beian.miit.gov.cn/" target="_blank" rel="nofollow">
+                            闽ICP备19010134号-1
+                        </a>
+                    </span>
+                
+                
+                    <span> | </span>
+                    <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=35020302033449" rel="nofollow">
+                        <img src="https://image.chenhanpeng.com/static/images/web_static_image/beian_icon.png" width="20">
+                        <span>闽公网安备 35020302033449号</span>
+                    </a>
+                         
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<script src="/js/app.js?rev=@@hash"></script>
+</body>
+</html>

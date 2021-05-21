@@ -1,0 +1,458 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="代码视界">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="theme-version" content="1.2.3">
+    <meta name="root" content="/">
+    <link rel="dns-prefetch" href="http://www.chenhanpeng.com">
+    <script data-ad-client="ca-pub-1437849089810081" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <!--SEO-->
+
+<meta name="keywords" content="gitalk,在线代理">
+
+
+<meta name="description" content="2021.04.28 更新针对403的问题，gitalk开发团队已经对其做了修复，解决方法如下：
+更新版本到 1.7.2 或者修改配置增加 proxy: ‘https://cors-anywhe...">
+
+
+<meta name="robots" content="all">
+<meta name="google" content="all">
+<meta name="googlebot" content="all">
+<meta name="verify" content="all">
+    <!--Title-->
+
+<title>
+    
+    在cloudflare上创建一个免费的在线代理来解决gitalk授权登录报403问题 |
+    
+    代码视界
+</title>
+
+<link rel="alternate" href="/atom.xml" title="代码视界" type="application/atom+xml">
+
+
+<link rel="icon" href="/img/site_logo.jpg">
+
+    
+
+<link rel="stylesheet" href="/css/bootstrap.min.css?rev=3.3.7">
+<link rel="stylesheet" href="/css/font-awesome.min.css?rev=4.7.0">
+<link rel="stylesheet" href="/css/style.css?rev=@@hash">
+    
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?494af80fa01e8939bec179cfddf660d5";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+<script>
+(function(i, s, o, g, r, a, m) {
+    i['GoogleAnalyticsObject'] = r;
+    i[r] = i[r] || function() {
+        (i[r].q = i[r].q || []).push(arguments)
+    }, i[r].l = 1 * new Date();
+    a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0];
+    a.async = 1;
+    a.src = g;
+    m.parentNode.insertBefore(a, m)
+})(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+ga('create', 'UA-142577364-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+
+    
+<meta name="baidu-site-verification" content="rGeweWgWoh">
+
+
+<script>
+(function() {
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    } else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+</head></html>
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+<body>
+    <header class="main-header"  style="background-image:url(
+    https://image.chenhanpeng.com/static/images/web_static_image/banner.jpg)"
+     >
+    <div class="main-header-box">
+        <!-- <a class="header-avatar" href="/" title='Hanpeng Chen'>
+            <img src="/img/avatar.jpg" alt="logo头像" class="img-responsive center-block">
+        </a> -->
+        <a href="/" class="header-title">
+            <h1> 代码视界 </h1>
+        </a>
+        <div class="branding">
+            <!--<h2 class="text-hide">Snippet主题,从未如此简单有趣</h2>-->
+            
+            <h2>
+                Hanpeng Chen的个人博客
+            </h2>
+            
+        </div>
+    </div>
+</header>
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="navbar-header"><span class="nav-toggle-button collapsed pull-right" data-toggle="collapse" data-target="#main-menu" id="mnav">
+                        <span class="sr-only"></span>
+                        <i class="fa fa-bars"></i>
+                    </span>
+                    <a class="navbar-brand" href="http://www.chenhanpeng.com">
+                        代码视界</a>
+                </div>
+                <div class="collapse navbar-collapse" id="main-menu">
+                    <ul class="menu">
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/"><i class="fa "></i>
+                                首页</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/archives/"><i class="fa "></i>
+                                文章列表</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/"><i class="fa "></i>
+                                文章分类</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/tags/"><i class="fa "></i>
+                                文章标签</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/links/"><i class="fa "></i>
+                                友链</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/about/"><i class="fa "></i>
+                                关于作者</a>
+                        </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+                    <p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="在cloudflare上创建一个免费的在线代理来解决gitalk授权登录报403问题">
+            
+            在cloudflare上创建一个免费的在线代理来解决gitalk授权登录报403问题
+            
+        </h1>
+        <div class="post-meta">
+    
+    <span class="categories-meta fa-wrap">
+        <i class="fa fa-folder-open-o"></i>
+        <a class="category-link" href="/categories/技术杂谈/">技术杂谈</a>
+    </span>
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-tags"></i>
+        <span class="tags-meta">
+            
+            <a class="tag-link" href="/tags/gitalk/">gitalk</a> <a class="tag-link" href="/tags/在线代理/">在线代理</a>
+            
+        </span>
+    </span>
+    
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-clock-o"></i>
+        <span class="date-meta">
+            2021/04/21</span>
+    </span>
+    
+    <span class="fa-wrap">
+        <i class="fa fa-eye"></i>
+        <span id="busuanzi_value_page_pv"></span>
+    </span>
+    
+    
+</div>
+        
+        
+    </div>
+    
+    
+    <div class="post-body post-content">
+        <h2 id="2021-04-28-更新"><a href="#2021-04-28-更新" class="headerlink" title="2021.04.28 更新"></a>2021.04.28 更新</h2><p>针对403的问题，gitalk开发团队已经对其做了修复，解决方法如下：</p>
+<p>更新版本到 1.7.2 或者修改配置增加 proxy: ‘<a href="https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token&#39;" target="_blank" rel="noopener">https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token&#39;</a></p>
+<p>当然我们也可以自己动手搭建代理，如果有兴趣的话可以直接下拉看下面的 <a href="#create-cors-by-self">利用cloudflare worker搭建在线代理</a></p>
+<hr>
+<h2 id="问题说明"><a href="#问题说明" class="headerlink" title="问题说明"></a>问题说明</h2><p>前两天突然发现个人博客的gitalk评论功能出了问题，点击使用Github登录一直失败，打开控制台一查，发现下面这个请求报403。</p>
+<blockquote>
+<p><a href="https://cors-anywhere.herokuapp.com/https://github.com/login/oauth/access_token" target="_blank" rel="noopener">https://cors-anywhere.herokuapp.com/https://github.com/login/oauth/access_token</a></p>
+</blockquote>
+<p>cors-anywhere是一个用来解决跨域问题而生的反向代理，是一个开源框架。</p>
+<blockquote>
+<p><a href="https://github.com/Rob--W/cors-anywhere/issues/301" target="_blank" rel="noopener">PSA: Public demo server (cors-anywhere.herokuapp.com) will be very limited by January 2021, 31st #301</a></p>
+</blockquote>
+<p>从Github上这个issue上我们可以知道，gitalk中用到的 <code>cors-anywhere.herokuapp.com</code> 这个网站原本是用来演示用的，从2021.1.31开始不再作为开放的代理服务，作者建议开发者自己维护一个代理网站。</p>
+<h2 id="初步解决方案（不稳定不建议使用）"><a href="#初步解决方案（不稳定不建议使用）" class="headerlink" title="初步解决方案（不稳定不建议使用）"></a>初步解决方案（不稳定不建议使用）</h2><p>在gitalk的issue中看到别人分享的一个在线代理，先拿来用下：</p>
+<blockquote>
+<p><a href="https://netnr-proxy.cloudno.de/https://github.com/login/oauth/access_token" target="_blank" rel="noopener">https://netnr-proxy.cloudno.de/https://github.com/login/oauth/access_token</a></p>
+</blockquote>
+<p>我们现在配置文件_config.yml的gitalk配置项中加一个proxy：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">gitalk:</span><br><span class="line">   enable: <span class="literal">true</span></span><br><span class="line">   clientID: </span><br><span class="line">   clientSecret: </span><br><span class="line">   accessToken: </span><br><span class="line">   repo: blog-comments</span><br><span class="line">   owner: Hanpeng-Chen</span><br><span class="line">   admin: [<span class="string">'Hanpeng-Chen'</span>]</span><br><span class="line">   perPage: <span class="number">10</span></span><br><span class="line">   distractionFreeMode: <span class="literal">true</span></span><br><span class="line">   language: zh-CN</span><br><span class="line">   proxy: https:<span class="comment">//netnr-proxy.cloudno.de/https://github.com/login/oauth/access_token</span></span><br></pre></td></tr></table></figure></p>
+<p>在gitalk.ejs中加上proxy配置：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> gitalk = <span class="keyword">new</span> Gitalk(&#123;</span><br><span class="line">    <span class="comment">// Gitalk配置</span></span><br><span class="line">    language: <span class="string">"&lt;%= config.language%&gt;"</span>,</span><br><span class="line">    clientID: <span class="string">"&lt;%= theme.gitalk.clientID%&gt;"</span>,</span><br><span class="line">    clientSecret: <span class="string">"&lt;%= theme.gitalk.clientSecret%&gt;"</span>,</span><br><span class="line">    repo: <span class="string">"&lt;%= theme.gitalk.repo%&gt;"</span>,</span><br><span class="line">    owner: <span class="string">"&lt;%= theme.gitalk.owner%&gt;"</span>,</span><br><span class="line">    admin: [<span class="string">"&lt;%= theme.gitalk.admin%&gt;"</span>],</span><br><span class="line">    id: md5(location.pathname),</span><br><span class="line">    distractionFreeMode: <span class="xml"><span class="tag">&lt;<span class="name">%=</span> <span class="attr">theme.gitalk.distractionFreeMode</span>%&gt;</span>,</span></span><br><span class="line"><span class="xml">    proxy: "<span class="tag">&lt;<span class="name">%=</span> <span class="attr">theme.gitalk.proxy</span> %&gt;</span>"</span></span><br><span class="line"><span class="xml">&#125;);</span></span><br></pre></td></tr></table></figure></p>
+<p>重新部署后，点击Github登录，这次没有没有报403的问题，但是出现了下面“Error：Network Error”。</p>
+<p><img src="https://gitee.com/HanpengChen/blog-images/raw/master/blogImages/2021/summer/20210421101906.png" alt><br><img src="https://gitee.com/HanpengChen/blog-images/raw/master/blogImages/2021/summer/20210421102116.png" alt></p>
+<p>查看了对应请求的应答码 <code>429</code>，表示请求太多，我个人估计是白嫖这个在线代理的人太多导致的。</p>
+<p>既然白嫖的代理不能用，那我们就自己搭一个在线代理吧。</p>
+<div id="create-cors-by-self"></div>
+
+<h2 id="利用cloudflare-worker搭建在线代理"><a href="#利用cloudflare-worker搭建在线代理" class="headerlink" title="利用cloudflare worker搭建在线代理"></a>利用cloudflare worker搭建在线代理</h2><p>利用CloudFlare Worker创建在线代理，不需要我们有服务器，也不需要搭建Node.js服务，只需要注册一个CloudFlare账号，创建一个Worker，部署一个JS脚本就可以了，简单方便，下面我们就来看看如何创建吧。</p>
+<p>首先你需要一个 CloudFlare 的账号，如果还没有的话就先注册一个吧：<a href="https://dash.cloudflare.com/" target="_blank" rel="noopener">点我注册</a></p>
+<p>选择Workers，创建一个免费的Worker。</p>
+<p><img src="https://gitee.com/HanpengChen/blog-images/raw/master/blogImages/2021/summer/20210421095610.png" alt></p>
+<p>免费版本每天10万次请求也足以应对个人使用或者是小范围分享了。</p>
+<p>填写自己喜欢的二级域名，然后创建worker。</p>
+<p>进入github项目的 <a href="https://github.com/Hanpeng-Chen/cloudflare-cors-anywhere/blob/master/index.js" target="_blank" rel="noopener">index.js</a>，复制代码。</p>
+<p>清除脚本编辑器中的示例代码，将复制的代码粘贴进去。</p>
+<blockquote>
+<p>这里有个点需要注意：我们可以设置请求的黑白名单，这里的白名单我只设置了自己博客域名，大家可以根据自己的情况修改，当然也可以设置为<code>whitelist = [ &quot;.*&quot; ]</code>，这样的话知道你代理地址的人都可以用了，然而免费版本的每天只有10万次请求，如果用的人多了很容易就用完了，所以还是建议大家设置 whitelist。</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">blacklist = [ ];           <span class="comment">// regexp for blacklisted urls</span></span><br><span class="line"><span class="comment">// whitelist = [ ".*" ];     // regexp for whitelisted origins</span></span><br><span class="line">whitelist = [ <span class="string">"^http.?://www.chenhanpeng.com$"</span>, <span class="string">"chenhanpeng.com$"</span> ]</span><br></pre></td></tr></table></figure>
+<p>修改好之后，点击 保存并部署，如果部署正常的话，我们就可以使用我们创建的在线代理了。</p>
+<p>从右侧获取到你的worker域名并记下来，在上面提到的proxy配置项修改为如下代码：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">proxy: https:<span class="comment">//cloudflare-cors-anywhere.hanpengchen.workers.dev/?https://github.com/login/oauth/access_token</span></span><br></pre></td></tr></table></figure>
+<p>重新部署我们的博客，再次点击 使用Github登录，这次登录成功，没有报错，至此，个人在线代理就搭建成功了，博客的评论功能也能正常使用了，撒花！！！</p>
+<h2 id="在线代理的原理了解"><a href="#在线代理的原理了解" class="headerlink" title="在线代理的原理了解"></a>在线代理的原理了解</h2><p>传统在线代理都是在服务端替换 HTML/JS/CSS 等资源中的 URL。这不仅需要对内容做大量的分析和处理，还需对流量进行解压和再压缩，消耗大量 CPU 资源。并且由于逻辑较复杂，通常使用 Python/PHP 等编程语言自己实现。</p>
+<p>为降低服务端开销，本项目使用浏览器的一个黑科技 —— Service Worker。它能让 JS 拦截网页产生的请求，并能自定义返回内容，相当于在浏览器内部实现一个反向代理。这使得绝大部分的内容处理都可以在浏览器上完成，服务器只需纯粹的转发流量。</p>
+<p>要是还有其它问题的话，欢迎留言讨论。</p>
+<blockquote>
+<p>如果你觉得这篇内容对你有帮助的话：</p>
+<p>1、<strong>点赞</strong>支持下吧，让更多的人也能看到这篇内容</p>
+<p>2、关注公众号：<strong>前端极客技术</strong>，我们一起学习一起进步。</p>
+</blockquote>
+<p><img src="https://gitee.com/HanpengChen/blog-images/raw/master/%E5%89%8D%E7%AB%AF%E6%9E%81%E5%AE%A2%E6%8A%80%E6%9C%AF%E4%BA%8C%E7%BB%B4%E7%A0%81.png" alt></p>
+
+    </div>
+    <div class="wechat">
+        
+            <strong> 欢迎关注微信公众号： 『前端极客技术』『代码视界』 </strong>
+            <img class="wechat-image" src="https://image.chenhanpeng.com/static/images/web_static_image/article-gzh-qrcode.png" />
+        
+    </div>
+    
+    <div class="reward" ontouchstart>
+    <div class="reward-wrap">赏
+        <div class="reward-box">
+            
+            <span class="reward-type">
+                <img class="alipay" src="https://image.chenhanpeng.com/static/images/web_static_image/donate/alipay_qrcode.png"><b>支付宝打赏</b>
+            </span>
+            
+            
+            <span class="reward-type">
+                <img class="wechat" src="https://image.chenhanpeng.com/static/images/web_static_image/donate/weixin_pay_qrcode.png"><b>微信打赏</b>
+            </span>
+            
+        </div>
+    </div>
+    <p class="reward-tip">
+        赞赏是不耍流氓的鼓励
+    </p>
+</div>
+    
+    <div class="post-footer">
+        <div>
+            
+            转载声明：
+            商业转载请联系作者获得授权,非商业转载请注明出处 © <a href="" target="_blank">代码视界</a>
+            
+            
+        </div>
+        <div>
+            
+        </div>
+    </div>
+</article>
+<div class="article-nav prev-next-wrap clearfix">
+    
+    <a href="/how-to-render-page-on-the-browser/" class="pre-post btn btn-default" title='「浏览器渲染流程」你知道HTML、CSS、JS文件在浏览器中是如何转化成页面的吗？'>
+        <i class="fa fa-angle-left fa-fw"></i><span class="hidden-lg">上一篇</span>
+        <span class="hidden-xs">
+            「浏览器渲染流程」你知道HTML、CSS、JS文件在浏览器中是如何转化成页面的吗？</span>
+    </a>
+    
+    
+    <a href="/handwriting-apply-call-bind/" class="next-post btn btn-default" title='JS中的apply、call、bind你掌握了吗？一起来手写实现这三个方法吧'>
+        <span class="hidden-lg">下一篇</span>
+        <span class="hidden-xs">
+            JS中的apply、call、bind你掌握了吗？一起来手写实现这三个方法吧</span><i class="fa fa-angle-right fa-fw"></i>
+    </a>
+    
+</div>
+
+<!-- google广告 -->
+<!-- <ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-1437849089810081"
+     data-ad-slot="9946365914"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script> -->
+
+
+    <div id="comments">
+        
+<link rel="stylesheet" href="https://cdn.bootcss.com/gitalk/1.7.2/gitalk.min.css">
+<script src="//cdn.bootcss.com/gitalk/1.7.2/gitalk.min.js"></script>
+<script src="//cdn.bootcss.com/blueimp-md5/2.9.0/js/md5.min.js"></script>
+<div id="gitalk-container"></div>
+<script type="text/javascript">
+var gitalk = new Gitalk({
+    // Gitalk配置
+    language: "zh-CN",
+    clientID: "fb80658382dee5240195",
+    clientSecret: "66663a08264192222ba993f20dd7c0a27c1e6fa5",
+    repo: "blog-comments",
+    owner: "Hanpeng-Chen",
+    admin: ["Hanpeng-Chen"],
+    id: md5(location.pathname),
+    distractionFreeMode: true,
+    proxy: "https://cloudflare-cors-anywhere.hanpengchen.workers.dev/?https://github.com/login/oauth/access_token"
+});
+gitalk.render('gitalk-container');
+</script>
+
+    </div>
+
+                </main>
+                
+                    <div class="col-md-4">
+<!-- 方形 -->
+<!-- <ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-1437849089810081"
+     data-ad-slot="2426112279"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script> -->
+</div>
+<aside id="article-toc" role="navigation" class="col-md-4">
+    <div class="widget">
+        <h3 class="title">
+            文章目录
+        </h3>
+        
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#2021-04-28-更新"><span class="toc-text">2021.04.28 更新</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#问题说明"><span class="toc-text">问题说明</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#初步解决方案（不稳定不建议使用）"><span class="toc-text">初步解决方案（不稳定不建议使用）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#利用cloudflare-worker搭建在线代理"><span class="toc-text">利用cloudflare worker搭建在线代理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#在线代理的原理了解"><span class="toc-text">在线代理的原理了解</span></a></li></ol>
+        
+    </div>
+</aside>
+                
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+<a id="back-to-top" class="icon-btn hide">
+    <i class="fa fa-chevron-up"></i>
+</a>
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="busuanzi">
+    
+</div>
+            </div>
+            <div class="col-sm-12">
+                <span>Copyright &copy;
+                    2019
+                    
+                </span> |
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> |
+                <span>
+                    Theme by <a href="//github.com/shenliyang/hexo-theme-snippet.git" class="copyright-links" target="_blank" rel="nofollow">Snippet</a>
+                </span>
+                
+                    <span> | </span>
+                    <span>
+                        <a href="//beian.miit.gov.cn/" target="_blank" rel="nofollow">
+                            闽ICP备19010134号-1
+                        </a>
+                    </span>
+                
+                
+                    <span> | </span>
+                    <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=35020302033449" rel="nofollow">
+                        <img src="https://image.chenhanpeng.com/static/images/web_static_image/beian_icon.png" width="20">
+                        <span>闽公网安备 35020302033449号</span>
+                    </a>
+                         
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<script src="/js/app.js?rev=@@hash"></script>
+</body>
+</html>

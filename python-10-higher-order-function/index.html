@@ -1,0 +1,453 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="代码视界">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="theme-version" content="1.2.3">
+    <meta name="root" content="/">
+    <link rel="dns-prefetch" href="http://www.chenhanpeng.com">
+    <script data-ad-client="ca-pub-1437849089810081" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <!--SEO-->
+
+<meta name="keywords" content="python教程,高阶函数">
+
+
+<meta name="description" content="本节将主要介绍什么是高阶函数、高阶函数的用法以及Python的几个常见的内置高阶函数。
+什么是高阶函数高阶函数(Higher-order function)：一个函数可以作为参数传给另一个函数，...">
+
+
+<meta name="robots" content="all">
+<meta name="google" content="all">
+<meta name="googlebot" content="all">
+<meta name="verify" content="all">
+    <!--Title-->
+
+<title>
+    
+    Python从小白到攻城狮(10)——高阶函数 |
+    
+    代码视界
+</title>
+
+<link rel="alternate" href="/atom.xml" title="代码视界" type="application/atom+xml">
+
+
+<link rel="icon" href="/img/site_logo.jpg">
+
+    
+
+<link rel="stylesheet" href="/css/bootstrap.min.css?rev=3.3.7">
+<link rel="stylesheet" href="/css/font-awesome.min.css?rev=4.7.0">
+<link rel="stylesheet" href="/css/style.css?rev=@@hash">
+    
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?494af80fa01e8939bec179cfddf660d5";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+<script>
+(function(i, s, o, g, r, a, m) {
+    i['GoogleAnalyticsObject'] = r;
+    i[r] = i[r] || function() {
+        (i[r].q = i[r].q || []).push(arguments)
+    }, i[r].l = 1 * new Date();
+    a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0];
+    a.async = 1;
+    a.src = g;
+    m.parentNode.insertBefore(a, m)
+})(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+ga('create', 'UA-142577364-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+
+    
+<meta name="baidu-site-verification" content="rGeweWgWoh">
+
+
+<script>
+(function() {
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    } else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+</head></html>
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+<body>
+    <header class="main-header"  style="background-image:url(
+    https://image.chenhanpeng.com/static/images/web_static_image/banner.jpg)"
+     >
+    <div class="main-header-box">
+        <!-- <a class="header-avatar" href="/" title='Hanpeng Chen'>
+            <img src="/img/avatar.jpg" alt="logo头像" class="img-responsive center-block">
+        </a> -->
+        <a href="/" class="header-title">
+            <h1> 代码视界 </h1>
+        </a>
+        <div class="branding">
+            <!--<h2 class="text-hide">Snippet主题,从未如此简单有趣</h2>-->
+            
+            <h2>
+                Hanpeng Chen的个人博客
+            </h2>
+            
+        </div>
+    </div>
+</header>
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="navbar-header"><span class="nav-toggle-button collapsed pull-right" data-toggle="collapse" data-target="#main-menu" id="mnav">
+                        <span class="sr-only"></span>
+                        <i class="fa fa-bars"></i>
+                    </span>
+                    <a class="navbar-brand" href="http://www.chenhanpeng.com">
+                        代码视界</a>
+                </div>
+                <div class="collapse navbar-collapse" id="main-menu">
+                    <ul class="menu">
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/"><i class="fa "></i>
+                                首页</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/archives/"><i class="fa "></i>
+                                文章列表</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/"><i class="fa "></i>
+                                文章分类</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/tags/"><i class="fa "></i>
+                                文章标签</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/links/"><i class="fa "></i>
+                                友链</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/about/"><i class="fa "></i>
+                                关于作者</a>
+                        </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+                    <p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="Python从小白到攻城狮(10)——高阶函数">
+            
+            Python从小白到攻城狮(10)——高阶函数
+            
+        </h1>
+        <div class="post-meta">
+    
+    <span class="categories-meta fa-wrap">
+        <i class="fa fa-folder-open-o"></i>
+        <a class="category-link" href="/categories/Python/">Python</a>
+    </span>
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-tags"></i>
+        <span class="tags-meta">
+            
+            <a class="tag-link" href="/tags/python教程/">python教程</a> <a class="tag-link" href="/tags/高阶函数/">高阶函数</a>
+            
+        </span>
+    </span>
+    
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-clock-o"></i>
+        <span class="date-meta">
+            2019/09/22</span>
+    </span>
+    
+    <span class="fa-wrap">
+        <i class="fa fa-eye"></i>
+        <span id="busuanzi_value_page_pv"></span>
+    </span>
+    
+    
+</div>
+        
+        
+        <p class="fa fa-exclamation-triangle warning">
+            本文于<strong>
+                606</strong>
+            天之前发表，文中内容可能已经过时。
+        </p>
+        
+    </div>
+    
+    
+    <div class="post-body post-content">
+        <p>本节将主要介绍什么是高阶函数、高阶函数的用法以及Python的几个常见的内置高阶函数。</p>
+<h1 id="什么是高阶函数"><a href="#什么是高阶函数" class="headerlink" title="什么是高阶函数"></a>什么是高阶函数</h1><p>高阶函数(Higher-order function)：一个函数可以作为参数传给另一个函数，或者一个函数的返回值为另一个函数（若返回值为该函数本身，则为递归），满足其一则为高阶函数。</p>
+<p>下面，我们通过例子来进一步学习高阶函数的用法。</p>
+<p><strong>参数为函数</strong><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 参数为函数</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">print_hello</span><span class="params">()</span>:</span></span><br><span class="line">    print(<span class="string">'hello world'</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">print_function</span><span class="params">(func)</span>:</span></span><br><span class="line">    func()</span><br><span class="line">    print(<span class="string">'in the print_function'</span>)</span><br><span class="line"></span><br><span class="line">print_function(print_hello)</span><br><span class="line"></span><br><span class="line"><span class="comment">########输出结果######</span></span><br><span class="line">hello world</span><br><span class="line"><span class="keyword">in</span> the print_function</span><br></pre></td></tr></table></figure></p>
+<p>在上面的代码中，我们将<code>print_hello()</code>函数作为参数func传递给print_function()函数，直接调用print_hello()和调用func()结果一样。</p>
+<p><strong>返回值为函数</strong><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 返回值为函数</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">print_hello</span><span class="params">()</span>:</span></span><br><span class="line">    print(<span class="string">'hello world'</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">print_function</span><span class="params">()</span>:</span></span><br><span class="line">    print(<span class="string">'in the print_func'</span>)</span><br><span class="line">    <span class="keyword">return</span> print_hello</span><br><span class="line"></span><br><span class="line">result = print_function()</span><br><span class="line">result()</span><br><span class="line"></span><br><span class="line"><span class="comment">#####输出#####</span></span><br><span class="line"><span class="keyword">in</span> the print_func</span><br><span class="line">hello world</span><br></pre></td></tr></table></figure></p>
+<p>上面的例子中，print_hello()函数作为print_function()的返回值。</p>
+<blockquote>
+<p>备注：函数名(print_hello、print_function)–&gt;其为该函数的内存地址；函数名+括号(print_hello())–&gt;调用该函数。</p>
+</blockquote>
+<h1 id="Python内置的高阶函数"><a href="#Python内置的高阶函数" class="headerlink" title="Python内置的高阶函数"></a>Python内置的高阶函数</h1><p>map()、filter()、reduce()、sorted()，这几个均为Python内置的高阶函数。通常结合匿名函数lambda一起使用。接下来我们看一下这三个函数的用法以及其内部原理。</p>
+<h2 id="map-function-iterable-函数："><a href="#map-function-iterable-函数：" class="headerlink" title="map(function, iterable)函数："></a>map(function, iterable)函数：</h2><p>map函数接收的是两个参数：一个函数，一个Iterable。map对iterable中的每个元素，都运用function这个函数，最后返回一个新的Iterable，即迭代器对象，例如：<code>&lt;map object at 0x00000214EEF40BA8&gt;</code>。</p>
+<p>比如：要对列表中的每个元素乘以2，用map可以实现如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">l = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>]</span><br><span class="line">re = map(<span class="keyword">lambda</span> x: x * <span class="number">2</span>, l)</span><br><span class="line">print(list(re))  <span class="comment"># [2， 4， 6， 8， 10]</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="filter-function-iterable-函数"><a href="#filter-function-iterable-函数" class="headerlink" title="filter(function, iterable)函数"></a>filter(function, iterable)函数</h2><p>filter函数和map函数类似，也是接收一个函数和一个序列的高阶函数，主要功能是过滤。</p>
+<p>filter()函数表示对iterable中的每个元素，都是用function判断，并返回True或False，最后将返回True的元素组成一个迭代器对象，其返回值也是迭代器对象，例如：<code>&lt;filter object at 0x000002042D25EA90&gt;</code>。</p>
+<p>注意到filter()函数返回的是一个Iterator，也就是一个惰性序列，所以要强迫filter()完成计算结果，需要用list()函数获得所有结果并返回list。</p>
+<p>比如：我们要返回一个列表中的所有奇数：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">l = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>]</span><br><span class="line">result = filter(<span class="keyword">lambda</span> x: x % <span class="number">2</span> == <span class="number">1</span>, l)</span><br><span class="line">print(list(result))  <span class="comment">#[1, 3, 5]</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="reduce-function-iterable-函数"><a href="#reduce-function-iterable-函数" class="headerlink" title="reduce(function, iterable)函数"></a>reduce(function, iterable)函数</h2><p>这里的function同样是一个函数对象，规定它有两个参数，表示对iterable中的每个元素及上一次调用的结果，运用function进行计算，所以最后返回的是一个单独的数值。</p>
+<p>例子：计算某个列表元素的乘积。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> functools <span class="keyword">import</span> reduce</span><br><span class="line"></span><br><span class="line">l2 = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>]</span><br><span class="line">result = reduce(<span class="keyword">lambda</span> x, y: x * y, l2)</span><br><span class="line">print(result)  <span class="comment"># 1*2*3*4*5=120</span></span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>python3中reduce函数被取消了，放入到了functools模块中，所以在语句前加上一条：<code>from functools import reduce</code></p>
+</blockquote>
+<h2 id="sorted-函数"><a href="#sorted-函数" class="headerlink" title="sorted()函数"></a>sorted()函数</h2><p>sorted() 函数对所有可迭代的对象进行排序操作。</p>
+<p><strong>sort 与 sorted 区别</strong>：</p>
+<ul>
+<li>sort 是应用在 list 上的方法，sorted 可以对所有可迭代的对象进行排序操作。</li>
+<li>list 的 sort 方法返回的是对已经存在的列表进行操作，而内建函数 sorted 方法返回的是一个新的 list，而不是在原来的基础上进行的操作。</li>
+</ul>
+<p><strong>sorted语法</strong>：<br>sorted(iterable, key=None, reverse=False)  </p>
+<p><strong>参数说明</strong>：</p>
+<ul>
+<li>iterable：可迭代对象</li>
+<li>key：主要用来进行比较的元素，只有一个参数，具体的函数的参数就是取自于可迭代对象中，指定可迭代对象中的一个元素来进行排序。</li>
+<li>reverse：排序规则，reverse=True 降序，reverse=False 升序（默认）。</li>
+</ul>
+<p><strong>返回值</strong><br>返回重新排序的列表</p>
+<p><strong>示例</strong><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">a = [<span class="number">1</span>, <span class="number">5</span>, <span class="number">3</span>, <span class="number">6</span>, <span class="number">9</span>, <span class="number">8</span>]</span><br><span class="line">b = sorted(a)</span><br><span class="line">print(a) <span class="comment"># [1, 5, 3, 6, 9, 8]</span></span><br><span class="line">print(b)   <span class="comment"># [1, 3, 5, 6, 8, 9]</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">l = [(<span class="string">'b'</span>, <span class="number">2</span>), (<span class="string">'a'</span>, <span class="number">1</span>), (<span class="string">'c'</span>, <span class="number">3</span>), (<span class="string">'d'</span>, <span class="number">4</span>)]</span><br><span class="line">l1 = sorted(l, key=<span class="keyword">lambda</span> s:s[<span class="number">1</span>])</span><br><span class="line">print(l1)   <span class="comment"># [('a', 1), ('b', 2), ('c', 3), ('d', 4)]</span></span><br><span class="line">l2 = sorted(l, key=<span class="keyword">lambda</span> s:s[<span class="number">1</span>], reverse=<span class="literal">True</span>) <span class="comment"># 降序</span></span><br><span class="line">print(l2)   <span class="comment"># [('d', 4), ('c', 3), ('b', 2), ('a', 1)]</span></span><br></pre></td></tr></table></figure></p>
+<p><strong>文中示例代码</strong>： <a href="https://github.com/Hanpeng-Chen/python-learning" target="_blank" rel="noopener">python-learning</a></p>
+<p>未完待续，持续更新中……</p>
+
+    </div>
+    <div class="wechat">
+        
+            <strong> 欢迎关注微信公众号： 『前端极客技术』『代码视界』 </strong>
+            <img class="wechat-image" src="https://image.chenhanpeng.com/static/images/web_static_image/article-gzh-qrcode.png" />
+        
+    </div>
+    
+    <div class="reward" ontouchstart>
+    <div class="reward-wrap">赏
+        <div class="reward-box">
+            
+            <span class="reward-type">
+                <img class="alipay" src="https://image.chenhanpeng.com/static/images/web_static_image/donate/alipay_qrcode.png"><b>支付宝打赏</b>
+            </span>
+            
+            
+            <span class="reward-type">
+                <img class="wechat" src="https://image.chenhanpeng.com/static/images/web_static_image/donate/weixin_pay_qrcode.png"><b>微信打赏</b>
+            </span>
+            
+        </div>
+    </div>
+    <p class="reward-tip">
+        赞赏是不耍流氓的鼓励
+    </p>
+</div>
+    
+    <div class="post-footer">
+        <div>
+            
+            转载声明：
+            商业转载请联系作者获得授权,非商业转载请注明出处 © <a href="" target="_blank">代码视界</a>
+            
+            
+        </div>
+        <div>
+            
+        </div>
+    </div>
+</article>
+<div class="article-nav prev-next-wrap clearfix">
+    
+    <a href="/python-11-input-and-output/" class="pre-post btn btn-default" title='Python从小白到攻城狮(11)——输入与输出'>
+        <i class="fa fa-angle-left fa-fw"></i><span class="hidden-lg">上一篇</span>
+        <span class="hidden-xs">
+            Python从小白到攻城狮(11)——输入与输出</span>
+    </a>
+    
+    
+    <a href="/python-9-lambda/" class="next-post btn btn-default" title='Python从小白到攻城狮(9)——匿名函数'>
+        <span class="hidden-lg">下一篇</span>
+        <span class="hidden-xs">
+            Python从小白到攻城狮(9)——匿名函数</span><i class="fa fa-angle-right fa-fw"></i>
+    </a>
+    
+</div>
+
+<!-- google广告 -->
+<!-- <ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-1437849089810081"
+     data-ad-slot="9946365914"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script> -->
+
+
+    <div id="comments">
+        
+<link rel="stylesheet" href="https://cdn.bootcss.com/gitalk/1.7.2/gitalk.min.css">
+<script src="//cdn.bootcss.com/gitalk/1.7.2/gitalk.min.js"></script>
+<script src="//cdn.bootcss.com/blueimp-md5/2.9.0/js/md5.min.js"></script>
+<div id="gitalk-container"></div>
+<script type="text/javascript">
+var gitalk = new Gitalk({
+    // Gitalk配置
+    language: "zh-CN",
+    clientID: "fb80658382dee5240195",
+    clientSecret: "66663a08264192222ba993f20dd7c0a27c1e6fa5",
+    repo: "blog-comments",
+    owner: "Hanpeng-Chen",
+    admin: ["Hanpeng-Chen"],
+    id: md5(location.pathname),
+    distractionFreeMode: true,
+    proxy: "https://cloudflare-cors-anywhere.hanpengchen.workers.dev/?https://github.com/login/oauth/access_token"
+});
+gitalk.render('gitalk-container');
+</script>
+
+    </div>
+
+                </main>
+                
+                    <div class="col-md-4">
+<!-- 方形 -->
+<!-- <ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-1437849089810081"
+     data-ad-slot="2426112279"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script> -->
+</div>
+<aside id="article-toc" role="navigation" class="col-md-4">
+    <div class="widget">
+        <h3 class="title">
+            文章目录
+        </h3>
+        
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#什么是高阶函数"><span class="toc-text">什么是高阶函数</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Python内置的高阶函数"><span class="toc-text">Python内置的高阶函数</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#map-function-iterable-函数："><span class="toc-text">map(function, iterable)函数：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#filter-function-iterable-函数"><span class="toc-text">filter(function, iterable)函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#reduce-function-iterable-函数"><span class="toc-text">reduce(function, iterable)函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#sorted-函数"><span class="toc-text">sorted()函数</span></a></li></ol></li></ol>
+        
+    </div>
+</aside>
+                
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+<a id="back-to-top" class="icon-btn hide">
+    <i class="fa fa-chevron-up"></i>
+</a>
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="busuanzi">
+    
+</div>
+            </div>
+            <div class="col-sm-12">
+                <span>Copyright &copy;
+                    2019
+                    
+                </span> |
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> |
+                <span>
+                    Theme by <a href="//github.com/shenliyang/hexo-theme-snippet.git" class="copyright-links" target="_blank" rel="nofollow">Snippet</a>
+                </span>
+                
+                    <span> | </span>
+                    <span>
+                        <a href="//beian.miit.gov.cn/" target="_blank" rel="nofollow">
+                            闽ICP备19010134号-1
+                        </a>
+                    </span>
+                
+                
+                    <span> | </span>
+                    <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=35020302033449" rel="nofollow">
+                        <img src="https://image.chenhanpeng.com/static/images/web_static_image/beian_icon.png" width="20">
+                        <span>闽公网安备 35020302033449号</span>
+                    </a>
+                         
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<script src="/js/app.js?rev=@@hash"></script>
+</body>
+</html>

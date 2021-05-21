@@ -1,0 +1,469 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="代码视界">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="theme-version" content="1.2.3">
+    <meta name="root" content="/">
+    <link rel="dns-prefetch" href="http://www.chenhanpeng.com">
+    <script data-ad-client="ca-pub-1437849089810081" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <!--SEO-->
+
+<meta name="keywords" content="前端,HTTP缓存">
+
+
+<meta name="description" content="缓存，作为性能优化的最有效方法之一，在面试过程中经常被问到，作为一名开发人员，缓存是必须掌握的一块知识。
+浏览器缓存机制有四个方面：Memory Cache、Service Worker Cac...">
+
+
+<meta name="robots" content="all">
+<meta name="google" content="all">
+<meta name="googlebot" content="all">
+<meta name="verify" content="all">
+    <!--Title-->
+
+<title>
+    
+    一文彻底掌握HTTP缓存 |
+    
+    代码视界
+</title>
+
+<link rel="alternate" href="/atom.xml" title="代码视界" type="application/atom+xml">
+
+
+<link rel="icon" href="/img/site_logo.jpg">
+
+    
+
+<link rel="stylesheet" href="/css/bootstrap.min.css?rev=3.3.7">
+<link rel="stylesheet" href="/css/font-awesome.min.css?rev=4.7.0">
+<link rel="stylesheet" href="/css/style.css?rev=@@hash">
+    
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?494af80fa01e8939bec179cfddf660d5";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+<script>
+(function(i, s, o, g, r, a, m) {
+    i['GoogleAnalyticsObject'] = r;
+    i[r] = i[r] || function() {
+        (i[r].q = i[r].q || []).push(arguments)
+    }, i[r].l = 1 * new Date();
+    a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0];
+    a.async = 1;
+    a.src = g;
+    m.parentNode.insertBefore(a, m)
+})(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+ga('create', 'UA-142577364-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+
+    
+<meta name="baidu-site-verification" content="rGeweWgWoh">
+
+
+<script>
+(function() {
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    } else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+</head></html>
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+<body>
+    <header class="main-header"  style="background-image:url(
+    https://image.chenhanpeng.com/static/images/web_static_image/banner.jpg)"
+     >
+    <div class="main-header-box">
+        <!-- <a class="header-avatar" href="/" title='Hanpeng Chen'>
+            <img src="/img/avatar.jpg" alt="logo头像" class="img-responsive center-block">
+        </a> -->
+        <a href="/" class="header-title">
+            <h1> 代码视界 </h1>
+        </a>
+        <div class="branding">
+            <!--<h2 class="text-hide">Snippet主题,从未如此简单有趣</h2>-->
+            
+            <h2>
+                Hanpeng Chen的个人博客
+            </h2>
+            
+        </div>
+    </div>
+</header>
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="navbar-header"><span class="nav-toggle-button collapsed pull-right" data-toggle="collapse" data-target="#main-menu" id="mnav">
+                        <span class="sr-only"></span>
+                        <i class="fa fa-bars"></i>
+                    </span>
+                    <a class="navbar-brand" href="http://www.chenhanpeng.com">
+                        代码视界</a>
+                </div>
+                <div class="collapse navbar-collapse" id="main-menu">
+                    <ul class="menu">
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/"><i class="fa "></i>
+                                首页</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/archives/"><i class="fa "></i>
+                                文章列表</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/"><i class="fa "></i>
+                                文章分类</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/tags/"><i class="fa "></i>
+                                文章标签</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/links/"><i class="fa "></i>
+                                友链</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/about/"><i class="fa "></i>
+                                关于作者</a>
+                        </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+                    <p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="一文彻底掌握HTTP缓存">
+            
+            一文彻底掌握HTTP缓存
+            
+        </h1>
+        <div class="post-meta">
+    
+    <span class="categories-meta fa-wrap">
+        <i class="fa fa-folder-open-o"></i>
+        <a class="category-link" href="/categories/前端/">前端</a>
+    </span>
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-tags"></i>
+        <span class="tags-meta">
+            
+            <a class="tag-link" href="/tags/HTTP缓存/">HTTP缓存</a> <a class="tag-link" href="/tags/前端/">前端</a>
+            
+        </span>
+    </span>
+    
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-clock-o"></i>
+        <span class="date-meta">
+            2021/01/08</span>
+    </span>
+    
+    <span class="fa-wrap">
+        <i class="fa fa-eye"></i>
+        <span id="busuanzi_value_page_pv"></span>
+    </span>
+    
+    
+</div>
+        
+        
+    </div>
+    
+    
+    <div class="post-body post-content">
+        <p>缓存，作为性能优化的最有效方法之一，在面试过程中经常被问到，作为一名开发人员，缓存是必须掌握的一块知识。</p>
+<p>浏览器缓存机制有四个方面：Memory Cache、Service Worker Cache、HTTP Cache、Push Cache。</p>
+<p>对于前端开发工程师来说，比较熟悉的就是HTTP缓存，这也是每一个前端工程师都要掌握的知识点，下面我们一起来学习HTTP缓存，争取通过这篇文章就彻底掌握HTTP缓存。</p>
+<h2 id="HTTP缓存机制"><a href="#HTTP缓存机制" class="headerlink" title="HTTP缓存机制"></a>HTTP缓存机制</h2><p>HTTP缓存机制是根据HTTP报文的缓存标识进行的。HTTP缓存分为强缓存和协商缓存。优先级最高的是强缓存，在命中强缓存失败的情况下，才会走协商缓存。接下来我们一起来看下这两个缓存机制：</p>
+<h3 id="强缓存"><a href="#强缓存" class="headerlink" title="强缓存"></a>强缓存</h3><p>强缓存是利用http头中的Expires和Cache-Control两个字段来控制的。强缓存中，当请求再次发出时，浏览器会根据其中的Expires和Cache-Control判断目标资源是否“命中”强缓存，如果命中则直接从缓存中获取资源，不会再与服务端发生通信。命中强缓存的情况下，返回的HTTP状态码为200。</p>
+<h4 id="Expires"><a href="#Expires" class="headerlink" title="Expires"></a>Expires</h4><p>过去我们一直使用Expires来实现强缓存：当服务器返回响应时，在Response Headers中将过期时间写入Expires字段。例如：</p>
+<p><img src="https://gitee.com/HanpengChen/blog-images/raw/master/blogImages/2021/spring/20210107112445.png" alt></p>
+<p>从上图我们可以看到Expires是一个时间戳，接下来如果我们试图再次向服务器请求资源，浏览器就会先对比本地时间和expires的时间戳，如果本地时间小于expires设定的过期时间，就直接从缓存中获取这个资源。</p>
+<p>到这里聪明的你可能已经发现了下面这个问题：由于expires的时间戳是服务器定义的，而本地时间的取值来自客户端，因此expires的工作机制对于客户端时间和服务器时间的一致性要求极高，如果两者的时间存在时差，会带来意料之外的结果。</p>
+<p>由于上面的原因，加上expires是HTTP1.0的产物，现在实现强缓存大多数是使用<code>Cache-Control</code>。</p>
+<h4 id="Cache-Control"><a href="#Cache-Control" class="headerlink" title="Cache-Control"></a>Cache-Control</h4><p>Cache-Control是HTTP1.1提出的特性，为了弥补Expires缺陷提出的，提供了更精确细致的缓存功能。</p>
+<p>Cache-Control包含的值很多：</p>
+<ul>
+<li><strong>public</strong>：表明响应可以被任何对象（包括：发送请求的客户端、代理服务器等等）缓存。</li>
+<li><strong>private</strong>：表明响应只能被客户端缓存。</li>
+<li><strong>no-cache</strong>：跳过强缓存，直接进入协商缓存阶段。</li>
+<li><strong>no-store</strong>：表示当前请求资源禁用缓存</li>
+<li><strong>max-age=<seconds></seconds></strong>：设置缓存存储的最大周期，超过这个时间缓存被认为过期（单位秒）</li>
+<li><strong>s-maxage=<seconds></seconds></strong>：覆盖max-age或者Expires头。如果s-maxage未过期，则向代理服务器请求其缓存内容。</li>
+</ul>
+<blockquote>
+<p>这里需要注意的是：s-maxage仅在代理服务器中生效，客户端只需要考虑max-age。</p>
+</blockquote>
+<p>下面我们来看个例子：</p>
+<p><img src="https://gitee.com/HanpengChen/blog-images/raw/master/blogImages/2021/spring/20210107140339.png" alt></p>
+<p>从上面的例子我们可以看到，HTTP响应报文中同时有Cache-Control和Expires两个字段，由于Cache-Control优先级较高，那么直接根据Cache-Control的值进行缓存，也就是说在315360000秒内重新发起该请求，会直接使用缓存结果，强制缓存生效。</p>
+<p>在 HTTP1.1 标准试图将缓存相关配置收敛进 Cache-Control 这样的大背景下， max-age可以视作是对 expires 能力的补位/替换。在当下的前端实践里，我们普遍会倾向于使用max-age。但如果你的应用对向下兼容有强诉求，那么 expires 仍然是不可缺少的。</p>
+<h3 id="协商缓存"><a href="#协商缓存" class="headerlink" title="协商缓存"></a>协商缓存</h3><p>协商缓存，也称为对比缓存。协商缓存机制下，浏览器需要向服务器去询问缓存的相关信息，进而判断是重新发起请求、下载完整的响应，还是从本地获取缓存的资源。</p>
+<p>如果服务端提示缓存资源未改动（Not Modified），资源会被重定向到浏览器缓存，这种情况下网络请求对应的状态码是 304（如下图）。</p>
+<p><img src="https://gitee.com/HanpengChen/blog-images/raw/master/blogImages/2021/spring/20210107112113.png" alt></p>
+<p>协商缓存依赖于服务端与浏览器之间的通信。</p>
+<p>同样，协商缓存的标识也是在响应报文的HTTP头中和请求结果一起返回给浏览器的，控制协商缓存的字段分别有：Last-Modified和Etag，其中Etag的优先级比Last-Modified高。</p>
+<h4 id="Last-Modified-amp-If-Modified-Since"><a href="#Last-Modified-amp-If-Modified-Since" class="headerlink" title="Last-Modified &amp; If-Modified-Since"></a>Last-Modified &amp; If-Modified-Since</h4><p>Last-Modified（Response Header）和If-Modified-Since（Request Header）是一对报文头，属于HTTP1.0。</p>
+<p>Last-Modified表示资源的最后修改时间，是一个时间戳，如果启用了协商缓存，它会在首次请求时随着Response Headers返回。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Last-Modified: Sat, 09 May 2020 09:33:56 GMT</span><br></pre></td></tr></table></figure></p>
+<p>If-Modified-Since是一个请求首部字段，并且只能用在GET或HEAD请求中。客户端再次请求服务器时，请求头会包含这个字段，后面跟着在缓存中获取的资源的最后修改时间。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">If-Modified-Since: Sat, 09 May 2020 09:33:56 GMT</span><br></pre></td></tr></table></figure>
+<p>服务端收到请求发现此请求头中有If-Modified-Since字段，会与被请求资源的最后修改时间进行对比，如果一致则会返回304和响应报文头，浏览器从缓存中获取数据即可。从字面上看，就是说从某个时间节点开始看，是否被修改了，如果被修改了，就返回整个数据和200 OK，如果没有被修改，服务端只要返回响应头报文，304 Not Modified，Response Headers不会再添加Last-Modified字段。</p>
+<p>使用Last-Modified是有一定缺陷的：</p>
+<ul>
+<li>如果资源更新的速度是秒以下单位，那么该缓存是不能被使用的，因为 If-Modified-Since 只能检查到以秒为最小计量单位的时间差。</li>
+<li>如果文件是通过服务器动态生成的，那么该方法的更新时间永远是生成的时间，尽管文件可能没有变化，所以起不到缓存的作用。</li>
+<li>我们编辑了文件，但文件的内容没有改变。服务端并不清楚我们是否真正改变了文件，它仍然通过最后编辑时间进行判断。因此这个资源在再次被请求时，会被当做新资源，进而引发一次完整的响应——不该重新请求的时候，也会重新请求。</li>
+</ul>
+<p>为了解决上面服务器没有正确感知文件变化的问题，Etag作为Last-Modified的补充出现了。</p>
+<h4 id="Etag-amp-If-None-Match"><a href="#Etag-amp-If-None-Match" class="headerlink" title="Etag &amp; If-None-Match"></a>Etag &amp; If-None-Match</h4><p>Etag和If-None-Match是一对报文头，属于HTTP1.1。</p>
+<p>Etag是一个响应首部字段，是根据实体内容生成的一段hash字符串，标识资源的状态，由服务端产生。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ETag: W/&quot;324023994867772d0dd9fac01f1420bd&quot;</span><br></pre></td></tr></table></figure></p>
+<p>If-None-Match是一个条件式的请求首部，如果请求资源时在请求首部加上这个字段，值为之前服务器返回的Etag，则当且仅当服务器上没有任务资源的Etag属性值与这个值相符，服务器才会返回带有请求资源实体的200响应，否正服务器会返回不带实体的304响应。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">If-None-Match: W/&quot;324023994867772d0dd9fac01f1420bd&quot;</span><br></pre></td></tr></table></figure></p>
+<p>Etag 的生成过程需要服务器额外付出开销，会影响服务端的性能，这是它的弊端。因此启用 Etag 需要我们审时度势。正如我们刚刚所提到的：Etag 并不能替代 Last-Modified，它只能作为 Last-Modified 的补充和强化存在。 Etag 在感知文件变化上比 Last-Modified 更加准确，优先级也更高。当 Etag 和 Last-Modified 同时存在时，以 Etag 为准。</p>
+<h2 id="如何设置一个可靠的缓存规则"><a href="#如何设置一个可靠的缓存规则" class="headerlink" title="如何设置一个可靠的缓存规则"></a>如何设置一个可靠的缓存规则</h2><p>上面我们已经学完了HTTP缓存机制，是不是迫不及待想要实践一番？但是如何设置一个可靠的缓存规则，需要根据实际需求决定，绝大部分需求的缓存规则都可以根据Chrome官方提供的流程图来进行设置。</p>
+<p><img src="https://gitee.com/HanpengChen/blog-images/raw/master/blogImages/2021/spring/20210107155629.png" alt></p>
+<p>我们一起来看上面这张流程图：</p>
+<ul>
+<li>如果资源不可复用，直接为Cache-Control设置no-store，拒绝一切形式的缓存；</li>
+<li>如果资源可复用，考虑是否每次都需要向服务器进行缓存确认，如果是，设置Cache-Control的值为no-cache；</li>
+<li>如果不需要每次都向服务器确认，考虑资源是否可以被代理服务器缓存，根据其结果决定是设置为private还是public；</li>
+<li>接下来考虑资源的过期时间，设置对应的max-age；</li>
+<li>最后，配置协商缓存需要用到的Etag、Last-Modified等参数。</li>
+</ul>
+<p>后续根据这个流程，我们就可以设计出可靠的缓存规则了。</p>
+<p>看到这里，文章也即将结束，关于HTTP缓存你掌握了吗？希望大家看完这篇文章有所收获，以后面试碰到HTTP缓存的相关问题也能够从容应答。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/Cache-Control" target="_blank" rel="noopener">Cache-Control MDN</a><br><a href="https://juejin.cn/post/6844903747357769742#heading-6" target="_blank" rel="noopener">一文读懂前端缓存</a><br><a href="https://juejin.cn/book/6844733750048210957/section/6844733750106931214" target="_blank" rel="noopener">前端性能优化原理与实践</a></p>
+
+    </div>
+    <div class="wechat">
+        
+            <strong> 欢迎关注微信公众号： 『前端极客技术』『代码视界』 </strong>
+            <img class="wechat-image" src="https://image.chenhanpeng.com/static/images/web_static_image/article-gzh-qrcode.png" />
+        
+    </div>
+    
+    <div class="reward" ontouchstart>
+    <div class="reward-wrap">赏
+        <div class="reward-box">
+            
+            <span class="reward-type">
+                <img class="alipay" src="https://image.chenhanpeng.com/static/images/web_static_image/donate/alipay_qrcode.png"><b>支付宝打赏</b>
+            </span>
+            
+            
+            <span class="reward-type">
+                <img class="wechat" src="https://image.chenhanpeng.com/static/images/web_static_image/donate/weixin_pay_qrcode.png"><b>微信打赏</b>
+            </span>
+            
+        </div>
+    </div>
+    <p class="reward-tip">
+        赞赏是不耍流氓的鼓励
+    </p>
+</div>
+    
+    <div class="post-footer">
+        <div>
+            
+            转载声明：
+            商业转载请联系作者获得授权,非商业转载请注明出处 © <a href="" target="_blank">代码视界</a>
+            
+            
+        </div>
+        <div>
+            
+        </div>
+    </div>
+</article>
+<div class="article-nav prev-next-wrap clearfix">
+    
+    <a href="/fp-and-fcp/" class="pre-post btn btn-default" title='前端性能指标：白屏和首屏时间的计算'>
+        <i class="fa fa-angle-left fa-fw"></i><span class="hidden-lg">上一篇</span>
+        <span class="hidden-xs">
+            前端性能指标：白屏和首屏时间的计算</span>
+    </a>
+    
+    
+    <a href="/leetcode-reverse-linked-list/" class="next-post btn btn-default" title='LeetCode题解|206.反转链表'>
+        <span class="hidden-lg">下一篇</span>
+        <span class="hidden-xs">
+            LeetCode题解|206.反转链表</span><i class="fa fa-angle-right fa-fw"></i>
+    </a>
+    
+</div>
+
+<!-- google广告 -->
+<!-- <ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-1437849089810081"
+     data-ad-slot="9946365914"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script> -->
+
+
+    <div id="comments">
+        
+<link rel="stylesheet" href="https://cdn.bootcss.com/gitalk/1.7.2/gitalk.min.css">
+<script src="//cdn.bootcss.com/gitalk/1.7.2/gitalk.min.js"></script>
+<script src="//cdn.bootcss.com/blueimp-md5/2.9.0/js/md5.min.js"></script>
+<div id="gitalk-container"></div>
+<script type="text/javascript">
+var gitalk = new Gitalk({
+    // Gitalk配置
+    language: "zh-CN",
+    clientID: "fb80658382dee5240195",
+    clientSecret: "66663a08264192222ba993f20dd7c0a27c1e6fa5",
+    repo: "blog-comments",
+    owner: "Hanpeng-Chen",
+    admin: ["Hanpeng-Chen"],
+    id: md5(location.pathname),
+    distractionFreeMode: true,
+    proxy: "https://cloudflare-cors-anywhere.hanpengchen.workers.dev/?https://github.com/login/oauth/access_token"
+});
+gitalk.render('gitalk-container');
+</script>
+
+    </div>
+
+                </main>
+                
+                    <div class="col-md-4">
+<!-- 方形 -->
+<!-- <ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-1437849089810081"
+     data-ad-slot="2426112279"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script> -->
+</div>
+<aside id="article-toc" role="navigation" class="col-md-4">
+    <div class="widget">
+        <h3 class="title">
+            文章目录
+        </h3>
+        
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#HTTP缓存机制"><span class="toc-text">HTTP缓存机制</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#强缓存"><span class="toc-text">强缓存</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Expires"><span class="toc-text">Expires</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Cache-Control"><span class="toc-text">Cache-Control</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#协商缓存"><span class="toc-text">协商缓存</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Last-Modified-amp-If-Modified-Since"><span class="toc-text">Last-Modified &amp; If-Modified-Since</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Etag-amp-If-None-Match"><span class="toc-text">Etag &amp; If-None-Match</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何设置一个可靠的缓存规则"><span class="toc-text">如何设置一个可靠的缓存规则</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考资料"><span class="toc-text">参考资料</span></a></li></ol>
+        
+    </div>
+</aside>
+                
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+<a id="back-to-top" class="icon-btn hide">
+    <i class="fa fa-chevron-up"></i>
+</a>
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="busuanzi">
+    
+</div>
+            </div>
+            <div class="col-sm-12">
+                <span>Copyright &copy;
+                    2019
+                    
+                </span> |
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> |
+                <span>
+                    Theme by <a href="//github.com/shenliyang/hexo-theme-snippet.git" class="copyright-links" target="_blank" rel="nofollow">Snippet</a>
+                </span>
+                
+                    <span> | </span>
+                    <span>
+                        <a href="//beian.miit.gov.cn/" target="_blank" rel="nofollow">
+                            闽ICP备19010134号-1
+                        </a>
+                    </span>
+                
+                
+                    <span> | </span>
+                    <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=35020302033449" rel="nofollow">
+                        <img src="https://image.chenhanpeng.com/static/images/web_static_image/beian_icon.png" width="20">
+                        <span>闽公网安备 35020302033449号</span>
+                    </a>
+                         
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<script src="/js/app.js?rev=@@hash"></script>
+</body>
+</html>

@@ -1,0 +1,478 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="代码视界">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="theme-version" content="1.2.3">
+    <meta name="root" content="/">
+    <link rel="dns-prefetch" href="http://www.chenhanpeng.com">
+    <script data-ad-client="ca-pub-1437849089810081" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <!--SEO-->
+
+<meta name="keywords" content="JavaScript,数组去重">
+
+
+<meta name="description" content="前言JavaScript的数组去重是前端比较常见的一个问题，今天我们来学习几种常见的数组去重方法。
+
+欢迎关注我的微信公众号：前端极客技术(FrontGeek)
+
+双层循环大部分人最先想到的是通...">
+
+
+<meta name="robots" content="all">
+<meta name="google" content="all">
+<meta name="googlebot" content="all">
+<meta name="verify" content="all">
+    <!--Title-->
+
+<title>
+    
+    JavaScript-数组去重 |
+    
+    代码视界
+</title>
+
+<link rel="alternate" href="/atom.xml" title="代码视界" type="application/atom+xml">
+
+
+<link rel="icon" href="/img/site_logo.jpg">
+
+    
+
+<link rel="stylesheet" href="/css/bootstrap.min.css?rev=3.3.7">
+<link rel="stylesheet" href="/css/font-awesome.min.css?rev=4.7.0">
+<link rel="stylesheet" href="/css/style.css?rev=@@hash">
+    
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?494af80fa01e8939bec179cfddf660d5";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+<script>
+(function(i, s, o, g, r, a, m) {
+    i['GoogleAnalyticsObject'] = r;
+    i[r] = i[r] || function() {
+        (i[r].q = i[r].q || []).push(arguments)
+    }, i[r].l = 1 * new Date();
+    a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0];
+    a.async = 1;
+    a.src = g;
+    m.parentNode.insertBefore(a, m)
+})(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+ga('create', 'UA-142577364-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+
+    
+<meta name="baidu-site-verification" content="rGeweWgWoh">
+
+
+<script>
+(function() {
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    } else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+</head></html>
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+<body>
+    <header class="main-header"  style="background-image:url(
+    https://image.chenhanpeng.com/static/images/web_static_image/banner.jpg)"
+     >
+    <div class="main-header-box">
+        <!-- <a class="header-avatar" href="/" title='Hanpeng Chen'>
+            <img src="/img/avatar.jpg" alt="logo头像" class="img-responsive center-block">
+        </a> -->
+        <a href="/" class="header-title">
+            <h1> 代码视界 </h1>
+        </a>
+        <div class="branding">
+            <!--<h2 class="text-hide">Snippet主题,从未如此简单有趣</h2>-->
+            
+            <h2>
+                Hanpeng Chen的个人博客
+            </h2>
+            
+        </div>
+    </div>
+</header>
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="navbar-header"><span class="nav-toggle-button collapsed pull-right" data-toggle="collapse" data-target="#main-menu" id="mnav">
+                        <span class="sr-only"></span>
+                        <i class="fa fa-bars"></i>
+                    </span>
+                    <a class="navbar-brand" href="http://www.chenhanpeng.com">
+                        代码视界</a>
+                </div>
+                <div class="collapse navbar-collapse" id="main-menu">
+                    <ul class="menu">
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/"><i class="fa "></i>
+                                首页</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/archives/"><i class="fa "></i>
+                                文章列表</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/"><i class="fa "></i>
+                                文章分类</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/tags/"><i class="fa "></i>
+                                文章标签</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/links/"><i class="fa "></i>
+                                友链</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/about/"><i class="fa "></i>
+                                关于作者</a>
+                        </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+                    <p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="JavaScript-数组去重">
+            
+            JavaScript-数组去重
+            
+        </h1>
+        <div class="post-meta">
+    
+    <span class="categories-meta fa-wrap">
+        <i class="fa fa-folder-open-o"></i>
+        <a class="category-link" href="/categories/前端/">前端</a> <a class="category-link" href="/categories/前端/JavaScript/">JavaScript</a>
+    </span>
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-tags"></i>
+        <span class="tags-meta">
+            
+            <a class="tag-link" href="/tags/JavaScript/">JavaScript</a> <a class="tag-link" href="/tags/数组去重/">数组去重</a>
+            
+        </span>
+    </span>
+    
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-clock-o"></i>
+        <span class="date-meta">
+            2020/06/30</span>
+    </span>
+    
+    <span class="fa-wrap">
+        <i class="fa fa-eye"></i>
+        <span id="busuanzi_value_page_pv"></span>
+    </span>
+    
+    
+</div>
+        
+        
+        <p class="fa fa-exclamation-triangle warning">
+            本文于<strong>
+                325</strong>
+            天之前发表，文中内容可能已经过时。
+        </p>
+        
+    </div>
+    
+    
+    <div class="post-body post-content">
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>JavaScript的数组去重是前端比较常见的一个问题，今天我们来学习几种常见的数组去重方法。</p>
+<blockquote>
+<p>欢迎关注我的微信公众号：前端极客技术(FrontGeek)</p>
+</blockquote>
+<h2 id="双层循环"><a href="#双层循环" class="headerlink" title="双层循环"></a>双层循环</h2><p>大部分人最先想到的是通过双层循环来去重。双层循环的实现原理很简单：我们先新建一个空的数组res，通过遍历待去重数组array和res，判断array[i]是否存在于res中，如果不存在，将array[i]push到res中。</p>
+<p>该方法虽然简单，但是其时间复杂度为 O(n^2)，如果数组长度很大，那么会非常耗费内存。</p>
+<p>我们直接看下面的代码：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> array = [<span class="number">1</span>, <span class="number">1</span>, <span class="string">'1'</span>, <span class="string">'1'</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="string">'2'</span>]</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">unique</span>(<span class="params">arr</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> res = []</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; arr.length; i++) &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> j = <span class="number">0</span>, resLength = res.length; j &lt; resLength; j++) &#123;</span><br><span class="line">      <span class="keyword">if</span> (arr[i] === res[j]) &#123;</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (j === resLength) &#123;</span><br><span class="line">      res.push(arr[i])</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> res</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(unique(array))   <span class="comment">// [1, "1", 2, 3, "2"]</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="indexOf"><a href="#indexOf" class="headerlink" title="indexOf"></a>indexOf</h2><p>针对上面的方法，我们可以利用 <code>indexOf</code> 来简化内层循环，将双层循环变为单层循环。实现代码如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> array = [<span class="number">1</span>, <span class="number">1</span>, <span class="string">'1'</span>, <span class="string">'1'</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="string">'2'</span>]</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">unique</span>(<span class="params">arr</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> res = []</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; arr.length; i++) &#123;</span><br><span class="line">    <span class="keyword">if</span> (res.indexOf(arr[i]) === <span class="number">-1</span>) &#123;</span><br><span class="line">      res.push(arr[i])</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> res</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(unique(array))   <span class="comment">// [1, "1", 2, 3, "2"]</span></span><br></pre></td></tr></table></figure>
+<h2 id="sort-排序后相邻比对去重"><a href="#sort-排序后相邻比对去重" class="headerlink" title="sort()排序后相邻比对去重"></a>sort()排序后相邻比对去重</h2><p>如果我们先将数组进行排序，排序后相同的元素就会被排在一起，这样我们只要将当前元素和上一个元素进行比较，看两者是否相同，相同则说明重复，不相同push进res中。</p>
+<p>实现代码如下：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> array = [<span class="number">1</span>, <span class="number">1</span>, <span class="string">'1'</span>, <span class="string">'1'</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="string">'2'</span>]</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">unique</span>(<span class="params">arr</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> sortedArr = arr.concat().sort()</span><br><span class="line">  <span class="keyword">let</span> res = []</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; sortedArr.length; i++) &#123;</span><br><span class="line">    <span class="keyword">if</span> (sortedArr[i] !== sortedArr[i<span class="number">-1</span>]) &#123;</span><br><span class="line">        res.push(sortedArr[i])</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> res</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(unique(array))   <span class="comment">// [1, "1", 2, "2", 3]</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="filter"><a href="#filter" class="headerlink" title="filter"></a>filter</h2><p>ES5 提供了filter方法，我们可以用来简化外层循环。indexOf和排序后去重分别使用filter方法的实现代码如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> array = [<span class="number">1</span>, <span class="number">1</span>, <span class="string">'1'</span>, <span class="string">'1'</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="string">'2'</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment">// indexOf</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">unique</span>(<span class="params">arr</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> res = arr.filter(<span class="function"><span class="keyword">function</span>(<span class="params">item, index, arr</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> arr.indexOf(item) === index</span><br><span class="line">  &#125;)</span><br><span class="line">  <span class="keyword">return</span> res</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.log(unique(array))</span><br><span class="line"></span><br><span class="line"><span class="comment">// sort</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sortedUnique</span>(<span class="params">arr</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> arr.concat().sort().filter(<span class="function"><span class="keyword">function</span>(<span class="params">item, index, arr</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> !index || item !== arr[index - <span class="number">1</span>]</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Set-和Map"><a href="#Set-和Map" class="headerlink" title="Set()和Map()"></a>Set()和Map()</h2><p>如果你熟悉ES6的话，就知道利用Set()和Map()两个数据结构，我们也可以实现数组去重。</p>
+<p>我们先来看下Set()的实现代码：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> array = [<span class="number">1</span>, <span class="number">1</span>, <span class="string">'1'</span>, <span class="string">'1'</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="string">'2'</span>]</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">unique</span>(<span class="params">arr</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">Array</span>.from(<span class="keyword">new</span> <span class="built_in">Set</span>(arr))</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.log(unique(array))</span><br><span class="line"></span><br><span class="line"><span class="comment">// 另一种写法</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">unique</span>(<span class="params">arr</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> [...new <span class="built_in">Set</span>(arr)]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>接下来我们来看下Map()的实现代码：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> array = [<span class="number">1</span>, <span class="number">1</span>, <span class="string">'1'</span>, <span class="string">'1'</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="string">'2'</span>]</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">unique</span>(<span class="params">arr</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> tmp = <span class="keyword">new</span> <span class="built_in">Map</span>()</span><br><span class="line">  <span class="keyword">return</span> arr.filter(<span class="function"><span class="params">item</span> =&gt;</span> !tmp.has(item) &amp;&amp; tmp.set(item, <span class="number">1</span>))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="特殊类型比较"><a href="#特殊类型比较" class="headerlink" title="特殊类型比较"></a>特殊类型比较</h2><p>上面我们去重的数组包含的元素都是简单的string和number，但是数组的元素类型还可以是null、undefined、NaN、对象等，针对这些元素，用我们上面实现的方法是有问题的。</p>
+<p>假设我们有下面这样一个数组需要去重，并且用上面的提到的方法去重，结果如下：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> array = [<span class="string">'true'</span>,<span class="string">'true'</span>,<span class="literal">true</span>,<span class="literal">true</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="string">'1'</span>,<span class="string">'1'</span>,<span class="number">15</span>,<span class="number">15</span>,<span class="literal">false</span>,<span class="literal">false</span>,<span class="literal">undefined</span>,<span class="literal">undefined</span>,<span class="literal">null</span>,<span class="literal">null</span>,<span class="literal">NaN</span>,<span class="literal">NaN</span>,<span class="string">'NaN'</span>,<span class="string">'NaN'</span>,<span class="string">'a'</span>,<span class="string">'a'</span>,&#123;&#125;,&#123;&#125;,&#123;<span class="attr">a</span>:<span class="number">2</span>&#125;,&#123;<span class="attr">a</span>:<span class="number">2</span>&#125;];</span><br><span class="line"></span><br><span class="line"><span class="comment">// 去重结果如下：</span></span><br><span class="line"><span class="comment">// 双层循环</span></span><br><span class="line">[<span class="string">"true"</span>, <span class="literal">true</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="string">"1"</span>, <span class="number">15</span>, <span class="literal">false</span>, <span class="literal">undefined</span>, <span class="literal">null</span>, <span class="literal">NaN</span>, <span class="literal">NaN</span>, <span class="string">"NaN"</span>, <span class="string">"a"</span>, &#123;&#125;, &#123;&#125;, &#123;<span class="attr">a</span>:<span class="number">2</span>&#125;, &#123;<span class="attr">a</span>:<span class="number">2</span>&#125;]</span><br><span class="line"></span><br><span class="line"><span class="comment">// indexOf</span></span><br><span class="line">[<span class="string">"true"</span>, <span class="literal">true</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="string">"1"</span>, <span class="number">15</span>, <span class="literal">false</span>, <span class="literal">undefined</span>, <span class="literal">null</span>, <span class="literal">NaN</span>, <span class="literal">NaN</span>, <span class="string">"NaN"</span>, <span class="string">"a"</span>, &#123;&#125;, &#123;&#125;, &#123;<span class="attr">a</span>:<span class="number">2</span>&#125;, &#123;<span class="attr">a</span>:<span class="number">2</span>&#125;]</span><br><span class="line"></span><br><span class="line"><span class="comment">// sort排序后去重</span></span><br><span class="line">[<span class="number">0</span>, <span class="number">1</span>, <span class="string">"1"</span>, <span class="number">15</span>, <span class="literal">NaN</span>, <span class="literal">NaN</span>, <span class="string">"NaN"</span>, &#123;&#125;, &#123;&#125;, &#123;<span class="attr">a</span>:<span class="number">2</span>&#125;, &#123;<span class="attr">a</span>:<span class="number">2</span>&#125;, <span class="string">"a"</span>, <span class="literal">false</span>, <span class="literal">null</span>, <span class="string">"true"</span>, <span class="literal">true</span>, <span class="literal">undefined</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment">// filter + indexOf</span></span><br><span class="line">[<span class="string">"true"</span>, <span class="literal">true</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="string">"1"</span>, <span class="number">15</span>, <span class="literal">false</span>, <span class="literal">undefined</span>, <span class="literal">null</span>, <span class="string">"NaN"</span>, <span class="string">"a"</span>, &#123;&#125;, &#123;&#125;, &#123;<span class="attr">a</span>:<span class="number">2</span>&#125;, &#123;<span class="attr">a</span>:<span class="number">2</span>&#125;]</span><br><span class="line"></span><br><span class="line"><span class="comment">// filter + sort</span></span><br><span class="line"> [<span class="number">0</span>, <span class="number">1</span>, <span class="string">"1"</span>, <span class="number">15</span>, <span class="literal">NaN</span>, <span class="literal">NaN</span>, <span class="string">"NaN"</span>, &#123;&#125;, &#123;&#125;, &#123;<span class="attr">a</span>:<span class="number">2</span>&#125;, &#123;<span class="attr">a</span>:<span class="number">2</span>&#125;, <span class="string">"a"</span>, <span class="literal">false</span>, <span class="literal">null</span>, <span class="string">"true"</span>, <span class="literal">true</span>, <span class="literal">undefined</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment">// Set</span></span><br><span class="line">[<span class="string">"true"</span>, <span class="literal">true</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="string">"1"</span>, <span class="number">15</span>, <span class="literal">false</span>, <span class="literal">undefined</span>, <span class="literal">null</span>, <span class="literal">NaN</span>, <span class="string">"NaN"</span>, <span class="string">"a"</span>, &#123;&#125;, &#123;&#125;, &#123;<span class="attr">a</span>:<span class="number">2</span>&#125;, &#123;<span class="attr">a</span>:<span class="number">2</span>&#125;]</span><br><span class="line"></span><br><span class="line"><span class="comment">// Map</span></span><br><span class="line">[<span class="string">"true"</span>, <span class="literal">true</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="string">"1"</span>, <span class="number">15</span>, <span class="literal">false</span>, <span class="literal">undefined</span>, <span class="literal">null</span>, <span class="literal">NaN</span>, <span class="string">"NaN"</span>, <span class="string">"a"</span>, &#123;&#125;, &#123;&#125;, &#123;<span class="attr">a</span>:<span class="number">2</span>&#125;, &#123;<span class="attr">a</span>:<span class="number">2</span>&#125;]</span><br></pre></td></tr></table></figure></p>
+<p>将各种方法和去重结果整理成下面的表格：</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>去重结果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>双层循环 ===判断</td>
+<td>对象和NaN没去重</td>
+</tr>
+<tr>
+<td>indexOf</td>
+<td>对象和NaN没去重</td>
+</tr>
+<tr>
+<td>filter + indexOf</td>
+<td>对象没去重，NaN被忽略掉了</td>
+</tr>
+<tr>
+<td>filter + sort</td>
+<td>对象和NaN没去重</td>
+</tr>
+<tr>
+<td>Set</td>
+<td>对象没去重</td>
+</tr>
+<tr>
+<td>Map</td>
+<td>对象没去重</td>
+</tr>
+</tbody>
+</table>
+<p>通过上面的表格，我们可以看出主要是对象和NaN两种类型的元素需要注意。</p>
+<p>使用=== 判断两个NaN是否相等，得到的结果为false。</p>
+<h2 id="优化：数组元素包含对象的去重"><a href="#优化：数组元素包含对象的去重" class="headerlink" title="优化：数组元素包含对象的去重"></a>优化：数组元素包含对象的去重</h2><p>如果元素是对象，我们利用Object键值对的方式来进行去重，利用JSON.stringify将对象序列化后存为Object的key值，比如：<code>Object[value]=1</code>，在判断另一个元素时，如果Object[value2]存在的话，说明该值重复。</p>
+<p>如果元素不是对象，我们使用includes来判断新的数组res中是否有当前值。</p>
+<p>实现代码如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> array = [<span class="string">'true'</span>,<span class="string">'true'</span>,<span class="literal">true</span>,<span class="literal">true</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="string">'1'</span>,<span class="string">'1'</span>,<span class="number">15</span>,<span class="number">15</span>,<span class="literal">false</span>,<span class="literal">false</span>,<span class="literal">undefined</span>,<span class="literal">undefined</span>,<span class="literal">null</span>,<span class="literal">null</span>,<span class="literal">NaN</span>,<span class="literal">NaN</span>,<span class="string">'NaN'</span>,<span class="string">'NaN'</span>,<span class="string">'a'</span>,<span class="string">'a'</span>,&#123;&#125;,&#123;&#125;,&#123;<span class="attr">a</span>:<span class="number">2</span>&#125;,&#123;<span class="attr">a</span>:<span class="number">2</span>&#125;];</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">unique</span>(<span class="params">arr</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> res = []</span><br><span class="line">  <span class="keyword">var</span> obj = &#123;&#125;</span><br><span class="line">  arr.forEach(<span class="function"><span class="params">item</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">typeof</span> item !== <span class="string">'object'</span>) &#123;</span><br><span class="line">      <span class="keyword">if</span> (!res.includes(item)) &#123;</span><br><span class="line">        res.push(item)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="keyword">var</span> valueStr = <span class="built_in">JSON</span>.stringify(item)</span><br><span class="line">      <span class="keyword">if</span> (!obj[valueStr]) &#123;</span><br><span class="line">        res.push(item)</span><br><span class="line">        obj[valueStr] = <span class="number">1</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">  <span class="keyword">return</span> res</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.log(unique(array))</span><br><span class="line"><span class="comment">// ["true", true, 0, 1, "1", 15, false, undefined, null, NaN, "NaN", "a", &#123;&#125;, &#123;a:2&#125;]</span></span><br></pre></td></tr></table></figure>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>数组去重是开发中经常会碰到的一个问题，我们可以根据不同的应用场景来选择不同的实现方式。如果数组中不包含对象，我们可以直接使用Set进行去重，如果存在对象，则可以选择最后Object键值对的方式。</p>
+
+    </div>
+    <div class="wechat">
+        
+            <strong> 欢迎关注微信公众号： 『前端极客技术』『代码视界』 </strong>
+            <img class="wechat-image" src="https://image.chenhanpeng.com/static/images/web_static_image/article-gzh-qrcode.png" />
+        
+    </div>
+    
+    <div class="reward" ontouchstart>
+    <div class="reward-wrap">赏
+        <div class="reward-box">
+            
+            <span class="reward-type">
+                <img class="alipay" src="https://image.chenhanpeng.com/static/images/web_static_image/donate/alipay_qrcode.png"><b>支付宝打赏</b>
+            </span>
+            
+            
+            <span class="reward-type">
+                <img class="wechat" src="https://image.chenhanpeng.com/static/images/web_static_image/donate/weixin_pay_qrcode.png"><b>微信打赏</b>
+            </span>
+            
+        </div>
+    </div>
+    <p class="reward-tip">
+        赞赏是不耍流氓的鼓励
+    </p>
+</div>
+    
+    <div class="post-footer">
+        <div>
+            
+            转载声明：
+            商业转载请联系作者获得授权,非商业转载请注明出处 © <a href="" target="_blank">代码视界</a>
+            
+            
+        </div>
+        <div>
+            
+        </div>
+    </div>
+</article>
+<div class="article-nav prev-next-wrap clearfix">
+    
+    <a href="/javascript-array-shuffle/" class="pre-post btn btn-default" title='JavaScript数组乱序'>
+        <i class="fa fa-angle-left fa-fw"></i><span class="hidden-lg">上一篇</span>
+        <span class="hidden-xs">
+            JavaScript数组乱序</span>
+    </a>
+    
+    
+    <a href="/javascript-array-flatten/" class="next-post btn btn-default" title='JavaScript-数组扁平化'>
+        <span class="hidden-lg">下一篇</span>
+        <span class="hidden-xs">
+            JavaScript-数组扁平化</span><i class="fa fa-angle-right fa-fw"></i>
+    </a>
+    
+</div>
+
+<!-- google广告 -->
+<!-- <ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-1437849089810081"
+     data-ad-slot="9946365914"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script> -->
+
+
+    <div id="comments">
+        
+<link rel="stylesheet" href="https://cdn.bootcss.com/gitalk/1.7.2/gitalk.min.css">
+<script src="//cdn.bootcss.com/gitalk/1.7.2/gitalk.min.js"></script>
+<script src="//cdn.bootcss.com/blueimp-md5/2.9.0/js/md5.min.js"></script>
+<div id="gitalk-container"></div>
+<script type="text/javascript">
+var gitalk = new Gitalk({
+    // Gitalk配置
+    language: "zh-CN",
+    clientID: "fb80658382dee5240195",
+    clientSecret: "66663a08264192222ba993f20dd7c0a27c1e6fa5",
+    repo: "blog-comments",
+    owner: "Hanpeng-Chen",
+    admin: ["Hanpeng-Chen"],
+    id: md5(location.pathname),
+    distractionFreeMode: true,
+    proxy: "https://cloudflare-cors-anywhere.hanpengchen.workers.dev/?https://github.com/login/oauth/access_token"
+});
+gitalk.render('gitalk-container');
+</script>
+
+    </div>
+
+                </main>
+                
+                    <div class="col-md-4">
+<!-- 方形 -->
+<!-- <ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-1437849089810081"
+     data-ad-slot="2426112279"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script> -->
+</div>
+<aside id="article-toc" role="navigation" class="col-md-4">
+    <div class="widget">
+        <h3 class="title">
+            文章目录
+        </h3>
+        
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#双层循环"><span class="toc-text">双层循环</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#indexOf"><span class="toc-text">indexOf</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#sort-排序后相邻比对去重"><span class="toc-text">sort()排序后相邻比对去重</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#filter"><span class="toc-text">filter</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Set-和Map"><span class="toc-text">Set()和Map()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#特殊类型比较"><span class="toc-text">特殊类型比较</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#优化：数组元素包含对象的去重"><span class="toc-text">优化：数组元素包含对象的去重</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li></ol>
+        
+    </div>
+</aside>
+                
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+<a id="back-to-top" class="icon-btn hide">
+    <i class="fa fa-chevron-up"></i>
+</a>
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="busuanzi">
+    
+</div>
+            </div>
+            <div class="col-sm-12">
+                <span>Copyright &copy;
+                    2019
+                    
+                </span> |
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> |
+                <span>
+                    Theme by <a href="//github.com/shenliyang/hexo-theme-snippet.git" class="copyright-links" target="_blank" rel="nofollow">Snippet</a>
+                </span>
+                
+                    <span> | </span>
+                    <span>
+                        <a href="//beian.miit.gov.cn/" target="_blank" rel="nofollow">
+                            闽ICP备19010134号-1
+                        </a>
+                    </span>
+                
+                
+                    <span> | </span>
+                    <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=35020302033449" rel="nofollow">
+                        <img src="https://image.chenhanpeng.com/static/images/web_static_image/beian_icon.png" width="20">
+                        <span>闽公网安备 35020302033449号</span>
+                    </a>
+                         
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<script src="/js/app.js?rev=@@hash"></script>
+</body>
+</html>

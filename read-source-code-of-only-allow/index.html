@@ -1,0 +1,420 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="代码视界">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="theme-version" content="1.2.3">
+    <meta name="root" content="/">
+    <link rel="dns-prefetch" href="http://www.chenhanpeng.com">
+    <script data-ad-client="ca-pub-1437849089810081" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <!--SEO-->
+
+<meta name="keywords" content="阅读源码">
+
+
+<meta name="description" content="当前市场上包管理器常用的有npm、yarn、pnpm。我们在实际项目开发中一般通过是在文档中说明约定使用的包管理器，但偶尔会遇到不遵守约定的人，他使用了其他的包管理器安装了其他的依赖，上传了代码...">
+
+
+<meta name="robots" content="all">
+<meta name="google" content="all">
+<meta name="googlebot" content="all">
+<meta name="verify" content="all">
+    <!--Title-->
+
+<title>
+    
+    阅读一行代码统一规范团队包管理器神器[only-allow] 源码 |
+    
+    代码视界
+</title>
+
+<link rel="alternate" href="/atom.xml" title="代码视界" type="application/atom+xml">
+
+
+<link rel="icon" href="/img/site_logo.jpg">
+
+    
+
+<link rel="stylesheet" href="/css/bootstrap.min.css?rev=3.3.7">
+<link rel="stylesheet" href="/css/font-awesome.min.css?rev=4.7.0">
+<link rel="stylesheet" href="/css/style.css?rev=@@hash">
+    
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?494af80fa01e8939bec179cfddf660d5";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+<script>
+(function(i, s, o, g, r, a, m) {
+    i['GoogleAnalyticsObject'] = r;
+    i[r] = i[r] || function() {
+        (i[r].q = i[r].q || []).push(arguments)
+    }, i[r].l = 1 * new Date();
+    a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0];
+    a.async = 1;
+    a.src = g;
+    m.parentNode.insertBefore(a, m)
+})(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+ga('create', 'UA-142577364-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+
+    
+<meta name="baidu-site-verification" content="rGeweWgWoh">
+
+
+<script>
+(function() {
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    } else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+</head></html>
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+<body>
+    <header class="main-header"  style="background-image:url(
+    https://image.chenhanpeng.com/static/images/web_static_image/banner.jpg)"
+     >
+    <div class="main-header-box">
+        <!-- <a class="header-avatar" href="/" title='Hanpeng Chen'>
+            <img src="/img/avatar.jpg" alt="logo头像" class="img-responsive center-block">
+        </a> -->
+        <a href="/" class="header-title">
+            <h1> 代码视界 </h1>
+        </a>
+        <div class="branding">
+            <!--<h2 class="text-hide">Snippet主题,从未如此简单有趣</h2>-->
+            
+            <h2>
+                Hanpeng Chen的个人博客
+            </h2>
+            
+        </div>
+    </div>
+</header>
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="navbar-header"><span class="nav-toggle-button collapsed pull-right" data-toggle="collapse" data-target="#main-menu" id="mnav">
+                        <span class="sr-only"></span>
+                        <i class="fa fa-bars"></i>
+                    </span>
+                    <a class="navbar-brand" href="http://www.chenhanpeng.com">
+                        代码视界</a>
+                </div>
+                <div class="collapse navbar-collapse" id="main-menu">
+                    <ul class="menu">
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/"><i class="fa "></i>
+                                首页</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/archives/"><i class="fa "></i>
+                                文章列表</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/categories/"><i class="fa "></i>
+                                文章分类</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/tags/"><i class="fa "></i>
+                                文章标签</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/links/"><i class="fa "></i>
+                                友链</a>
+                        </li>
+                        
+                        <li role="presentation" class="text-center">
+                            <a href="/about/"><i class="fa "></i>
+                                关于作者</a>
+                        </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+                    <p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="阅读一行代码统一规范团队包管理器神器[only-allow] 源码">
+            
+            阅读一行代码统一规范团队包管理器神器[only-allow] 源码
+            
+        </h1>
+        <div class="post-meta">
+    
+    <span class="categories-meta fa-wrap">
+        <i class="fa fa-folder-open-o"></i>
+        <a class="category-link" href="/categories/阅读源码/">阅读源码</a>
+    </span>
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-tags"></i>
+        <span class="tags-meta">
+            
+            <a class="tag-link" href="/tags/阅读源码/">阅读源码</a>
+            
+        </span>
+    </span>
+    
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-clock-o"></i>
+        <span class="date-meta">
+            2021/11/30</span>
+    </span>
+    
+    <span class="fa-wrap">
+        <i class="fa fa-eye"></i>
+        <span id="busuanzi_value_page_pv"></span>
+    </span>
+    
+    
+</div>
+        
+        
+    </div>
+    
+    
+    <div class="post-body post-content">
+        <p>当前市场上包管理器常用的有npm、yarn、pnpm。我们在实际项目开发中一般通过是在文档中说明约定使用的包管理器，但偶尔会遇到不遵守约定的人，他使用了其他的包管理器安装了其他的依赖，上传了代码。这种情况有可能导致严重的线上问题。如果我们可以通过代码进行强制约束使用同一包管理器，那么问题也就解决了。only-allow就是一款解决该问题的工具。</p>
+<h2 id="克隆代码"><a href="#克隆代码" class="headerlink" title="克隆代码"></a>克隆代码</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// only-allow 官方仓库地址</span></span><br><span class="line">git clone https:<span class="comment">//github.com/pnpm/only-allow.git</span></span><br><span class="line">cd only-allow</span><br><span class="line"></span><br><span class="line">pnpm i</span><br></pre></td></tr></table></figure>
+<p>从项目的<code>README.md</code>文件我们可以了解到<code>only-allow</code>的作用：在项目上强制使用特定的包管理器。</p>
+<h2 id="only-allow的用法"><a href="#only-allow的用法" class="headerlink" title="only-allow的用法"></a>only-allow的用法</h2><p>only-allow具体的用法如下：</p>
+<p>Add a <code>preinstall</code> script to your project’s <code>package.json</code></p>
+<p>如果你想强制使用<code>npm</code>，添加：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"scripts"</span>: &#123;</span><br><span class="line">    <span class="attr">"preinstall"</span>: <span class="string">"npx only-allow npm"</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果你想强制使用<code>pnpm</code>，添加：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"scripts"</span>: &#123;</span><br><span class="line">    <span class="attr">"preinstall"</span>: <span class="string">"npx only-allow pnpm"</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果你想强制使用<code>yarn</code>，添加：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"scripts"</span>: &#123;</span><br><span class="line">    <span class="attr">"preinstall"</span>: <span class="string">"npx only-allow yarn"</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="调试源码"><a href="#调试源码" class="headerlink" title="调试源码"></a>调试源码</h2><p>从<code>package.json</code>文件我们可以得知项目的主入口文件为：<code>bin.js</code></p>
+<p>在<code>package.json</code>文件中添加如下命令：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    "scripts" &#123;</span><br><span class="line">        "preinstall": "node bin.js pnpm"</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/usr/bin/env node</span></span><br><span class="line"><span class="keyword">const</span> whichPMRuns = <span class="built_in">require</span>(<span class="string">'which-pm-runs'</span>)</span><br><span class="line"><span class="keyword">const</span> boxen = <span class="built_in">require</span>(<span class="string">'boxen'</span>) <span class="comment">// 在终端中创建盒子，使打印信息更加显眼</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> argv = process.argv.slice(<span class="number">2</span>)</span><br><span class="line"><span class="keyword">if</span> (argv.length === <span class="number">0</span>) &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'Please specify the wanted package manager: only-allow &lt;npm|pnpm|yarn&gt;'</span>)</span><br><span class="line">  process.exit(<span class="number">1</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 获取到用户传入的希望使用的包管理器</span></span><br><span class="line"><span class="comment">// npm  yarn pnpm都不是，报错</span></span><br><span class="line"><span class="keyword">const</span> wantedPM = argv[<span class="number">0</span>]</span><br><span class="line"><span class="keyword">if</span> (wantedPM !== <span class="string">'npm'</span> &amp;&amp; wantedPM !== <span class="string">'pnpm'</span> &amp;&amp; wantedPM !== <span class="string">'yarn'</span>) &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">`"<span class="subst">$&#123;wantedPM&#125;</span>" is not a valid package manager. Available package managers are: npm, pnpm, or yarn.`</span>)</span><br><span class="line">  process.exit(<span class="number">1</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 使用的包管理器</span></span><br><span class="line"><span class="keyword">const</span> usedPM = whichPMRuns()</span><br><span class="line"><span class="comment">// 如果使用的包管理和希望的不一致，根据对应的情况进行报错提示，并退出进程</span></span><br><span class="line"><span class="keyword">if</span> (usedPM &amp;&amp; usedPM.name !== wantedPM) &#123;</span><br><span class="line">  <span class="keyword">const</span> boxenOpts = &#123; <span class="attr">borderColor</span>: <span class="string">'red'</span>, <span class="attr">borderStyle</span>: <span class="string">'double'</span>, <span class="attr">padding</span>: <span class="number">1</span> &#125;</span><br><span class="line">  <span class="keyword">switch</span> (wantedPM) &#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="string">'npm'</span>:</span><br><span class="line">      <span class="built_in">console</span>.log(boxen(<span class="string">'Use "npm install" for installation in this project'</span>, boxenOpts))</span><br><span class="line">      <span class="keyword">break</span></span><br><span class="line">    <span class="keyword">case</span> <span class="string">'pnpm'</span>:</span><br><span class="line">      <span class="built_in">console</span>.log(boxen(<span class="string">`Use "pnpm install" for installation in this project.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">If you don't have pnpm, install it via "npm i -g pnpm".</span></span><br><span class="line"><span class="string">For more details, go to https://pnpm.js.org/`</span>, boxenOpts))</span><br><span class="line">      <span class="keyword">break</span></span><br><span class="line">    <span class="keyword">case</span> <span class="string">'yarn'</span>:</span><br><span class="line">      <span class="built_in">console</span>.log(boxen(<span class="string">`Use "yarn" for installation in this project.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">If you don't have Yarn, install it via "npm i -g yarn".</span></span><br><span class="line"><span class="string">For more details, go to https://yarnpkg.com/`</span>, boxenOpts))</span><br><span class="line">      <span class="keyword">break</span></span><br><span class="line">  &#125;</span><br><span class="line">  process.exit(<span class="number">1</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="which-pm-runs源码"><a href="#which-pm-runs源码" class="headerlink" title="which-pm-runs源码"></a>which-pm-runs源码</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">'use strict'</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">// process.env.npm_config_user_agent拿到的是如下字符串</span></span><br><span class="line">    <span class="comment">// 'pnpm/6.23.2 npm/? node/v16.13.0 darwin arm64'</span></span><br><span class="line">  <span class="keyword">if</span> (!process.env.npm_config_user_agent) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">undefined</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> pmFromUserAgent(process.env.npm_config_user_agent)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">pmFromUserAgent</span> (<span class="params">userAgent</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> pmSpec = userAgent.split(<span class="string">' '</span>)[<span class="number">0</span>]</span><br><span class="line">  <span class="keyword">const</span> separatorPos = pmSpec.lastIndexOf(<span class="string">'/'</span>)</span><br><span class="line"><span class="comment">//   返回包管理器及其版本，例如</span></span><br><span class="line"><span class="comment">// &#123;</span></span><br><span class="line"><span class="comment">//     name: 'pnpm',</span></span><br><span class="line"><span class="comment">//     version: '6.23.2'</span></span><br><span class="line"><span class="comment">// &#125;</span></span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    name: pmSpec.substr(<span class="number">0</span>, separatorPos),</span><br><span class="line">    version: pmSpec.substr(separatorPos + <span class="number">1</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>从which-pm-runs的源码，学到了获取当前运行脚本的包管理器和版本的方法：通过获取<code>process.env.npm_config_user_agent</code>变量，进行相应的截取。</p>
+<h2 id="npm命令钩子"><a href="#npm命令钩子" class="headerlink" title="npm命令钩子"></a>npm命令钩子</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">preinstall：在install之前执行</span><br><span class="line"></span><br><span class="line">install</span><br><span class="line"></span><br><span class="line">postinstall：在install之后执行</span><br></pre></td></tr></table></figure>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p><code>only-allow</code>这个包对多人协作开发的项目还是很有用的，找个时间用到公司的项目上，进一步规范团队开发。</p>
+
+    </div>
+    <div class="wechat">
+        
+            <strong> 欢迎关注微信公众号： 『前端极客技术』『代码视界』 </strong>
+            <img class="wechat-image" src="https://image.chenhanpeng.com/static/images/web_static_image/article-gzh-qrcode.png" />
+        
+    </div>
+    
+    <div class="reward" ontouchstart>
+    <div class="reward-wrap">赏
+        <div class="reward-box">
+            
+            <span class="reward-type">
+                <img class="alipay" src="https://image.chenhanpeng.com/static/images/web_static_image/donate/alipay_qrcode.png"><b>支付宝打赏</b>
+            </span>
+            
+            
+            <span class="reward-type">
+                <img class="wechat" src="https://image.chenhanpeng.com/static/images/web_static_image/donate/weixin_pay_qrcode.png"><b>微信打赏</b>
+            </span>
+            
+        </div>
+    </div>
+    <p class="reward-tip">
+        赞赏是不耍流氓的鼓励
+    </p>
+</div>
+    
+    <div class="post-footer">
+        <div>
+            
+            转载声明：
+            商业转载请联系作者获得授权,非商业转载请注明出处 © <a href="" target="_blank">代码视界</a>
+            
+            
+        </div>
+        <div>
+            
+        </div>
+    </div>
+</article>
+<div class="article-nav prev-next-wrap clearfix">
+    
+    
+    <a href="/javascript-defineProperty-and-proxy/" class="next-post btn btn-default" title='学习Vue源码前需要了解的defineProperty和Proxy'>
+        <span class="hidden-lg">下一篇</span>
+        <span class="hidden-xs">
+            学习Vue源码前需要了解的defineProperty和Proxy</span><i class="fa fa-angle-right fa-fw"></i>
+    </a>
+    
+</div>
+
+<!-- google广告 -->
+<!-- <ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-1437849089810081"
+     data-ad-slot="9946365914"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script> -->
+
+
+    <div id="comments">
+        
+<link rel="stylesheet" href="https://cdn.bootcss.com/gitalk/1.7.2/gitalk.min.css">
+<script src="//cdn.bootcss.com/gitalk/1.7.2/gitalk.min.js"></script>
+<script src="//cdn.bootcss.com/blueimp-md5/2.9.0/js/md5.min.js"></script>
+<div id="gitalk-container"></div>
+<script type="text/javascript">
+var gitalk = new Gitalk({
+    // Gitalk配置
+    language: "zh-CN",
+    clientID: "fb80658382dee5240195",
+    clientSecret: "66663a08264192222ba993f20dd7c0a27c1e6fa5",
+    repo: "blog-comments",
+    owner: "Hanpeng-Chen",
+    admin: ["Hanpeng-Chen"],
+    id: md5(location.pathname),
+    distractionFreeMode: true,
+    proxy: "https://cloudflare-cors-anywhere.hanpengchen.workers.dev/?https://github.com/login/oauth/access_token"
+});
+gitalk.render('gitalk-container');
+</script>
+
+    </div>
+
+                </main>
+                
+                    <div class="col-md-4">
+<!-- 方形 -->
+<!-- <ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-1437849089810081"
+     data-ad-slot="2426112279"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script> -->
+</div>
+<aside id="article-toc" role="navigation" class="col-md-4">
+    <div class="widget">
+        <h3 class="title">
+            文章目录
+        </h3>
+        
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#克隆代码"><span class="toc-text">克隆代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#only-allow的用法"><span class="toc-text">only-allow的用法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#调试源码"><span class="toc-text">调试源码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#which-pm-runs源码"><span class="toc-text">which-pm-runs源码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#npm命令钩子"><span class="toc-text">npm命令钩子</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li></ol>
+        
+    </div>
+</aside>
+                
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+<a id="back-to-top" class="icon-btn hide">
+    <i class="fa fa-chevron-up"></i>
+</a>
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="busuanzi">
+    
+</div>
+            </div>
+            <div class="col-sm-12">
+                <span>Copyright &copy;
+                    2019
+                    
+                </span> |
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> |
+                <span>
+                    Theme by <a href="//github.com/shenliyang/hexo-theme-snippet.git" class="copyright-links" target="_blank" rel="nofollow">Snippet</a>
+                </span>
+                
+                    <span> | </span>
+                    <span>
+                        <a href="//beian.miit.gov.cn/" target="_blank" rel="nofollow">
+                            闽ICP备19010134号-1
+                        </a>
+                    </span>
+                
+                
+                    <span> | </span>
+                    <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=35020302033449" rel="nofollow">
+                        <img src="https://image.chenhanpeng.com/static/images/web_static_image/beian_icon.png" width="20">
+                        <span>闽公网安备 35020302033449号</span>
+                    </a>
+                         
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<script src="/js/app.js?rev=@@hash"></script>
+</body>
+</html>

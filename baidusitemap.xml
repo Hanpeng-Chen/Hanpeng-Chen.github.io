@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://www.chenhanpeng.com/read-source-code-of-only-allow/</loc>
+    <lastmod>2021-12-21</lastmod>
+  </url>  <url>
     <loc>http://www.chenhanpeng.com/javascript-defineProperty-and-proxy/</loc>
     <lastmod>2021-08-24</lastmod>
   </url>  <url>
@@ -52,10 +55,10 @@
     <loc>http://www.chenhanpeng.com/inheritance-in-javascript/</loc>
     <lastmod>2021-04-21</lastmod>
   </url>  <url>
-    <loc>http://www.chenhanpeng.com/handwriting-apply-call-bind/</loc>
+    <loc>http://www.chenhanpeng.com/javascript-debounce/</loc>
     <lastmod>2021-04-21</lastmod>
   </url>  <url>
-    <loc>http://www.chenhanpeng.com/javascript-debounce/</loc>
+    <loc>http://www.chenhanpeng.com/handwriting-apply-call-bind/</loc>
     <lastmod>2021-04-21</lastmod>
   </url>  <url>
     <loc>http://www.chenhanpeng.com/javascript-throttle/</loc>
@@ -142,37 +145,34 @@
     <loc>http://www.chenhanpeng.com/ten-classic-sort-algorithms/</loc>
     <lastmod>2020-08-21</lastmod>
   </url>  <url>
-    <loc>http://www.chenhanpeng.com/Basic-concepts-of-TensorFlow/</loc>
+    <loc>http://www.chenhanpeng.com/python-1-env/</loc>
     <lastmod>2020-08-10</lastmod>
   </url>  <url>
-    <loc>http://www.chenhanpeng.com/PDF.js-use/</loc>
+    <loc>http://www.chenhanpeng.com/python-11-input-and-output/</loc>
     <lastmod>2020-08-10</lastmod>
   </url>  <url>
-    <loc>http://www.chenhanpeng.com/python-2-data-type-variable/</loc>
-    <lastmod>2020-08-10</lastmod>
-  </url>  <url>
-    <loc>http://www.chenhanpeng.com/python-3-list-and-tuple/</loc>
+    <loc>http://www.chenhanpeng.com/face-recognition-Andrew-Ng/</loc>
     <lastmod>2020-08-10</lastmod>
   </url>  <url>
     <loc>http://www.chenhanpeng.com/python-10-higher-order-function/</loc>
     <lastmod>2020-08-10</lastmod>
   </url>  <url>
-    <loc>http://www.chenhanpeng.com/20-lines-of-code-face-recognition/</loc>
-    <lastmod>2020-08-10</lastmod>
-  </url>  <url>
-    <loc>http://www.chenhanpeng.com/knn/</loc>
-    <lastmod>2020-08-10</lastmod>
-  </url>  <url>
-    <loc>http://www.chenhanpeng.com/python-1-env/</loc>
+    <loc>http://www.chenhanpeng.com/python-3-list-and-tuple/</loc>
     <lastmod>2020-08-10</lastmod>
   </url>  <url>
     <loc>http://www.chenhanpeng.com/python-15-namespace-and-scope/</loc>
     <lastmod>2020-08-10</lastmod>
   </url>  <url>
-    <loc>http://www.chenhanpeng.com/python-pillow-deal-images/</loc>
+    <loc>http://www.chenhanpeng.com/Basic-concepts-of-TensorFlow/</loc>
     <lastmod>2020-08-10</lastmod>
   </url>  <url>
-    <loc>http://www.chenhanpeng.com/python-8-module/</loc>
+    <loc>http://www.chenhanpeng.com/python-13-iterator/</loc>
+    <lastmod>2020-08-10</lastmod>
+  </url>  <url>
+    <loc>http://www.chenhanpeng.com/python-5-string/</loc>
+    <lastmod>2020-08-10</lastmod>
+  </url>  <url>
+    <loc>http://www.chenhanpeng.com/python-2-data-type-variable/</loc>
     <lastmod>2020-08-10</lastmod>
   </url>  <url>
     <loc>http://www.chenhanpeng.com/Chinese-word-segmentation/</loc>
@@ -187,52 +187,55 @@
     <loc>http://www.chenhanpeng.com/python-16-regular-expression/</loc>
     <lastmod>2020-08-10</lastmod>
   </url>  <url>
-    <loc>http://www.chenhanpeng.com/python-network-programming-tcp-and-udp/</loc>
-    <lastmod>2020-08-10</lastmod>
-  </url>  <url>
-    <loc>http://www.chenhanpeng.com/python-14-object-oriented-programming/</loc>
-    <lastmod>2020-08-10</lastmod>
-  </url>  <url>
-    <loc>http://www.chenhanpeng.com/python-6-condition-and-loop/</loc>
-    <lastmod>2020-08-10</lastmod>
-  </url>  <url>
     <loc>http://www.chenhanpeng.com/python-smtp-and-pop-email/</loc>
+    <lastmod>2020-08-10</lastmod>
+  </url>  <url>
+    <loc>http://www.chenhanpeng.com/python-network-programming-tcp-and-udp/</loc>
     <lastmod>2020-08-10</lastmod>
   </url>  <url>
     <loc>http://www.chenhanpeng.com/python-4-dict-and-set/</loc>
     <lastmod>2020-08-10</lastmod>
   </url>  <url>
+    <loc>http://www.chenhanpeng.com/python-6-condition-and-loop/</loc>
+    <lastmod>2020-08-10</lastmod>
+  </url>  <url>
     <loc>http://www.chenhanpeng.com/python-7-function/</loc>
     <lastmod>2020-08-10</lastmod>
   </url>  <url>
-    <loc>http://www.chenhanpeng.com/face-recognition-Andrew-Ng/</loc>
-    <lastmod>2020-08-10</lastmod>
-  </url>  <url>
-    <loc>http://www.chenhanpeng.com/TF-IDF-1/</loc>
-    <lastmod>2020-08-10</lastmod>
-  </url>  <url>
-    <loc>http://www.chenhanpeng.com/python-18-process-and-thread/</loc>
-    <lastmod>2020-08-10</lastmod>
-  </url>  <url>
-    <loc>http://www.chenhanpeng.com/python-13-iterator/</loc>
-    <lastmod>2020-08-10</lastmod>
-  </url>  <url>
-    <loc>http://www.chenhanpeng.com/python-5-string/</loc>
-    <lastmod>2020-08-10</lastmod>
-  </url>  <url>
-    <loc>http://www.chenhanpeng.com/python-11-input-and-output/</loc>
+    <loc>http://www.chenhanpeng.com/python-14-object-oriented-programming/</loc>
     <lastmod>2020-08-10</lastmod>
   </url>  <url>
     <loc>http://www.chenhanpeng.com/python-9-lambda/</loc>
     <lastmod>2020-08-10</lastmod>
   </url>  <url>
-    <loc>http://www.chenhanpeng.com/CB-Recommendation-algorithm/</loc>
+    <loc>http://www.chenhanpeng.com/knn/</loc>
+    <lastmod>2020-08-10</lastmod>
+  </url>  <url>
+    <loc>http://www.chenhanpeng.com/20-lines-of-code-face-recognition/</loc>
+    <lastmod>2020-08-10</lastmod>
+  </url>  <url>
+    <loc>http://www.chenhanpeng.com/python-18-process-and-thread/</loc>
+    <lastmod>2020-08-10</lastmod>
+  </url>  <url>
+    <loc>http://www.chenhanpeng.com/PDF.js-use/</loc>
+    <lastmod>2020-08-10</lastmod>
+  </url>  <url>
+    <loc>http://www.chenhanpeng.com/python-pillow-deal-images/</loc>
+    <lastmod>2020-08-10</lastmod>
+  </url>  <url>
+    <loc>http://www.chenhanpeng.com/python-8-module/</loc>
+    <lastmod>2020-08-10</lastmod>
+  </url>  <url>
+    <loc>http://www.chenhanpeng.com/TF-IDF-1/</loc>
     <lastmod>2020-08-10</lastmod>
   </url>  <url>
     <loc>http://www.chenhanpeng.com/CF-Recommendation-algorithm/</loc>
     <lastmod>2020-08-10</lastmod>
   </url>  <url>
     <loc>http://www.chenhanpeng.com/recommendation-system-introduce/</loc>
+    <lastmod>2020-08-10</lastmod>
+  </url>  <url>
+    <loc>http://www.chenhanpeng.com/CB-Recommendation-algorithm/</loc>
     <lastmod>2020-08-10</lastmod>
   </url>  <url>
     <loc>http://www.chenhanpeng.com/2020-Tencent-HUAWEI-interview-share/</loc>

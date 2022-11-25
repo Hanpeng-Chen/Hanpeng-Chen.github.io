@@ -225,7 +225,7 @@ ga('send', 'pageview');
         
         <p class="fa fa-exclamation-triangle warning">
             本文于<strong>
-                341</strong>
+                680</strong>
             天之前发表，文中内容可能已经过时。
         </p>
         
@@ -270,7 +270,7 @@ ga('send', 'pageview');
 </ul>
 <p>Javascript设计模式中，主要用到的设计模式基本都是围绕单一功能和开放封闭两个原则展开的。</p>
 <h2 id="设计模式分类"><a href="#设计模式分类" class="headerlink" title="设计模式分类"></a>设计模式分类</h2><p>设计模式有23种，可以按照创建型、行为型、结构型划分成三类，具体见下图：</p>
-<p><img src="https://gitee.com/HanpengChen/blog-images/raw/master/blogImages/2021/spring/20210112163348.png" alt></p>
+<p><img src="https://image.chenhanpeng.com/static/blog-images/blogImages/2021/spring/20210112163348.png" alt></p>
 <p>针对这23中设计模式，我们将选一些比较重要、实际开发中能用到、面试中常见的来详细学习。</p>
 <blockquote>
 <p>欢迎关注我的微信公众号：<strong>前端极客技术(FrontGeek)</strong></p>
@@ -316,7 +316,7 @@ ga('send', 'pageview');
 <p>上面我们分别定义了CoderOfJavaScript、CoderOfJava两种类。这两个类作为子类通过抽象工厂方法实现继承。特别需要注意的是，调用抽象工厂方法后不要忘记重写抽象方法，否则在子类的实例中调用抽象方法会报错。</p>
 <p>接下来我们进行实例化，检测抽象工厂方法是否实现了类簇的管理。</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> javaCode1 = <span class="keyword">new</span> CoderOfJava(<span class="string">'Java后端开发'</span>)</span><br><span class="line"><span class="built_in">console</span>.log(javaCode1.getCareerName(), javaCode1.language)</span><br><span class="line"><span class="keyword">let</span> javaCode2 = <span class="keyword">new</span> CoderOfJava(<span class="string">'Java大数据开发'</span>)</span><br><span class="line"><span class="built_in">console</span>.log(javaCode2.getCareerName(), javaCode2.language)</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> javascriptCoder1 = <span class="keyword">new</span> CoderOfJavaScript(<span class="string">'前端开发'</span>)</span><br><span class="line"><span class="built_in">console</span>.log(javascriptCoder1.getCareerName(), javascriptCoder1.language);</span><br><span class="line"><span class="keyword">let</span> nodejsCoder = <span class="keyword">new</span> CoderOfJavaScript(<span class="string">'node全栈开发'</span>)</span><br><span class="line"><span class="built_in">console</span>.log(nodejsCoder.getCareerName(), nodejsCoder.language)</span><br></pre></td></tr></table></figure>
-<p><img src="https://gitee.com/HanpengChen/blog-images/raw/master/blogImages/2021/spring/20210113125948.png" alt><br>从结果来看CareerAbstractFactory这个抽象工厂很好地实现了它的作用，将不同岗位按照开发语言这一类簇进行了分类。</p>
+<p><img src="https://image.chenhanpeng.com/static/blog-images/blogImages/2021/spring/20210113125948.png" alt><br>从结果来看CareerAbstractFactory这个抽象工厂很好地实现了它的作用，将不同岗位按照开发语言这一类簇进行了分类。</p>
 <p>抽象工厂的作用：它不直接创建实例，而是通过类的继承进行类簇的管理。</p>
 <p>抽象工厂模式一般用于严格要求以面向对象思想进行开发的超大型项目中，我们一般常规的开发的话一般就是简单工厂和工厂方法模式会用的比较多一些</p>
 <blockquote>

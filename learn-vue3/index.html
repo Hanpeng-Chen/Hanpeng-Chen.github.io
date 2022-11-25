@@ -224,6 +224,12 @@ ga('send', 'pageview');
 </div>
         
         
+        <p class="fa fa-exclamation-triangle warning">
+            本文于<strong>
+                513</strong>
+            天之前发表，文中内容可能已经过时。
+        </p>
+        
     </div>
     
     
@@ -240,7 +246,7 @@ ga('send', 'pageview');
 <li>使用 filters 对象筛选仓库</li>
 </ul>
 <p>使用 (data、computed、methods、watch) 组件选项来组织逻辑通常都很有效。然而，当我们的组件开始变得更大时，逻辑关注点的列表也会增长。尤其对于那些一开始没有编写这些组件的人来说，这会导致组件难以阅读和理解。</p>
-<p><img src="https://gitee.com/HanpengChen/blog-images/raw/master/blogImages/2021/20210627221817.png" alt></p>
+<p><img src="https://image.chenhanpeng.com/static/blog-images/blogImages/2021/20210627221817.png" alt></p>
 <p>这是一个大型组件的示例，其中逻辑关注点按颜色进行分组。</p>
 <p>这种碎片化使得理解和维护复杂组件变得困难。选项的分离掩盖了潜在的逻辑问题。此外，在处理单个逻辑关注点时，我们必须不断地“跳转”相关代码的选项块。</p>
 <p>如果能够将同一个逻辑关注点相关代码收集在一起会更好。而这正是组合式 API 使我们能够做到的。</p>
@@ -283,7 +289,7 @@ ga('send', 'pageview');
 <h3 id="watchEffect"><a href="#watchEffect" class="headerlink" title="watchEffect"></a>watchEffect</h3><p>为了根据响应式状态自动应用和重新应用副作用，我们可以使用 watchEffect 方法。它立即执行传入的一个函数，同时响应式追踪其依赖，并在其依赖变更时重新运行该函数。</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> count = ref(<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">watchEffect(<span class="function"><span class="params">()</span> =&gt;</span> <span class="built_in">console</span>.log(count.value))</span><br><span class="line"><span class="comment">// -&gt; logs 0</span></span><br><span class="line"></span><br><span class="line">setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  count.value++</span><br><span class="line">  <span class="comment">// -&gt; logs 1</span></span><br><span class="line">&#125;, <span class="number">100</span>)</span><br></pre></td></tr></table></figure>
 <h3 id="生命周期"><a href="#生命周期" class="headerlink" title="生命周期"></a>生命周期</h3><p>通过下面的图来看下Vue2和Vue3生命周期钩子的对比：</p>
-<p><img src="https://gitee.com/HanpengChen/blog-images/raw/master/blogImages/2021/20210628224421.png" alt></p>
+<p><img src="https://image.chenhanpeng.com/static/blog-images/blogImages/2021/20210628224421.png" alt></p>
 <ul>
 <li>Vue3新增了setup</li>
 <li>Vue2中的beforeDestroy名称变更为beforeUnmount</li>
@@ -312,7 +318,7 @@ ga('send', 'pageview');
 <p>这个 <code>&lt;suspense&gt;</code> 组件有两个插槽。它们都只接收一个子节点。default 插槽里的节点会尽可能展示出来。如果不能，则展示 fallback 插槽里的节点。</p>
 <p>常见的一个用例：用到了异步组件</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">// 父组件</span><br><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;suspense&gt;</span><br><span class="line">    &lt;template #default&gt;</span><br><span class="line">      &lt;async-demo /&gt;</span><br><span class="line">    &lt;/template&gt;</span><br><span class="line">    &lt;template #fallback&gt;</span><br><span class="line">      &lt;div&gt;</span><br><span class="line">        Loading...</span><br><span class="line">      &lt;/div&gt;</span><br><span class="line">    &lt;/template&gt;</span><br><span class="line">  &lt;/suspense&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">import &#123;defineAsyncComponent&#125; from &apos;vue&apos;</span><br><span class="line">export default &#123;</span><br><span class="line">  components: &#123;</span><br><span class="line">    AsyncDemo: defineAsyncComponent(() =&gt; import(&apos;./AsyncDemo.vue&apos;))</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">// 子组件</span><br><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;h2&gt;AsyncDemo&lt;/h2&gt;</span><br><span class="line">  &lt;p&gt;&#123;&#123;msg&#125;&#125;&lt;/p&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script lang=&quot;ts&quot;&gt;</span><br><span class="line">export default &#123;</span><br><span class="line">  name: &apos;AsyncDemo&apos;,</span><br><span class="line">  setup () &#123;</span><br><span class="line">     return new Promise((resolve) =&gt; &#123;</span><br><span class="line">       setTimeout(() =&gt; &#123;</span><br><span class="line">         resolve(&#123;</span><br><span class="line">           msg: &apos;async import&apos;</span><br><span class="line">         &#125;)</span><br><span class="line">       &#125;, 2000)</span><br><span class="line">     &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
-<p><img src="https://gitee.com/HanpengChen/blog-images/raw/master/blogImages/2021/vue3-suspense-demo.gif" alt></p>
+<p><img src="https://image.chenhanpeng.com/static/blog-images/blogImages/2021/vue3-suspense-demo.gif" alt></p>
 <h2 id="Fragment"><a href="#Fragment" class="headerlink" title="Fragment"></a>Fragment</h2><p>在Vue2中，<code>template</code>中只允许有一个根节点，但是在Vue3中，可以直接写多个根节点。</p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <h2 id="破坏性变化"><a href="#破坏性变化" class="headerlink" title="破坏性变化"></a>破坏性变化</h2><ul>
@@ -354,7 +360,7 @@ ga('send', 'pageview');
 </li>
 </ol>
 </blockquote>
-<p><img src="https://gitee.com/HanpengChen/blog-images/raw/master/%E5%89%8D%E7%AB%AF%E6%9E%81%E5%AE%A2%E6%8A%80%E6%9C%AF%E4%BA%8C%E7%BB%B4%E7%A0%81.png" alt></p>
+<p><img src="https://image.chenhanpeng.com/static/blog-images/%E5%89%8D%E7%AB%AF%E6%9E%81%E5%AE%A2%E6%8A%80%E6%9C%AF%E4%BA%8C%E7%BB%B4%E7%A0%81.png" alt></p>
 
     </div>
     <div class="wechat">

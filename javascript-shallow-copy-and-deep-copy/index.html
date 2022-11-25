@@ -226,7 +226,7 @@ ga('send', 'pageview');
         
         <p class="fa fa-exclamation-triangle warning">
             本文于<strong>
-                301</strong>
+                640</strong>
             天之前发表，文中内容可能已经过时。
         </p>
         
@@ -236,7 +236,7 @@ ga('send', 'pageview');
     <div class="post-body post-content">
         <p>关于拷贝这个问题，也是前端面试中的一道经典面试题，我们在日常开发中也常碰到需要用到深拷贝或浅拷贝的场景。接下来我们通过这篇文章，彻底掌握JavaScript的深浅拷贝。</p>
 <h2 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h2><p>在开始讲深浅拷贝之前，我们要先知道JavaScript的数据类型，主要有下图所示的8种：</p>
-<p><img src="https://gitee.com/HanpengChen/blog-images/raw/master/blogImages/2021/20210222225118.png" alt></p>
+<p><img src="https://image.chenhanpeng.com/static/blog-images/blogImages/2021/20210222225118.png" alt></p>
 <p>Object是引用类型，其他7种为基础类型。</p>
 <p>JavaScript的数据类型最后都会在初始化之后放在不同的内存中，因此上面的数据类型大致可以分为两类来进行存储：</p>
 <ul>
@@ -292,7 +292,7 @@ ga('send', 'pageview');
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> obj = &#123;<span class="attr">a</span>: <span class="number">1</span>, <span class="attr">b</span>: [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]&#125;;</span><br><span class="line"><span class="keyword">let</span> str = <span class="built_in">JSON</span>.stringify(obj);</span><br><span class="line"><span class="keyword">let</span> newObj = <span class="built_in">JSON</span>.parse(str);</span><br><span class="line"></span><br><span class="line">obj.a = <span class="number">2</span>;</span><br><span class="line">obj.b.push(<span class="number">4</span>)</span><br><span class="line"><span class="built_in">console</span>.log(obj)</span><br><span class="line"><span class="built_in">console</span>.log(newObj)</span><br></pre></td></tr></table></figure>
 <p>从上面的代码可以看到，通过 JSON.stringify 可以初步实现一个对象的深拷贝，通过改变 obj 的 a 属性，其实可以看出 newObj 这个对象也不受影响。</p>
 <p>我们来看看下面几种使用JSON.stringify方法进行深拷贝的情况：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Obj</span>(<span class="params"></span>) </span>&#123; </span><br><span class="line">  <span class="keyword">this</span>.func = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123; alert(<span class="number">1</span>) &#125;; </span><br><span class="line">  <span class="keyword">this</span>.obj = &#123;<span class="attr">a</span>:<span class="number">1</span>&#125;;</span><br><span class="line">  <span class="keyword">this</span>.arr = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>];</span><br><span class="line">  <span class="keyword">this</span>.und = <span class="literal">undefined</span>; </span><br><span class="line">  <span class="keyword">this</span>.reg = <span class="regexp">/123/</span>; </span><br><span class="line">  <span class="keyword">this</span>.date = <span class="keyword">new</span> <span class="built_in">Date</span>(<span class="number">0</span>); </span><br><span class="line">  <span class="keyword">this</span>.NaN = <span class="literal">NaN</span>;</span><br><span class="line">  <span class="keyword">this</span>.infinity = <span class="literal">Infinity</span>;</span><br><span class="line">  <span class="keyword">this</span>.sym = <span class="built_in">Symbol</span>(<span class="number">1</span>);</span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> obj1 = <span class="keyword">new</span> Obj();</span><br><span class="line"><span class="built_in">Object</span>.defineProperty(obj1,<span class="string">'innumerable'</span>,&#123; </span><br><span class="line">  enumerable:<span class="literal">false</span>,</span><br><span class="line">  value:<span class="string">'innumerable'</span></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'obj1'</span>,obj1);</span><br><span class="line"><span class="keyword">let</span> str = <span class="built_in">JSON</span>.stringify(obj1);</span><br><span class="line"><span class="keyword">let</span> obj2 = <span class="built_in">JSON</span>.parse(str);</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'obj2'</span>,obj2);</span><br></pre></td></tr></table></figure></p>
-<p><img src="https://gitee.com/HanpengChen/blog-images/raw/master/blogImages/2021/20210222231521.png" alt></p>
+<p><img src="https://image.chenhanpeng.com/static/blog-images/blogImages/2021/20210222231521.png" alt></p>
 <p>从上面的执行结果来看，JSON.stringify方法来实现深拷贝并不完美，下面我们一起来看看JSON.stringify实现深拷贝存在的问题：</p>
 <ul>
 <li>拷贝的对象如果有函数、undefined、symbol这几种类型，经过JSON.stringify序列化之后的字符串中这个键值对会消失；</li>
@@ -331,7 +331,7 @@ ga('send', 'pageview');
 <p>1、<strong>点赞</strong>支持下吧，让更多的人也能看到这篇内容</p>
 <p>2、关注公众号：<strong>前端极客技术(FrontGeek)</strong>，我们一起学习一起进步。</p>
 </blockquote>
-<p><img src="https://gitee.com/HanpengChen/blog-images/raw/master/%E5%89%8D%E7%AB%AF%E6%9E%81%E5%AE%A2%E6%8A%80%E6%9C%AF%E4%BA%8C%E7%BB%B4%E7%A0%81.png" alt></p>
+<p><img src="https://image.chenhanpeng.com/static/blog-images/%E5%89%8D%E7%AB%AF%E6%9E%81%E5%AE%A2%E6%8A%80%E6%9C%AF%E4%BA%8C%E7%BB%B4%E7%A0%81.png" alt></p>
 
     </div>
     <div class="wechat">

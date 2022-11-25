@@ -227,6 +227,12 @@ ga('send', 'pageview');
 </div>
         
         
+        <p class="fa fa-exclamation-triangle warning">
+            本文于<strong>
+                583</strong>
+            天之前发表，文中内容可能已经过时。
+        </p>
+        
     </div>
     
     
@@ -239,7 +245,7 @@ ga('send', 'pageview');
 <p>在开始介绍apply/call/bind 这三个方法之前，我们需要先来了解一下JS中的this指向问题。</p>
 <h2 id="this指向"><a href="#this指向" class="headerlink" title="this指向"></a>this指向</h2><p>在ES5中，我们只要牢记一句话：this永远指向最后调用它的那个对象，那么对于this的指向问题就比较好理解了。</p>
 <h3 id="直接函数调用"><a href="#直接函数调用" class="headerlink" title="直接函数调用"></a>直接函数调用</h3><p>我们先来看一个例子：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> name = <span class="string">'global name'</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getName</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> name = <span class="string">'function name'</span>;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'in function'</span>, <span class="keyword">this</span>);</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="keyword">this</span>.name);</span><br><span class="line">&#125;</span><br><span class="line">getName();</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'out function'</span>, <span class="keyword">this</span>)</span><br></pre></td></tr></table></figure></p>
-<p>在浏览器控制台执行结果如下图所示：<br><img src="https://gitee.com/HanpengChen/blog-images/raw/master/blogImages/2021/20210420214029.png" alt></p>
+<p>在浏览器控制台执行结果如下图所示：<br><img src="https://image.chenhanpeng.com/static/blog-images/blogImages/2021/20210420214029.png" alt></p>
 <p>我们可以看到在全局环境中直接调用函数getName()相当于<code>window.getName()</code>，调用它的是全局对象window，所以this对象指向全局对象，也就是window对象。</p>
 <h3 id="对象函数调用"><a href="#对象函数调用" class="headerlink" title="对象函数调用"></a>对象函数调用</h3><p>我们再看下面这个例子：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> name = <span class="string">'global name'</span>;</span><br><span class="line"><span class="keyword">var</span> obj = &#123;</span><br><span class="line">  name: <span class="string">'object name'</span>,</span><br><span class="line">  getName: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>); <span class="comment">// &#123;name: "object name", getName: ƒ&#125;</span></span><br><span class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>.name); <span class="comment">// object name</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">obj.getName();</span><br></pre></td></tr></table></figure></p>
 <p>在上面这个例子中，函数 getName 时对象 obj 调用的，所以在 getName 函数中打印的 this 是 obj 对象本身，this.name 是 <code>object name</code>。</p>

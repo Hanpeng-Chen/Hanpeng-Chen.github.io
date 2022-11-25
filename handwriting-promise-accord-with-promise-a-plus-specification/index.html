@@ -227,6 +227,12 @@ ga('send', 'pageview');
 </div>
         
         
+        <p class="fa fa-exclamation-triangle warning">
+            本文于<strong>
+                606</strong>
+            天之前发表，文中内容可能已经过时。
+        </p>
+        
     </div>
     
     
@@ -301,7 +307,7 @@ ga('send', 'pageview');
 <h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><p>有专门的测试脚本可以测试我们写的Promise是否符合Promise/A+规范。</p>
 <p>首先在Promise实现的代码中，暴露一个deferred方法：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Promise</span>.defer = <span class="built_in">Promise</span>.deferred = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  <span class="keyword">let</span> dfd = &#123;&#125;;</span><br><span class="line">  dfd.promise = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve, reject</span>) </span>&#123;</span><br><span class="line">    dfd.resolve = resolve;</span><br><span class="line">    dfd.reject = reject;</span><br><span class="line">  &#125;);</span><br><span class="line">  <span class="keyword">return</span> dfd;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>在Promise源码的目录执行npm安装和执行测试命令：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">npm i -g promises-aplus-tests</span><br><span class="line"></span><br><span class="line">promises-aplus-tests <span class="built_in">Promise</span>.js</span><br></pre></td></tr></table></figure></p>
-<p><img src="https://gitee.com/HanpengChen/blog-images/raw/master/blogImages/2021/20210323235204.png" alt></p>
+<p><img src="https://image.chenhanpeng.com/static/blog-images/blogImages/2021/20210323235204.png" alt></p>
 <p>promises-aplus-tests中共有872条测试用例。从上面的执行结果可以看出，我们手写的Promise通过所有用例。</p>
 <h2 id="Promise其他方法的实现"><a href="#Promise其他方法的实现" class="headerlink" title="Promise其他方法的实现"></a>Promise其他方法的实现</h2><p>原生的Promise还提供了一些其他方法，比如：</p>
 <ul>

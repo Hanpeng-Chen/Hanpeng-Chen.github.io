@@ -227,7 +227,7 @@ ga('send', 'pageview');
         
         <p class="fa fa-exclamation-triangle warning">
             本文于<strong>
-                334</strong>
+                673</strong>
             天之前发表，文中内容可能已经过时。
         </p>
         
@@ -254,7 +254,7 @@ ga('send', 'pageview');
 <p>我们先来看下几个关于instanceof的例子：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log([] <span class="keyword">instanceof</span> <span class="built_in">Array</span>) <span class="comment">// true</span></span><br><span class="line"><span class="built_in">console</span>.log([] <span class="keyword">instanceof</span> <span class="built_in">Object</span>) <span class="comment">// true</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(&#123;&#125; <span class="keyword">instanceof</span> <span class="built_in">Object</span>) <span class="comment">// true</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(<span class="keyword">new</span> <span class="built_in">Date</span>() <span class="keyword">instanceof</span> <span class="built_in">Date</span>) <span class="comment">// true</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">a</span> (<span class="params"></span>)</span>&#123;&#125;</span><br><span class="line"><span class="built_in">console</span>.log(a <span class="keyword">instanceof</span> <span class="built_in">Function</span>) <span class="comment">// true</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="keyword">new</span> a() <span class="keyword">instanceof</span> a) <span class="comment">// true</span></span><br></pre></td></tr></table></figure></p>
 <p>从上面我们可以发现一个问题，instanceof虽然可以判断出[]是Array的实例，但它也认为 []是Object的实例。</p>
 <p>我们简单分析下[]、Array、Object三者的关系：</p>
-<p><img src="https://gitee.com/HanpengChen/blog-images/raw/master/blogImages/2021/20210117211231.png" alt></p>
+<p><img src="https://image.chenhanpeng.com/static/blog-images/blogImages/2021/20210117211231.png" alt></p>
 <p>[].<strong>proto</strong> 指向 Array.prototype，而 Array.prototype.<strong>proto</strong> 又指向 Object.prototype，最终 Object.prototype.<strong>proto</strong> 指向null，标志着原型链的结束。因此，[]、Array、Object 就在内部形成了一条原型链。</p>
 <p>我们从原型链可以看出，[] 的 <strong>proto</strong>  直接指向Array.prototype，间接指向 Object.prototype，所以按照 instanceof 的判断规则，[] 就是Object的实例。依次类推，类似的 new Date()、new Person() 也会形成一条对应的原型链 。因此：</p>
 <blockquote>

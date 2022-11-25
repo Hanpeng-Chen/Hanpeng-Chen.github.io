@@ -224,6 +224,12 @@ ga('send', 'pageview');
 </div>
         
         
+        <p class="fa fa-exclamation-triangle warning">
+            本文于<strong>
+                553</strong>
+            天之前发表，文中内容可能已经过时。
+        </p>
+        
     </div>
     
     
@@ -241,15 +247,15 @@ ga('send', 'pageview');
 <li>开启Gzip</li>
 </ul>
 <p>gzip压缩一种非常方便，且效果明显的解决方法，使用gzip压缩可以减小60%以上的体积。</p>
-<p><img src="https://gitee.com/HanpengChen/blog-images/raw/master/blogImages/2021/summer/20210520152024.png" alt></p>
+<p><img src="https://image.chenhanpeng.com/static/blog-images/blogImages/2021/summer/20210520152024.png" alt></p>
 <p>从上图我们可以看到gzip压缩后的文件体积基本减小了60%左右，效果喜人。</p>
 <p>下面我们主要看下如何开启Gzip打包，已经nginx如何配置开启Gzip。</p>
 <h2 id="gzip介绍"><a href="#gzip介绍" class="headerlink" title="gzip介绍"></a>gzip介绍</h2><p>gzip属于在线压缩，在资源通过http发送报文给客户端的过程中，进行压缩，可以减少客户端带宽占用，减少文件传输大小。</p>
 <p>html、js、css文件，甚至Json数据都可以用其来进行压缩。</p>
 <p>但是不是每个浏览器都支持gzip的，如果知道客户端是否支持gzip呢，请求头中有个Accept-Encoding来标识对压缩的支持。客户端http请求头声明浏览器支持的压缩方式，服务端配置启用压缩，压缩的文件类型，压缩方式。当客户端请求到服务端的时候，服务器解析请求头，如果客户端支持gzip压缩，响应时对请求的资源进行压缩并返回给客户端，浏览器按照自己的方式解析，在http响应头，我们可以看到content-encoding:gzip，这是指服务端使用了gzip的压缩方式。</p>
-<p><img src="https://gitee.com/HanpengChen/blog-images/raw/master/blogImages/2021/summer/20210520152903.png" alt></p>
+<p><img src="https://image.chenhanpeng.com/static/blog-images/blogImages/2021/summer/20210520152903.png" alt></p>
 <p>那么怎么看有没有用gzip压缩的文件呢，打开f12，查看network，按照下面的方式过滤，如果content-encoding是gzip，说明返回的是gzip。</p>
-<p><img src="https://gitee.com/HanpengChen/blog-images/raw/master/blogImages/2021/summer/20210520153445.png" alt></p>
+<p><img src="https://image.chenhanpeng.com/static/blog-images/blogImages/2021/summer/20210520153445.png" alt></p>
 <p>nginx的gzip分为两种：</p>
 <ul>
 <li>nginx动态压缩，对每个请求先压缩再输出</li>
@@ -275,7 +281,7 @@ ga('send', 'pageview');
 <p>gzip_static是会自动执行gz文件的，这样的就避免了通过gzip自动压缩。</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">http &#123;</span><br><span class="line">  gzip_static  on;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="如何判断gzip-static是否生效"><a href="#如何判断gzip-static是否生效" class="headerlink" title="如何判断gzip_static是否生效"></a>如何判断gzip_static是否生效</h3><p>在请求的response headers里面的Etag里面，没有<code>W/</code>就表明使用的是我们自己的 .gz 文件。</p>
-<p><img src="https://gitee.com/HanpengChen/blog-images/raw/master/blogImages/2021/summer/20210521113526.png" alt></p>
+<p><img src="https://image.chenhanpeng.com/static/blog-images/blogImages/2021/summer/20210521113526.png" alt></p>
 <h3 id="Vue项目打包-gz文件"><a href="#Vue项目打包-gz文件" class="headerlink" title="Vue项目打包.gz文件"></a>Vue项目打包.gz文件</h3><h4 id="1-安装插件"><a href="#1-安装插件" class="headerlink" title="1. 安装插件"></a>1. 安装插件</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install compression-webpack-plugin -D</span><br></pre></td></tr></table></figure>
 <h4 id="2-在vue-config-js中配置"><a href="#2-在vue-config-js中配置" class="headerlink" title="2. 在vue.config.js中配置"></a>2. 在vue.config.js中配置</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> CompressionPlugin = <span class="built_in">require</span>(<span class="string">'compression-webpack-plugin'</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  ...</span><br><span class="line">  configureWebpack: &#123;</span><br><span class="line">    plugins: [</span><br><span class="line">      <span class="keyword">new</span> CompressionPlugin(&#123;</span><br><span class="line">        test: <span class="regexp">/\.js$|\.html$|\.css/</span>,</span><br><span class="line">        threshold: <span class="number">10240</span>,</span><br><span class="line">        deleteOriginalAssets: <span class="literal">false</span>,</span><br><span class="line">        algorithm: <span class="string">'gzip'</span></span><br><span class="line">      &#125;)</span><br><span class="line">    ]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h2 id="动态压缩和静态压缩结合使用"><a href="#动态压缩和静态压缩结合使用" class="headerlink" title="动态压缩和静态压缩结合使用"></a>动态压缩和静态压缩结合使用</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">http &#123;</span><br><span class="line">    gzip_static  on;</span><br><span class="line">    gzip_proxied expired no-cache no-store private auth;</span><br><span class="line">    gzip  on;</span><br><span class="line">    gzip_min_length    <span class="number">1</span>k;</span><br><span class="line">    gzip_buffers        <span class="number">4</span> <span class="number">8</span>k;</span><br><span class="line">    gzip_http_version  <span class="number">1.0</span>;</span><br><span class="line">    gzip_comp_level    <span class="number">8</span>;</span><br><span class="line">    gzip_types          application/javascript text/css image/gif;</span><br><span class="line">    gzip_vary          on;</span><br><span class="line">    gzip_disable        <span class="string">"MSIE [1-6]\."</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
